@@ -18,17 +18,17 @@ const getOrderProductById = async (id) => {
   }
 };
 
-const createOrderProduct = async ({ orderId, productId, price, quantity }) => {
+const createOrderProduct = async ({ userId, productId, price, itemCount }) => {
   try {
     const {
       rows: [orderProduct],
     } = await client.query(
       `
-            INSERT INTO order_products("orderId", "productId", price, quantity)
+            INSERT INTO order_products("userId", "productId", price, "itemCount")
             VALUES ($1, $2, $3, $4)
             RETURNING *;
         `,
-      [orderId, productId, price, quantity]
+      [userId, productId, price, itemCount]
     );
     return orderProduct;
   } catch (error) {
@@ -36,7 +36,7 @@ const createOrderProduct = async ({ orderId, productId, price, quantity }) => {
   }
 };
 
-const addProductToOrder = async ({ orderId, productId, price, quantity }) => {
+const addProductToOrder = async ({ userId, productId, price, itemCount }) => {
   try {
     const { rows: orderProducts } = await client.query(
       `
@@ -55,10 +55,10 @@ const addProductToOrder = async ({ orderId, productId, price, quantity }) => {
     });
     if (!isInOrder) {
       const newOrderProduct = await createOrderProduct({
-        orderId,
+        userId,
         productId,
         price,
-        quantity,
+        itemCount,
       });
       return newOrderProduct;
     }
@@ -93,16 +93,16 @@ const addProductToOrder = async ({ orderId, productId, price, quantity }) => {
   }
 };
 
-const updateOrderProduct = async ({ id, price, quantity }) => {
+const updateOrderProduct = async ({ id, price, itemCount }) => {
   try {
     const { rows: updatedOrderProduct } = await client.query(
       `
             UPDATE order_products
-            SET price = $1, quantity = $2
+            SET price = $1, "itemCount" = $2
             WHERE id = $3
             RETURNING *;
         `,
-      [price, quantity, id]
+      [price, itemCount, id]
     );
     return updatedOrderProduct;
   } catch (error) {
