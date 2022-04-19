@@ -18,6 +18,7 @@ async function buildTables() {
 async function populateInitialData() {
   try {
     console.log("Starting to create products...");
+
     const products = [
       {
         title: "ECHEVERIA",
