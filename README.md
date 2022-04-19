@@ -12,8 +12,6 @@ You'll also find a bunch of convenient commands and workflows that will allow yo
 
 ## Getting Started
 
-> > Lauren says hello! :)
-
 1. Fork and clone this repo to your local machine, then run the following commands to reinitialize your git history from scratch:
 
 ```bash
