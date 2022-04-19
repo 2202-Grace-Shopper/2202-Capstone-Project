@@ -21,3 +21,5 @@ ordersRouter.get("/", authorizeUser, async (req, res, next) => {
     next(err);
   }
 });
+
+module.exports = ordersRouter;
