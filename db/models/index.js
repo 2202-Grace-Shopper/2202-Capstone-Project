@@ -7,6 +7,8 @@ module.exports = {
   CartItems: require("./cart_items"),
 };
 
+const DB_NAME = "CapstoneCommerceSite";
+
 // then, in your API, you'll require the appropriate model
 // and use its database connectors
 // ie User.getUserById(), where user.js had a module.exports
