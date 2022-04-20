@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSingleProduct } from "../custom-hooks/useSingleProduct";
-import "./styles/ProductView.css";
 import "../imageUrls";
 
 function ProductView() {
