@@ -5,7 +5,10 @@ module.exports = {
   // and User: require('./user') here
   Order: require("./orders"),
   User: require("./user"),
+  CartItems: require("./cart_items"),
 };
+
+const DB_NAME = "CapstoneCommerceSite";
 
 // then, in your API, you'll require the appropriate model
 // and use its database connectors
