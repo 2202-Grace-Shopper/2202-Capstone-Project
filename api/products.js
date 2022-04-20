@@ -1,0 +1,95 @@
+const express = require("express");
+const authorizeUser = require("./utils");
+const productsRouter = express.Router();
+const {
+  createProduct,
+  getAllProducts,
+  updateProduct,
+  getProductById,
+  destroyProduct,
+} = require("../db");
+
+module.exports = productsRouter;
+
+productsRouter.get("/", async (req, res, next) => {
+  try {
+    const products = await getAllProducts();
+    res.send(products);
+  } catch (err) {
+    next(err);
+  }
+});
+
+productsRouter.get("/:productId", async (req, res, next) => {
+  try {
+    const product = await getProductById(req.params.productId);
+    res.send(product);
+  } catch (err) {
+    next(err);
+  }
+});
+
+productsRouter.post("/", authorizeUser, async (req, res, next) => {
+  try {
+    const {
+      title,
+      price,
+      description,
+      category,
+      isActive,
+      inStockQuantity,
+      photoLinkHref,
+    } = req.body;
+
+    const product = await createProduct({
+      title,
+      price,
+      description,
+      category,
+      isActive,
+      inStockQuantity,
+      photoLinkHref,
+    });
+
+    res.send(product);
+  } catch (err) {
+    next(err);
+  }
+});
+
+productsRouter.patch("/:productId", authorizeUser, async (req, res, next) => {
+  try {
+    const {
+      title,
+      price,
+      description,
+      category,
+      isActive,
+      inStockQuantity,
+      photoLinkHref,
+    } = req.body;
+    const product = await updateProduct({
+      id: req.params.productsId,
+      title,
+      price,
+      description,
+      category,
+      isActive,
+      inStockQuantity,
+      photoLinkHref,
+    });
+
+    res.send(product);
+  } catch (err) {
+    next(err);
+  }
+});
+
+productsRouter.delete("/:productId", authorizeUser, async (req, res, next) => {
+  try {
+    const deleteProduct = await destroyProduct(req.params.productId);
+    res.send(deleteProduct);
+  } catch (err) {
+    next(err);
+  }
+});
