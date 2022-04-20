@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const { client, User, Order } = require("./");
-=======
 const { client, User, createUser, createProduct } = require("./");
->>>>>>> 2c094c52bc75dae38fcfdc1ad03045452b54c165
 
 async function buildTables() {
   try {
