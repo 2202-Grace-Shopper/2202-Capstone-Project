@@ -1,4 +1,4 @@
-const { client, User, createUser, createProduct } = require("./");
+const { client } = require("./");
 
 async function buildTables() {
   try {
@@ -8,8 +8,8 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+      DROP TABLE IF EXISTS order_products;
       DROP TABLE IF EXISTS orders;
-      DROP TABLE IF EXISTS cart;
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS admins;
       DROP TABLE IF EXISTS users;
@@ -32,26 +32,27 @@ async function buildTables() {
       CREATE TABLE products (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) UNIQUE NOT NULL,
-        price VARCHAR(255) UNIQUE NOT NULL,
-        description VARCHAR(255) NOT NULL,
+        price VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
         category VARCHAR(255) NOT NULL,
         "isActive" BOOLEAN DEFAULT false,
         inStockQuantity INTEGER NOT NULL,
-        photoLinkHref VARCHAR(255) NOT NULL,
-        photoLinkBody VARCHAR(255)
+        photoLinkHref TEXT
       );
-      CREATE TABLE cart (
+      CREATE TABLE order (
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
+        "orderStatus" VARCHAR(255) DEFAULT 'pending',
+        "totalPurchasePrice" VARCHAR(255) NOT NULL,
+        "totalQuantity" VARCHAR(255) NOT NULL,
+        "orderDate" VARCHAR(255) NOT NULL
+      );
+      CREATE TABLE order_products (
+        id SERIAL PRIMARY KEY,
         "productId" INTEGER REFERENCES products(id),
-        "itemCount" INTEGER,
-        price INTEGER
-      );
-      CREATE TABLE orders (
-        id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id),
-        "cartId" INTEGER REFERENCES cart(id),
-        date VARCHAR(255)
+        "orderId" INTEGER REFERENCES orders(id),
+        "eachPrice" INTEGER NOT NULL,
+        "eachQuantity" INTEGER NOT NULL
       );
     `);
 
@@ -129,6 +130,8 @@ async function populateInitialData() {
     ];
     const products = await Promise.all(productsToCreate.map(createProduct));
     console.log({ products });
+
+    console.log("Finished creating products");
 
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
