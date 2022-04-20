@@ -2,7 +2,7 @@
 const client = require("../client");
 const bcrypt = require("bcrypt"); //for hashing
 
-async function createUser({ username, password }) {
+async function createUser({ email, password }) {
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
@@ -10,12 +10,12 @@ async function createUser({ username, password }) {
     const {
       rows: [user],
     } = await client.query(
-      `INSERT INTO users(username,password)
+      `INSERT INTO users(email,password)
     VALUES($1,$2)
-    ON CONFLICT (username) DO NOTHING
+    ON CONFLICT (email) DO NOTHING
     RETURNING *;
     `,
-      [username, hashedPassword]
+      [email, hashedPassword]
     );
 
     delete user.password;
@@ -45,7 +45,8 @@ async function getUserById(id) {
   }
 }
 
-async function getUserByUsername(username) {
+/////////////////////currently unused
+async function getUserByUsername(email) {
   try {
     const {
       rows: [user],
@@ -53,9 +54,9 @@ async function getUserByUsername(username) {
       `
       SELECT *
       FROM users
-      WHERE username=$1;
+      WHERE email=$1;
     `,
-      [username]
+      [email]
     );
 
     return user;
@@ -77,6 +78,34 @@ async function getAllUsers() {
   }
 }
 
+//for logging in
+async function getUser() {
+  const savedUser = await getUserByUsername(email);
+  const hashedPassword = savedUser.password;
+  const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+
+  if (passwordsMatch) {
+    try {
+      const {
+        rows: [user],
+      } = await client.query(
+        `
+        SELECT *
+        FROM users
+        WHERE email=$1
+      `,
+        [email]
+      );
+
+      delete user.password;
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
+
 module.exports = {
   // add your database adapter fns here
   client,
@@ -84,4 +113,5 @@ module.exports = {
   createUser,
   getUserById,
   getUserByUsername,
+  getUser,
 };

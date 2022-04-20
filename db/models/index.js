@@ -3,7 +3,10 @@ module.exports = {
   // so that you can use them in your express server api routers
   // for example, create a users.js file for a User model
   // and User: require('./user') here
+  Order: require("./orders"),
   User: require("./user"),
+  Admin: require("./admin"),
+  Products: require("./products"),
 };
 
 const DB_NAME = "CapstoneCommerceSite";

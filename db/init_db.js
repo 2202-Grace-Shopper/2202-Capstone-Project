@@ -1,4 +1,4 @@
-const { client, User, createUser } = require("./");
+const { client } = require("./");
 
 async function buildTables() {
   try {
@@ -8,8 +8,8 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+      DROP TABLE IF EXISTS order_products;
       DROP TABLE IF EXISTS orders;
-      DROP TABLE IF EXISTS cart;
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS admins;
       DROP TABLE IF EXISTS users;
@@ -32,26 +32,27 @@ async function buildTables() {
       CREATE TABLE products (
         id SERIAL PRIMARY KEY,
         title VARCHAR(255) UNIQUE NOT NULL,
-        price VARCHAR(255) UNIQUE NOT NULL,
-        description VARCHAR(255) NOT NULL,
+        price VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
         category VARCHAR(255) NOT NULL,
         "isActive" BOOLEAN DEFAULT false,
         inStockQuantity INTEGER NOT NULL,
-        photoLinkHref VARCHAR(255) NOT NULL,
-        photoLinkBody VARCHAR(255)
+        photoLinkHref TEXT
       );
-      CREATE TABLE cart (
+      CREATE TABLE order (
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
+        "orderStatus" VARCHAR(255) DEFAULT 'pending',
+        "totalPurchasePrice" VARCHAR(255) NOT NULL,
+        "totalQuantity" VARCHAR(255) NOT NULL,
+        "orderDate" VARCHAR(255) NOT NULL
+      );
+      CREATE TABLE order_products (
+        id SERIAL PRIMARY KEY,
         "productId" INTEGER REFERENCES products(id),
-        "itemCount" INTEGER,
-        price INTEGER
-      );
-      CREATE TABLE orders (
-        id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id),
-        "cartId" INTEGER REFERENCES cart(id),
-        date VARCHAR(255)
+        "orderId" INTEGER REFERENCES orders(id),
+        "eachPrice" INTEGER NOT NULL,
+        "eachQuantity" INTEGER NOT NULL
       );
     `);
 
@@ -65,7 +66,7 @@ async function populateInitialData() {
   try {
     console.log("Starting to create products...");
 
-    const products = [
+    const productsToCreate = [
       {
         title: "ECHEVERIA",
         price: "23.00",
@@ -75,7 +76,6 @@ async function populateInitialData() {
         inStockQuantity: 100,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_Grow_Echeveria.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "STRING OF PEARLS",
@@ -86,7 +86,6 @@ async function populateInitialData() {
         inStockQuantity: 75,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_Grow_String_of_Pearls.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "SNAKE PLANT",
@@ -97,7 +96,6 @@ async function populateInitialData() {
         inStockQuantity: 55,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_Grow_Snake_Plant.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "TOMATOES",
@@ -108,7 +106,6 @@ async function populateInitialData() {
         inStockQuantity: 100,
         photoLinkHref:
           "https://images-prod.healthline.com/hlcmsresource/images/AN_images/tomatoes-1296x728-feature.jpg",
-        photoLinkBody: "",
       },
       {
         title: "ALOE VERA",
@@ -119,7 +116,6 @@ async function populateInitialData() {
         inStockQuantity: 32,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_GrowAloe_Vera.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "CORN",
@@ -130,9 +126,12 @@ async function populateInitialData() {
         inStockQuantity: 32,
         photoLinkHref:
           "https://www.plantgrower.org/uploads/6/5/5/4/65545169/croppedimage570400-19690129-lsweetcorn_orig.jpg",
-        photoLinkBody: "",
       },
     ];
+    const products = await Promise.all(productsToCreate.map(createProduct));
+    console.log({ products });
+
+    console.log("Finished creating products");
 
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
