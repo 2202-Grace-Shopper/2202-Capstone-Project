@@ -7,7 +7,6 @@ module.exports = {
   User: require("./user"),
   Admin: require("./admin"),
   Products: require("./products"),
-  CartItems: require("./cart_items"),
 };
 
 const DB_NAME = "CapstoneCommerceSite";
