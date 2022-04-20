@@ -8,15 +8,14 @@ async function createProduct({
   isActive,
   inStockQuantity,
   photoLinkHref,
-  photoLinkBody,
 }) {
   try {
     const {
       rows: [product],
     } = await client.query(
       `
-        INSERT INTO products (title, price, description, category, "isActive", "inStockQuantity", "photoLinkHref", "photoLinkBody")
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        INSERT INTO products (title, price, description, category, "isActive", "inStockQuantity", "photoLinkHref", )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, )
         RETURNING *;
         `,
       [
@@ -27,7 +26,6 @@ async function createProduct({
         isActive,
         inStockQuantity,
         photoLinkHref,
-        photoLinkBody,
       ]
     );
     return product;
@@ -58,7 +56,6 @@ async function updateProduct({
   isActive,
   inStockQuantity,
   photoLinkHref,
-  photoLinkBody,
 }) {
   try {
     const {
@@ -66,8 +63,8 @@ async function updateProduct({
     } = await client.query(
       `
     UPDATE products
-    SET title=$1, price=$2, description=$3, category=$4, isActive=$5, inStockQuantity=$6, photoLinkHref=$7, photoLinkBody=$8
-    WHERE id=$9
+    SET title=$1, price=$2, description=$3, category=$4, isActive=$5, inStockQuantity=$6, photoLinkHref=$7
+    WHERE id=$8
     RETURNING *;
     `,
       [
@@ -78,7 +75,6 @@ async function updateProduct({
         isActive,
         inStockQuantity,
         photoLinkHref,
-        photoLinkBody,
         id,
       ]
     );
@@ -105,7 +101,7 @@ async function getProductById(id) {
   }
 }
 
-async function deleteProduct(id) {
+async function destroyProduct(id) {
   try {
     const { rows: product } = await client.query(
       `
@@ -128,5 +124,5 @@ module.exports = {
   getAllProducts,
   updateProduct,
   getProductById,
-  deleteProduct,
+  destroyProduct,
 };

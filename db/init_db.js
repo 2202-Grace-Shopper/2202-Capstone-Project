@@ -1,4 +1,4 @@
-const { client, User, createUser } = require("./");
+const { client, User, createUser, createProduct } = require("./");
 
 async function buildTables() {
   try {
@@ -65,7 +65,7 @@ async function populateInitialData() {
   try {
     console.log("Starting to create products...");
 
-    const products = [
+    const productsToCreate = [
       {
         title: "ECHEVERIA",
         price: "23.00",
@@ -75,7 +75,6 @@ async function populateInitialData() {
         inStockQuantity: 100,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_Grow_Echeveria.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "STRING OF PEARLS",
@@ -86,7 +85,6 @@ async function populateInitialData() {
         inStockQuantity: 75,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_Grow_String_of_Pearls.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "SNAKE PLANT",
@@ -97,7 +95,6 @@ async function populateInitialData() {
         inStockQuantity: 55,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_Grow_Snake_Plant.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "TOMATOES",
@@ -108,7 +105,6 @@ async function populateInitialData() {
         inStockQuantity: 100,
         photoLinkHref:
           "https://images-prod.healthline.com/hlcmsresource/images/AN_images/tomatoes-1296x728-feature.jpg",
-        photoLinkBody: "",
       },
       {
         title: "ALOE VERA",
@@ -119,7 +115,6 @@ async function populateInitialData() {
         inStockQuantity: 32,
         photoLinkHref:
           "https://purewows3.imgix.net/images/articles/2021_05/Best_Succulents_You_Can_GrowAloe_Vera.jpg?auto=format,compress&cs=strip",
-        photoLinkBody: "",
       },
       {
         title: "CORN",
@@ -130,9 +125,10 @@ async function populateInitialData() {
         inStockQuantity: 32,
         photoLinkHref:
           "https://www.plantgrower.org/uploads/6/5/5/4/65545169/croppedimage570400-19690129-lsweetcorn_orig.jpg",
-        photoLinkBody: "",
       },
     ];
+    const products = await Promise.all(productsToCreate.map(createProduct));
+    console.log({ products });
 
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
