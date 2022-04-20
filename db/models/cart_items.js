@@ -24,19 +24,19 @@ const createCartItems = async ({ userId, productId, itemCount, price }) => {
   }
 };
 
-async function deleteCartItems(cartItemsId) {
+async function deleteCartItems(id) {
   try {
     const {
-      rows: [cartItems],
+      rows: [deletedItem],
     } = await client.query(
       `
       DELETE FROM cart_items
       WHERE id=$1
       RETURNING *;
     `,
-      [cartItemsId]
+      [id]
     );
-    return cartItems;
+    return deletedItem;
   } catch (error) {
     throw error;
   }
@@ -45,7 +45,7 @@ async function deleteCartItems(cartItemsId) {
 async function updateCartItems({ userId, productId, itemCount, price }) {
   try {
     const {
-      rows: [cartItems],
+      rows: [updateOrder],
     } = await client.query(
       `
         UPDATE cart_items
@@ -56,7 +56,7 @@ async function updateCartItems({ userId, productId, itemCount, price }) {
       [userId, productId, itemCount, price]
     );
 
-    return cartItems;
+    return updateOrder;
   } catch (err) {
     throw err;
   }
