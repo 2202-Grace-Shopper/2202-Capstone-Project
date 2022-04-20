@@ -6,16 +6,16 @@ module.exports = {
   getOrderByUser,
 };
 
-async function createOrder({ userId, productId, price, quantity }) {
+async function createOrder({ userId, cartId, date }) {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-        INSERT INTO orders("userId", "productId", price, quantity)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO orders("userId", "cartId", date)
+        VALUES ($1, $2, $3)
         RETURNING *;`,
-      [userId, productId, price, quantity]
+      [userId, cartId, date]
     );
     return order;
   } catch (err) {
@@ -26,7 +26,13 @@ async function createOrder({ userId, productId, price, quantity }) {
 async function getAllOrders() {
   try {
     const { rows: orders } = await client.query(`
-        SELECT * FROM orders;`);
+        SELECT orders.*,
+        JSON_AGG(
+            JSON_BUILD_OBJECT(
+                'productId', product.id,
+                'price', product.price
+            )
+        );`);
 
     return orders;
   } catch (err) {
