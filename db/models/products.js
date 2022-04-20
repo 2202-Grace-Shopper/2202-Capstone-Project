@@ -5,7 +5,6 @@ async function createProduct({
   price,
   description,
   category,
-  isActive,
   inStockQuantity,
   photoLinkHref,
 }) {
@@ -14,19 +13,11 @@ async function createProduct({
       rows: [product],
     } = await client.query(
       `
-        INSERT INTO products (title, price, description, category, "isActive", "inStockQuantity", "photoLinkHref", )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, )
+        INSERT INTO products (title, price, description, category, "inStockQuantity", "photoLinkHref", )
+        VALUES ($1, $2, $3, $4, $5, $6,)
         RETURNING *;
         `,
-      [
-        title,
-        price,
-        description,
-        category,
-        isActive,
-        inStockQuantity,
-        photoLinkHref,
-      ]
+      [title, price, description, category, inStockQuantity, photoLinkHref]
     );
     return product;
   } catch (err) {
@@ -53,7 +44,6 @@ async function updateProduct({
   price,
   description,
   category,
-  isActive,
   inStockQuantity,
   photoLinkHref,
 }) {
@@ -63,20 +53,11 @@ async function updateProduct({
     } = await client.query(
       `
     UPDATE products
-    SET title=$1, price=$2, description=$3, category=$4, isActive=$5, inStockQuantity=$6, photoLinkHref=$7
-    WHERE id=$8
+    SET title=$1, price=$2, description=$3, category=$4,  inStockQuantity=$5, photoLinkHref=$6
+    WHERE id=$7
     RETURNING *;
     `,
-      [
-        title,
-        price,
-        description,
-        category,
-        isActive,
-        inStockQuantity,
-        photoLinkHref,
-        id,
-      ]
+      [title, price, description, category, inStockQuantity, photoLinkHref, id]
     );
     return product;
   } catch (err) {
