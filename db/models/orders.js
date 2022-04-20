@@ -36,9 +36,14 @@ async function getAllOrders() {
         JSON_AGG(
             JSON_BUILD_OBJECT(
                 'productId', product.id,
-                'price', product.price
+                'price', op."eachPrice"
+                'quantity', op."eachQuantity",
             )
-        );`);
+        ) AS items
+        FROM routines
+            JOIN order_products AS op
+                ON orders.id = op."orderId"
+        GROUP BY orders.id, users."userId";`);
 
     return orders;
   } catch (err) {
@@ -50,8 +55,19 @@ async function getOrderByUser({ id }) {
   try {
     const { rows: orders } = await client.query(
       `
-      SELECT * FROM orders
-      WHERE "userId" = $1;`,
+      SELECT orders.*,
+        JSON_AGG(
+            JSON_BUILD_OBJECT(
+                'productId', product.id,
+                'price', op."eachPrice"
+                'quantity', op."eachQuantity",
+            )
+        ) AS items
+        FROM routines
+            JOIN order_products AS op
+                ON orders.id = op."orderId"
+        WHERE "userId" = $1
+        GROUP BY orders.id, users."userId";`,
       [id]
     );
 
