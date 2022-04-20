@@ -6,16 +6,22 @@ module.exports = {
   getOrderByUser,
 };
 
-async function createOrder({ userId, cartId, date }) {
+async function createOrder({
+  userId,
+  orderStatus,
+  totalPurchasePrice,
+  totalQuantity,
+  orderDate,
+}) {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-        INSERT INTO orders("userId", "cartId", date)
-        VALUES ($1, $2, $3)
+        INSERT INTO orders("userId", "orderStatus", "totalPurchasePrice", "totalQuantity", "orderDate" )
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;`,
-      [userId, cartId, date]
+      [userId, orderStatus, totalPurchasePrice, totalQuantity, orderDate]
     );
     return order;
   } catch (err) {
