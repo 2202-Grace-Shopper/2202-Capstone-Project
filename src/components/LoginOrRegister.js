@@ -11,7 +11,7 @@ export default function LoginOrRegister() {
   const loginOrRegister = currentURL.slice(22);
   // console.log(loginOrRegister);
 
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ username: "", password: "" });
 
   async function handleChange(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -55,14 +55,14 @@ export default function LoginOrRegister() {
 
   return (
     <form onSubmit={handleSubmit} className="userInfoInputs">
-      <div className="emailInput">
+      <div className="emailUsernameInput">
         <label style={{ marginRight: 5 + "px" }}>
           {loginOrRegister === "register" && "Choose "} Email Username:
         </label>
         <input
           type="text"
-          name="email"
-          value={form.email}
+          name="username"
+          value={form.username}
           onChange={handleChange}
         />
       </div>
