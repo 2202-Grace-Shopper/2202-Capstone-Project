@@ -1,9 +1,14 @@
 const client = require("../client");
+const {
+  getOrderProductsByOrder,
+  destroyOrderProduct,
+} = require("./order_products");
 
 module.exports = {
   getAllOrders,
   createOrder,
   getOrderByUser,
+  destroyOrder,
 };
 
 async function createOrder({
@@ -74,5 +79,29 @@ async function getOrderByUser({ id }) {
     return orders;
   } catch (err) {
     console.error(err);
+  }
+}
+
+async function destroyOrder(id) {
+  try {
+    const orderProducts = await getOrderProductsByOrder({ id });
+
+    for (const op of orderProducts) {
+      await destroyOrderProduct(op.id);
+    }
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+   DELETE FROM orders
+   WHERE id = $1
+   RETURNING *`,
+      [id]
+    );
+
+    return order;
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 }

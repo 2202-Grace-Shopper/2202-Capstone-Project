@@ -5,8 +5,9 @@ const {
   getAllOrders,
   getOrderByUser,
   createOrder,
+  destroyOrder,
 } = require("../db/models/orders");
-const authorizeUser = require("./auth");
+const authorizeUser = require("./utils");
 
 ordersRouter.get("/", authorizeUser, async (req, res, next) => {
   try {
@@ -38,6 +39,15 @@ ordersRouter.post("/", authorizeUser, async (req, res, next) => {
       orderDate,
     });
     res.send(order);
+  } catch (err) {
+    next(err);
+  }
+});
+
+ordersRouter.delete("/:orderId", authorizeUser, async (req, res, next) => {
+  try {
+    const deletedOrder = await destroyOrder(req.params.orderId);
+    res.send(deletedOrder);
   } catch (err) {
     next(err);
   }
