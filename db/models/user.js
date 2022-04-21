@@ -5,20 +5,26 @@ const bcrypt = require("bcrypt"); //for hashing
 async function createUser({ email, password }) {
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+  // console.log({ hashedPassword });
+  // console.log(email, password);
 
   try {
     const {
       rows: [user],
     } = await client.query(
       `INSERT INTO users(email,password)
-    VALUES($1,$2)
-    ON CONFLICT (email) DO NOTHING
-    RETURNING *;
+      VALUES($1,$2)
+      ON CONFLICT (email) DO NOTHING
+      RETURNING *;
     `,
       [email, hashedPassword]
     );
 
+    // console.log("user:", user);
+
     delete user.password;
+
+    // console.log("user:", user);
 
     return user;
   } catch (error) {

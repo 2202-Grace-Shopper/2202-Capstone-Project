@@ -1,5 +1,4 @@
 //TO RESTART BACKEND SERVER: "sudo service postgresql restart"
-//Note from Lauren: I created this file because I used it in this manner for my Fitness Tracker and my Strangers' Things projects. However, I don't know how it compares to the src/components/App.js file that came with this forked code. Currently both this file and that file are doing the "export default App" thing, which is probably not gonna work.
 
 import React from "react";
 import {
