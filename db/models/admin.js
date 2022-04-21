@@ -1,6 +1,8 @@
 const client = require("../client");
 const bcrypt = require("bcrypt"); //for hashing
 
+//admin table has been deleted
+
 async function createAdmin({ email, password }) {
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
