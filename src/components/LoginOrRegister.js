@@ -38,7 +38,7 @@ export default function LoginOrRegister() {
         console.log(
           `Success! Welcome ${user.email} with bearer token ${token}.`
         );
-        history.push("./myroutines");
+        history.push("/profile"); //////////////////////////////////////////////
       } else {
         window.alert(
           "Please enter a valid username and/or password combination."
