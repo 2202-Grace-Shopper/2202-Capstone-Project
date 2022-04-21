@@ -5,12 +5,15 @@ export default function SingleProduct() {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const response = await fetch("localhost4000", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "http://localhost:4000/products/:productId",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const product = await response.json();
         setProduct(product);
       } catch (err) {
