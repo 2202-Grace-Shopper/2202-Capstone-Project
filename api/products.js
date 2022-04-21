@@ -7,7 +7,7 @@ const {
   updateProduct,
   getProductById,
   destroyProduct,
-} = require("../db");
+} = require("../db/models/products");
 
 module.exports = productsRouter;
 
