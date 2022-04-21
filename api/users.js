@@ -10,9 +10,9 @@ const authorizeUser = require("./utils");
 //admins will not be created in this route currently
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, isAdmin } = req.body;
 
-    const user = await createUser({ username, password });
+    const user = await createUser({ username, password, isAdmin });
 
     //gonna try adding token to see if that fixes the problem...?
     const token = jwt.sign(
@@ -20,9 +20,9 @@ usersRouter.post("/register", async (req, res, next) => {
       JWT_SECRET
     );
 
-    console.log("You've been registered!:", { user, token });
+    console.log("You've been registered!:", { user, token, isAdmin });
 
-    res.send({ user, token });
+    res.send({ user, token, isAdmin });
     // res.send({ token });
   } catch (error) {
     next(error);
