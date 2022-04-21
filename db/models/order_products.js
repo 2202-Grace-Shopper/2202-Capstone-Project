@@ -1,14 +1,14 @@
 const client = require("../client");
 
 module.exports = {
-  createOrderProduct,
   updateOrderProduct,
   destroyOrderProduct,
   getOrderProductById,
   getOrderProductsByOrder,
+  addProductToOrder,
 };
 
-async function createOrderProduct({
+async function addProductToOrder({
   productId,
   orderId,
   eachPrice,
@@ -19,7 +19,7 @@ async function createOrderProduct({
       rows: [orderProduct],
     } = await client.query(
       `
-        INSER INTO order_products("productId", "orderId", "eachPrice", "eactQuantity")
+        INSERT INTO order_products("productId", "orderId", "eachPrice", "eactQuantity")
         VALUES ($1, $2, $3, $4)
         RETURNING *;`,
       [productId, orderId, eachPrice, eachQuantity]
@@ -95,9 +95,9 @@ async function destroyOrderProduct(id) {
       rows: [orderProduct],
     } = await client.query(
       `
-DELETE FROM order_products
-WHERE id = $1
-RETURNING *;`,
+        DELETE FROM order_products
+        WHERE id = $1
+        RETURNING *;`,
       [id]
     );
     return orderProduct;
