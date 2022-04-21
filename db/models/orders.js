@@ -85,7 +85,7 @@ async function getOrderByUser({ id }) {
             JOIN order_products AS op
                 ON orders.id = op."orderId"
         WHERE "userId" = $1
-        GROUP BY orders.id, users."userId";`,
+        GROUP BY orders.id;`,
       [id]
     );
 
