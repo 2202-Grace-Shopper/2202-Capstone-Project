@@ -29,8 +29,8 @@ async function getAllProducts() {
   try {
     const { rows: products } = await client.query(
       `SELECT * 
-          FROM products;
-          `
+       FROM products;
+       `
     );
 
     return products;
