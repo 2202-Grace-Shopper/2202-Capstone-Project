@@ -1,5 +1,5 @@
 const { client } = require("./");
-const { Products } = require("./models");
+const { Products, Orders, Order_Products, User } = require("./models");
 
 async function buildTables() {
   try {
@@ -134,6 +134,52 @@ async function populateInitialData() {
     console.log({ products });
 
     console.log("Finished creating products");
+    console.log("Creating Users...");
+
+    const usersToCreate = [
+      { email: "albert@mail.com", password: "bertie99" },
+      { email: "sandra@mail.com", password: "sandra123" },
+    ];
+
+    const users = await Promise.all(usersToCreate.map(User.createUser));
+    console.log({ users });
+
+    console.log("Finished creating users!");
+    console.log("Creating orders...");
+
+    const ordersToCreate = [
+      {
+        userId: 1,
+        orderStatus: "pending",
+        totalPurchasePrice: 80,
+        totalQuantity: 4,
+        orderDate: "04/21/2022",
+      },
+      {
+        userId: 2,
+        orderStatus: "pending",
+        totalPurchasePrice: 50,
+        totalQuantity: 2,
+        orderDate: "04/21/2022",
+      },
+    ];
+
+    const orders = await Promise.all(ordersToCreate.map(Orders.createOrder));
+
+    console.log({ orders });
+
+    console.log("Finsihed creating orders!");
+
+    const orderProductsToCreate = [
+      { productId: 6, orderId: 1, eachPrice: 20, eachQuantity: 4 },
+      { productId: 2, orderId: 2, eachPrice: 24, eachQuantity: 1 },
+      { productId: 3, orderId: 2, eachPrice: 16, eachQuantity: 1 },
+      { productId: 6, orderId: 2, eachPrice: 20, eachQuantity: 1 },
+    ];
+
+    const orderProducts = await Promise.all(
+      orderProductsToCreate.map(Order_Products.addProductToOrder)
+    );
 
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
