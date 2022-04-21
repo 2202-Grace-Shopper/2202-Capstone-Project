@@ -35,7 +35,6 @@ async function buildTables() {
         price VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
         category VARCHAR(255) NOT NULL,
-        "isActive" BOOLEAN DEFAULT false,
         inStockQuantity INTEGER NOT NULL,
         photoLinkHref TEXT
       );
