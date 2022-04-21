@@ -38,31 +38,11 @@ async function getUserById(id) {
       rows: [user],
     } = await client.query(
       `
-      SELECT *
+      SELECT id,username
       FROM users 
       WHERE id=$1
     `,
       [id]
-    );
-
-    return user;
-  } catch (error) {
-    throw error;
-  }
-}
-
-/////////////////////currently unused
-async function getUserByUsername(email) {
-  try {
-    const {
-      rows: [user],
-    } = await client.query(
-      `
-      SELECT *
-      FROM users
-      WHERE email=$1;
-    `,
-      [email]
     );
 
     return user;
@@ -84,11 +64,36 @@ async function getAllUsers() {
   }
 }
 
+//used by function getUser(email)
+async function getUserByUsername(email) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT *
+      FROM users
+      WHERE email=$1;
+    `,
+      [email]
+    );
+
+    // console.log("from getUserByUsername:", user);
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 //for logging in
-async function getUser() {
+async function getUser(email, password) {
+  // console.log({ email, password }, "combo");
   const savedUser = await getUserByUsername(email);
+  // console.log({ savedUser });
   const hashedPassword = savedUser.password;
   const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+  // console.log("From getUser:", passwordsMatch);
 
   if (passwordsMatch) {
     try {
