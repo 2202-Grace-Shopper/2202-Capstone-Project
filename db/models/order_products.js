@@ -19,7 +19,7 @@ async function addProductToOrder({
       rows: [orderProduct],
     } = await client.query(
       `
-        INSERT INTO order_products("productId", "orderId", "eachPrice", "eactQuantity")
+        INSERT INTO order_products("productId", "orderId", "eachPrice", "eachQuantity")
         VALUES ($1, $2, $3, $4)
         RETURNING *;`,
       [productId, orderId, eachPrice, eachQuantity]
