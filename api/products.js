@@ -36,7 +36,6 @@ productsRouter.post("/", authorizeUser, async (req, res, next) => {
       price,
       description,
       category,
-      isActive,
       inStockQuantity,
       photoLinkHref,
     } = req.body;
@@ -46,7 +45,6 @@ productsRouter.post("/", authorizeUser, async (req, res, next) => {
       price,
       description,
       category,
-      isActive,
       inStockQuantity,
       photoLinkHref,
     });
@@ -64,7 +62,6 @@ productsRouter.patch("/:productId", authorizeUser, async (req, res, next) => {
       price,
       description,
       category,
-      isActive,
       inStockQuantity,
       photoLinkHref,
     } = req.body;
@@ -74,7 +71,6 @@ productsRouter.patch("/:productId", authorizeUser, async (req, res, next) => {
       price,
       description,
       category,
-      isActive,
       inStockQuantity,
       photoLinkHref,
     });
