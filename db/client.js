@@ -5,7 +5,7 @@ const { Client } = require("pg");
 const DB_NAME = "CapstoneCommerceSite";
 
 const DB_URL =
-  process.env.DATABASE_URL || `postgres://localhost:5432/${DB_NAME}`;
+  process.env.DATABASE_URL || `postgres://localhost:5432/${DB_NAME}`; /////////////
 
 let client;
 
@@ -13,7 +13,7 @@ let client;
 if (process.env.CI) {
   client = new Client({
     host: "localhost",
-    port: 5432,
+    port: 5432, /////////////
     user: "postgres",
     password: "postgres",
     database: "postgres",
