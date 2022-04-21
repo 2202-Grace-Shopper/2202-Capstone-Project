@@ -1,4 +1,5 @@
 const { client } = require("./");
+const { Products } = require("./models");
 
 async function buildTables() {
   try {
@@ -22,7 +23,7 @@ async function buildTables() {
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL
       );
       CREATE TABLE admins (
         id SERIAL PRIMARY KEY,
@@ -34,11 +35,11 @@ async function buildTables() {
         title VARCHAR(255) UNIQUE NOT NULL,
         price VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
-        category VARCHAR(255) NOT NULL,
-        inStockQuantity INTEGER NOT NULL,
-        photoLinkHref TEXT
+        category VARCHAR(255),
+        "inStockQuantity" INTEGER NOT NULL,
+        "photoLinkHref" TEXT
       );
-      CREATE TABLE order (
+      CREATE TABLE orders (
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         "orderStatus" VARCHAR(255) DEFAULT 'pending',
@@ -127,7 +128,9 @@ async function populateInitialData() {
           "https://www.plantgrower.org/uploads/6/5/5/4/65545169/croppedimage570400-19690129-lsweetcorn_orig.jpg",
       },
     ];
-    const products = await Promise.all(productsToCreate.map(createProduct));
+    const products = await Promise.all(
+      productsToCreate.map(Products.createProduct)
+    );
     console.log({ products });
 
     console.log("Finished creating products");
