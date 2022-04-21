@@ -1,11 +1,12 @@
 const express = require("express");
 const usersRouter = express.Router();
-const { createUser, getAllUsers, getUserById, getUser } = require("../db");
+const { User } = require("../db");
+const { createUser, getAllUsers, getUserById, getUser } = User;
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const authorizeUser = require("./utils");
 
-//POST /users/register
+// POST /users/register
 usersRouter.post("/register", async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -26,6 +27,23 @@ usersRouter.post("/register", async (req, res, next) => {
     next(error);
   }
 });
+// usersRouter.post("/register", async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     const user = await createUser({ email, password });
+
+//     //gonna try adding token to see if that fixes the problem...?
+//     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
+
+//     console.log({ user, token });
+
+//     res.send({ user, token });
+//     // res.send({ token });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 //POST /users/login
 usersRouter.post("/login", async (req, res, next) => {
@@ -102,3 +120,6 @@ usersRouter.get("/", async (req, res, next) => {
 });
 
 module.exports = usersRouter;
+
+//curl requests for testing
+// curl http://localhost:4000/api/users/register -X POST -H 'Content-Type:application/json' -d '{"email":"luckbringer@gmail.com","password":"griffin"}'
