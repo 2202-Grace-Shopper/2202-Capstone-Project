@@ -15,7 +15,7 @@ import {
   Footer,
   Profile,
   AllProductViews,
-  Cart,
+  // Cart,
   AdminProfile,
 } from "./components";
 
@@ -37,7 +37,7 @@ function App() {
 
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
 
-            <Route path="/cart" component={Cart} />
+            {/* <Route path="/cart" component={Cart} /> */}
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
           </>
@@ -48,7 +48,7 @@ function App() {
           <>
             <Route path="/products" component={AllProductViews} />
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
-            <Route path="/cart" component={Cart} />
+            {/* <Route path="/cart" component={Cart} /> */}
             <Route path="/profile" component={Profile} />
 
             {/* admin-only routes - will be made unusable to other users */}
