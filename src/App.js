@@ -32,10 +32,12 @@ function App() {
         {/* routes for if you're not logged in */}
         {!isLoggedIn && (
           <>
-            <Route path="/AllProductViews" component={AllProductViews} />
+            <Route path="/products" component={AllProductViews} />
+            {/* <Route path="/products" component={Products} /> */}
+
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
 
-            <Route path="/Cart" component={Cart} />
+            <Route path="/cart" component={Cart} />
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
           </>
@@ -44,9 +46,9 @@ function App() {
         {/* routes for if you are logged in */}
         {isLoggedIn && (
           <>
-            <Route path="/AllProductViews" component={AllProductViews} />
+            <Route path="/products" component={AllProductViews} />
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
-            <Route path="/Cart" component={Cart} />
+            <Route path="/cart" component={Cart} />
             <Route path="/profile" component={Profile} />
 
             {/* admin-only routes - will be made unusable to other users */}
