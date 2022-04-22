@@ -1,5 +1,6 @@
 const client = require("../client");
 
+//only admin should be able to do this, aside from setting up the initial database
 async function createProduct({
   title,
   price,
@@ -39,6 +40,7 @@ async function getAllProducts() {
   }
 }
 
+//only admin should be able to do this
 async function updateProduct({
   title,
   price,
@@ -82,6 +84,7 @@ async function getProductById(id) {
   }
 }
 
+//only admin should be able to do this
 async function destroyProduct(id) {
   try {
     const { rows: product } = await client.query(

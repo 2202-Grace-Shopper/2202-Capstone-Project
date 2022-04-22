@@ -60,7 +60,6 @@ export default function AllProductViews() {
         //unpacked the response stream
         const products = await response.json();
         setProducts(products);
-        console.log(products);
       } catch (error) {
         //giving me a syntaxerror:unexpected token <in JSON at position 0
         console.log(error);
@@ -69,7 +68,6 @@ export default function AllProductViews() {
 
     // call it
     fetchProducts();
-    console.log(fetchProducts);
   }, []);
 
   //this will be use for the add cart
@@ -119,10 +117,15 @@ export default function AllProductViews() {
     <section>
       {products &&
         products.map((product) => {
-          const { id, name, price, description } = product;
+          const { id, name, price, description, photoLinkHref } = product;
 
           return (
+
             <div className="productCard" key={id}>
+
+            <div className="editProductLink" key={id}>
+              <img src={photoLinkHref} alt="The plant"></img>
+
               <h3>{name}</h3>
               <p>{price}</p>
               <p>{description}</p>

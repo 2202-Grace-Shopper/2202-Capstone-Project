@@ -16,6 +16,7 @@ import {
   Profile,
   AllProductViews,
   Cart,
+  AdminProfile,
 } from "./components";
 
 function App() {
@@ -23,8 +24,6 @@ function App() {
 
   return (
     <Router>
-      {/* <Title /> */}
-      {/* <Nav /> */}
       <Title />
 
       <Nav />
@@ -33,14 +32,12 @@ function App() {
         {/* routes for if you're not logged in */}
         {!isLoggedIn && (
           <>
-            <Route path="/AllProductViews" component={AllProductViews} />
+            <Route path="/products" component={AllProductViews} />
             {/* <Route path="/products" component={Products} /> */}
+
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
 
-            <Route path="/Cart" component={Cart} />
-
-            {/* <Route path="/cart" component={Cart} /> */}
-
+            <Route path="/cart" component={Cart} />
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
           </>
@@ -49,16 +46,13 @@ function App() {
         {/* routes for if you are logged in */}
         {isLoggedIn && (
           <>
-            {/* <Route path="/products" component={Products} /> */}
+            <Route path="/products" component={AllProductViews} />
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
-            {/* <Route path="/cart" component={Cart} /> */}
+            <Route path="/cart" component={Cart} />
             <Route path="/profile" component={Profile} />
-          </>
-        )}
 
-        {/* admin-only routes ---> add isAdmin when "useAdmin" or whatever custom-hook is built! */}
-        {isLoggedIn && (
-          <>
+            {/* admin-only routes - will be made unusable to other users */}
+            <Route path="/adminprofile" component={AdminProfile} />
             {/* <Route path="/editproduct" component={EditProduct} /> */}
             {/* <Route path="/createproduct" component={CreateProduct} /> */}
             {/* <Route path="/allusers" component={AllUsers} /> */}

@@ -51,11 +51,14 @@ async function getUserById(id) {
   }
 }
 
+//only admin should be able to do this
+//doesn't include admin in this line-up
 async function getAllUsers() {
   try {
     const { rows: users } = await client.query(`
-      SELECT *
+      SELECT id,email,"isAdmin"
       FROM users
+      WHERE "isAdmin" = false
     `);
 
     return users;
@@ -120,9 +123,9 @@ async function getUser(username, password) {
 module.exports = {
   // add your database adapter fns here
   client,
-  getAllUsers,
   createUser,
   getUserById,
   getUserByUsername,
   getUser,
+  getAllUsers,
 };
