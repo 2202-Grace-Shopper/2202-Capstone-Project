@@ -1,76 +1,145 @@
 import React, { useState, useEffect } from "react";
-import { useSingleProduct } from "../custom-hooks/useSingleProduct";
-import "../imageUrls";
+import { useAuth } from "../custom-hooks";
 
-function AllProductView() {
-  const { product } = useSingleProduct();
-  const { data } = useSingleProduct();
+//for search bar
+//import { useLocation, useHistory } from "react-router-dom";
 
-  const Thumbnail = ({ arr, image, index }) => {
-    return (
-      <div className="productThumbnail">
-        {arr.map((imgsrc, i) => (
-          <img
-            key={i}
-            height="50"
-            src={imgsrc}
-            onMouseOver={() => image(i)}
-            className={index === i ? "productActive" : ""}
-          />
-        ))}
-      </div>
-    );
-  };
+export default function AllProductViews() {
+  const [products, setProducts] = useState([]);
+  const { isLoggedIn, token } = useAuth();
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+  });
+  /*
+  //search box???
+  const { search } = useLocation();
+  const history = useHistory();
+  console.log("search", search);
+  const searchParams = new URLSearchParams(search);
+  console.log("searchParams", searchParams);
+  const searchTerm = searchParams.get("searchTerm") || "";
+  console.log("searchTerm", searchTerm);
+*/
 
-  const Slideshow = ({ imgs }) => {
-    const [index, setIndex] = useState(0);
+  useEffect(() => {
+    //create as async fetch function
+    async function fetchProducts() {
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/products
+        `,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        //unpacked the response stream
+        const products = await response.json();
+        setProducts(products);
+        console.log(products);
+      } catch (error) {
+        //giving me a syntaxerror:unexpected token <in JSON at position 0
+        console.log(error);
+      }
+    }
 
-    useEffect(() => {
-      setIndex(0);
-    }, []);
+    // call it
+    fetchProducts();
+    console.log(fetchProducts);
+  }, []);
 
-    return (
-      <div className="productSlideshow">
-        <img className="productImg" src={imgs[index]} />
-        <Thumbnail arr={imgs} image={setIndex} index={index} />
-      </div>
-    );
-  };
+  //this will be use for the add cart
+  //handleChange
 
-  let [count, setCount] = useState(0);
-  if (count < 0) {
-    count = 0;
+  function handleChange(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
+  //this will be use for add cart
+  //handleSubmit
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:4000/api/products`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
+      const newProduct = await response.json();
+
+      setProducts([...products, newProduct]);
+      setForm({
+        name: "",
+        description: "",
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
+  /*****
+   * 1. redo the return to keep it simple
+   * 2. will work on css after
+   * 3. having issues with product not showing up even after the curl!!
+   * 4.  I need to get update data??
+   */
+  //return
+
   return (
-    <div className="productViewContainer">
-      <div className="productApp">
-        {[data].map(() => (
-          <div className="productApp" key={product.id}>
-            <Slideshow
-              imgs={[product.imageUrl, product.imageUrl, product.imageUrl]}
+    <section>
+      {products &&
+        products.map((product) => {
+          const { id, name, price, description } = product;
+
+          return (
+            <div className="editProductLink" key={id}>
+              <h3>{name}</h3>
+              <p>{price}</p>
+              <p>{description}</p>
+              <button onClick={handleSubmit}>Add to Cart</button>
+            </div>
+          );
+        })}
+      {isLoggedIn && (
+        <aside>
+          <form className="newProductForm" onSubmit={handleSubmit}>
+            <h3>Create New product</h3>
+            <div className="post-card">
+              <label>Name:</label>
+              <input
+                className="input"
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="productDescription">
+              <label>Description:</label>
+              <input
+                className="input"
+                type="text"
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+              />
+            </div>
+            <input
+              className="submitBtn"
+              type="submit"
+              value="Submit New Product"
             />
-
-            <div className="productCartDiv">
-              <button className="productViewCartBtn">Add to Bag</button>
-              <button className="productContinueShoppingBtn">
-                <a href="http://localhost:3000/products"> Return Home</a>
-              </button>
-            </div>
-
-            <div className="productDetailsDiv">
-              <div className="specificationsDiv">
-                <h1 className="specH1"> Specs </h1>
-                <li> *Title* </li>
-                <li> *Product* </li>
-                <li> *productId* </li>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+          </form>
+        </aside>
+      )}
+    </section>
   );
 }
-
-export default AllProductView;
