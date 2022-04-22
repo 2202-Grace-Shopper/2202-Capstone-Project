@@ -33,7 +33,6 @@ export default function AllProductViews() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ productId: id, quantity: quantity }),
-        headers: {},
       });
       let data = await response.json();
       alert("Item Added to Cart ");
@@ -120,9 +119,6 @@ export default function AllProductViews() {
           const { id, name, price, description, photoLinkHref } = product;
 
           return (
-
-            <div className="productCard" key={id}>
-
             <div className="editProductLink" key={id}>
               <img src={photoLinkHref} alt="The plant"></img>
 
