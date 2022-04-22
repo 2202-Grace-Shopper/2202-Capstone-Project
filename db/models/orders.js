@@ -9,6 +9,7 @@ module.exports = {
   createOrder,
   getOrderByUser,
   destroyOrder,
+  getOrdersWithoutProducts,
 };
 
 async function createOrder({
@@ -33,22 +34,34 @@ async function createOrder({
     console.error(err);
   }
 }
+async function getOrdersWithoutProducts() {
+  try {
+    const { rows: orders } = await client.query(`
+        SELECT * FROM orders;
+        `);
+
+    return orders;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 async function getAllOrders() {
   try {
     const { rows: orders } = await client.query(`
         SELECT orders.*,
-        JSON_AGG(
-            JSON_BUILD_OBJECT(
-                'productId', product.id,
-                'price', op."eachPrice"
-                'quantity', op."eachQuantity",
-            )
-        ) AS items
-        FROM routines
+         JSON_AGG(
+            JSON_BUILD_OBJECT(                
+                'productId', op."productId",
+                 'price', op."eachPrice",
+                 'quantity', op."eachQuantity"
+             )
+         ) AS items
+        FROM orders
             JOIN order_products AS op
                 ON orders.id = op."orderId"
-        GROUP BY orders.id, users."userId";`);
+        GROUP BY orders.id;`);
 
     return orders;
   } catch (err) {
@@ -64,15 +77,15 @@ async function getOrderByUser({ id }) {
         JSON_AGG(
             JSON_BUILD_OBJECT(
                 'productId', product.id,
-                'price', op."eachPrice"
-                'quantity', op."eachQuantity",
+                'price', op."eachPrice",
+                'quantity', op."eachQuantity"
             )
         ) AS items
-        FROM routines
+        FROM orders
             JOIN order_products AS op
                 ON orders.id = op."orderId"
         WHERE "userId" = $1
-        GROUP BY orders.id, users."userId";`,
+        GROUP BY orders.id;`,
       [id]
     );
 
