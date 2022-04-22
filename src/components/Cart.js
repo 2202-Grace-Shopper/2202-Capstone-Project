@@ -8,7 +8,7 @@ import React from "react";
 //the code below is a template!!!
 /**
  * 1. figure out the component for the cart
- * 2.
+ * 2. figure out how to connect it to the allproductviews and singproductview
  */
 export default function Cart() {
   /*
@@ -38,5 +38,11 @@ export default function Cart() {
    })}
 
   */
-  return <h3> Cart: Working on this</h3>;
+  return (
+    <div style={{ margin: "10rem" }}>
+      <h1 style={{ backgroundColor: "#B0E0E6" }}>My Cart</h1>
+      <hr></hr>
+      <div style={{ fontSize: "40x" }}>Your Cart is Currently Empty!</div>)
+    </div>
+  );
 }
