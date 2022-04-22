@@ -62,7 +62,7 @@ function App() {
         {/* catches errors */}
         <Redirect to="/" />
       </Switch>
-      <Footer />
+      {/*<Footer />*/}
     </Router>
   );
 }
