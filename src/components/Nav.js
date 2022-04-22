@@ -6,7 +6,7 @@ const loggedInLinks = [
   { id: 1, to: "/home", name: "Home" },
   { id: 2, to: "/products", name: "Plants" },
   { id: 3, to: "/cart", name: "Cart" },
-  { id: 4, to: "/myprofile", name: "Profile" },
+  { id: 4, to: "/profile", name: "Profile" },
 ];
 const loggedOutLinks = [
   { id: 1, to: "/home", name: "Home" },
