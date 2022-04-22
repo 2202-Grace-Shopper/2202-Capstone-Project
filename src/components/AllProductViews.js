@@ -97,12 +97,14 @@ export default function AllProductViews() {
     <section>
       {products &&
         products.map((product) => {
-          const { id, name, description } = product;
+          const { id, name, price, description } = product;
 
           return (
             <div className="editProductLink" key={id}>
               <h3>{name}</h3>
+              <p>{price}</p>
               <p>{description}</p>
+              <button onClick={handleSubmit}>Add to Cart</button>
             </div>
           );
         })}

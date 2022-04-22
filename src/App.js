@@ -9,7 +9,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { AllProductViews, Cart } from "./components";
+import { LoginOrRegister, AllProductViews, Cart } from "./components";
 /*
 //mV
 import { LoginOrRegister, AllProductViews } from "./components";
@@ -31,8 +31,8 @@ function App() {
 
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
             <Route path="/Cart" component={Cart} />
-            {/*Route path="/login" component={LoginOrRegister} />*/}
-            {/*<Route path="/register" component={LoginOrRegister} />*/}
+            <Route path="/login" component={LoginOrRegister} />
+            <Route path="/register" component={LoginOrRegister} />
           </>
         )}
 
