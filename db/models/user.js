@@ -2,11 +2,11 @@
 const client = require("../client");
 const bcrypt = require("bcrypt"); //for hashing
 
-async function createUser({ email, password, isAdmin }) {
+async function createUser({ username, password, isAdmin }) {
   const SALT_COUNT = 10;
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
   // console.log({ hashedPassword });
-  // console.log(email, password);
+  // console.log(username, password, isAdmin);
 
   try {
     const {
@@ -17,14 +17,14 @@ async function createUser({ email, password, isAdmin }) {
       ON CONFLICT (email) DO NOTHING
       RETURNING *;
     `,
-      [email, hashedPassword, isAdmin]
+      [username, hashedPassword, isAdmin]
     );
 
-    // console.log("user:", user);
+    // console.log("user w/ password:", user);
 
     delete user.password;
 
-    // console.log("user:", user);
+    // console.log("user w/o password:", user);
 
     return user;
   } catch (error) {
@@ -64,8 +64,8 @@ async function getAllUsers() {
   }
 }
 
-//used by function getUser(email)
-async function getUserByUsername(email) {
+//used by function getUser(username)
+async function getUserByUsername(username) {
   try {
     const {
       rows: [user],
@@ -75,10 +75,10 @@ async function getUserByUsername(email) {
       FROM users
       WHERE email=$1;
     `,
-      [email]
+      [username]
     );
 
-    // console.log("from getUserByUsername:", user);
+    console.log("from getUserByUsername:", user);
 
     return user;
   } catch (error) {
@@ -87,13 +87,13 @@ async function getUserByUsername(email) {
 }
 
 //for logging in
-async function getUser(email, password) {
-  // console.log({ email, password }, "combo");
-  const savedUser = await getUserByUsername(email);
-  // console.log({ savedUser });
+async function getUser(username, password) {
+  // console.log({ username, password }, "combo");
+  const savedUser = await getUserByUsername(username);
+  console.log({ savedUser });
   const hashedPassword = savedUser.password;
   const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-  // console.log("From getUser:", passwordsMatch);
+  console.log("From getUser:", passwordsMatch);
 
   if (passwordsMatch) {
     try {
@@ -105,7 +105,7 @@ async function getUser(email, password) {
         FROM users
         WHERE email=$1
       `,
-        [email]
+        [username]
       );
 
       delete user.password;

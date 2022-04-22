@@ -8,7 +8,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { LoginOrRegister, Title, Nav } from "./components";
+import { LoginOrRegister, Title, Nav, Footer } from "./components";
+import { LoginOrRegister, Title, Nav, Profile } from "./components";
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -24,13 +25,9 @@ function App() {
         {!isLoggedIn && (
           <>
             {/* <Route path="/products" component={Products} /> */}
-
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
-
             {/* <Route path="/cart" component={Cart} /> */}
-
             <Route path="/login" component={LoginOrRegister} />
-
             <Route path="/register" component={LoginOrRegister} />
           </>
         )}
@@ -38,12 +35,16 @@ function App() {
         {/* routes for if you are logged in */}
         {isLoggedIn && (
           <>
-            test tag
             {/* <Route path="/products" component={Products} /> */}
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
             {/* <Route path="/cart" component={Cart} /> */}
-            {/* <Route path="/myprofile" component={MyProfile} /> */}
-            {/* admin-only routes */}
+            <Route path="/profile" component={Profile} />
+          </>
+        )}
+
+        {/* admin-only routes ---> add isAdmin when "useAdmin" or whatever custom-hook is built! */}
+        {isLoggedIn && (
+          <>
             {/* <Route path="/editproduct" component={EditProduct} /> */}
             {/* <Route path="/createproduct" component={CreateProduct} /> */}
             {/* <Route path="/allusers" component={AllUsers} /> */}
@@ -53,6 +54,7 @@ function App() {
         {/* catches errors */}
         <Redirect to="/" />
       </Switch>
+      <Footer />
     </Router>
   );
 }
