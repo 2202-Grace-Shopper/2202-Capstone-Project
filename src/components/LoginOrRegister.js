@@ -39,6 +39,16 @@ export default function LoginOrRegister() {
 
         const { user, token } = await response.json();
 
+
+      if (user) {
+        localStorage.ft_token = token;
+        updateAuthStatus();
+        console.log(
+          `Success! Welcome ${user.email} with bearer token ${token}.`
+        );
+        history.push("./profile");
+      } else {
+
         if (user) {
           localStorage.ft_token = token;
           updateAuthStatus();
@@ -50,6 +60,7 @@ export default function LoginOrRegister() {
           throw new Error(`error with user action, ${loginOrRegister}`);
         }
       } catch (error) {
+
         window.alert(
           "Oops, something went wrong! Please ensure you've entered a valid username and/or password combination."
         );
