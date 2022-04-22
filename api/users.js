@@ -111,7 +111,6 @@ usersRouter.get("/me", authorizeUser, async (req, res, next) => {
 // });
 
 //GET /users
-///////////////////////may need to add "authorizeAdmin" here because no one else but the admin should be able to see this
 usersRouter.get("/", async (req, res, next) => {
   try {
     const users = await getAllUsers();

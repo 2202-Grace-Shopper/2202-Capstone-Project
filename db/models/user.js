@@ -56,7 +56,7 @@ async function getUserById(id) {
 async function getAllUsers() {
   try {
     const { rows: users } = await client.query(`
-      SELECT id,email,"isAdmin"
+      SELECT *
       FROM users
       WHERE "isAdmin" = false
     `);

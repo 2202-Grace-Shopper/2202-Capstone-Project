@@ -78,6 +78,16 @@ export default function LoginOrRegister() {
     }
   }
 
+  async function clickShowPassword() {
+    const input = document.getElementById("passwordTypingZone");
+
+    if (input.type === "password") {
+      input.type = "text";
+    } else {
+      input.type = "password";
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} className="userInfoInputs">
       <div className="emailUsernameInput">
@@ -100,7 +110,10 @@ export default function LoginOrRegister() {
           name="password"
           value={form.password}
           onChange={handleChange}
+          id="passwordTypingZone"
         />
+        <input type="checkbox" onClick={clickShowPassword} />
+        Show Password
       </div>
       <input
         type="submit"
