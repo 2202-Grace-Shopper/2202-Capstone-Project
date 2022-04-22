@@ -40,7 +40,7 @@ export default function SingleProduct() {
             <section key={id}>
               <h2>{title}</h2>
               <span>{price}</span>
-              <img>{photoLinkHref}</img>
+              <img class="productPicture" src={photoLinkHref} alt="" />
               <aside>{inStockQuantity}</aside>
               <h5>{category}</h5>
               <p>{description}</p>
