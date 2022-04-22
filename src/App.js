@@ -37,7 +37,7 @@ function App() {
         {/* routes for if you're not logged in */}
         {!isLoggedIn && (
           <>
-            <Route path="/AllProductViews" component={AllProductViews} />
+            <Route path="/products" component={AllProductViews} />
             {/* <Route path="/products" component={Products} /> */}
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
 
