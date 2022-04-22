@@ -45,9 +45,18 @@ export default function LoginOrRegister() {
           console.log(
             `Success! Welcome ${user.email} with bearer token ${token}.`
           );
-          history.push("/profile");
+          history.push("./profile");
         } else {
-          throw new Error(`error with user action, ${loginOrRegister}`);
+          if (user) {
+            localStorage.ft_token = token;
+            updateAuthStatus();
+            console.log(
+              `Success! Welcome ${user.email} with bearer token ${token}.`
+            );
+            history.push("/profile");
+          } else {
+            throw new Error(`error with user action, ${loginOrRegister}`);
+          }
         }
       } catch (error) {
         window.alert(
