@@ -8,7 +8,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { LoginOrRegister, Title, Nav } from "./components";
+import { LoginOrRegister, Title, Nav, Footer } from "./components";
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -53,6 +53,7 @@ function App() {
         {/* catches errors */}
         <Redirect to="/" />
       </Switch>
+      <Footer />
     </Router>
   );
 }
