@@ -1,5 +1,5 @@
-export { default as App } from "./App";
-export { default as Cart } from "./App";
-export { default as AllProductView } from "./App";
-export { default as LoginOrRegister } from "./App";
-export { default as SingleProductView } from "./App";
+//export { default as App } from "./App";
+export { default as Cart } from "./Cart";
+export { default as AllProductViews } from "./AllProductViews";
+//export { default as LoginOrRegister } from "./LoginOrRegister";
+//export { default as SingleProductView } from "./SingleProductView";

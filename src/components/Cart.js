@@ -1,190 +1,42 @@
 import React from "react";
-import "./styles/Cart.css";
+//import React, { useState, useEffect } from "react";
+//import { useAuth } from "../custom-hooks";
 
+//import "./styles/Cart.css";
+//import React, { useState, useEffect } from "react";
 
-function Cart() {
-  return (
-    <div className="cart_container">
-      <div className="cart_product_container">
-        <div className="cart_num_item">
-          <span className="cart_head">Your Cart</span>
-          <span className="cart_head">(0)</span>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>size</p>
-            <p>color</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
+//the code below is a template!!!
+/**
+ * 1. figure out the component for the cart
+ * 2.
+ */
+export default function Cart() {
+  /*
+  //comment out for now until i figure how it works
+   const {orders, setOrders} = useState();
+   const {token} =useAuth();
+   const [total, setTotal] = useState();
 
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
+   const fetchOrder = async () =>{
+     try{
+       if (token){
+         const receiveOrder = await getCart();
+         const allProducts = receiveOrder.products
+         let priceArr = []
+       }
+     }
+   }
 
-          <div className="cart_item_price">
-            <p>$100</p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
+   useEffect(()=>{
+    
 
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
+   }, [total]);
 
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
+   return <h1>My Cart <h1>
+   {incomingOrders ? incomingOrders.map ((product) => {
+     return ()
+   })}
 
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
-
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
-
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
-
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-        <div className="cart_item_container">
-          <div className="cart_item_img">
-            <img className="cart_product_picture" src={}></img>
-          </div>
-          <div className="cart_item_details">
-            <p>product name</p>
-            <p>productId</p>
-            <div className="cart_item_buttons">
-              <button className="edit_button">Edit</button>
-              <button className="remove_button">Remove</button>
-            </div>
-          </div>
-
-          <div className="cart_item_price">
-            <p></p>
-          </div>
-        </div>
-      </div>
-      <div className="order_summary_container">
-        <h1 className="order_summary_header">Order Summary</h1>
-      
-        <div className="order_summary_line_total_container">
-          <span className="order_summary_line_total">Total:</span>
-        </div>
-        <div className="checkout_link_container">
-          <a className="checkout_link" href="http://localhost:3000/checkout">
-            Checkout
-          </a>
-          <a className="checkout_link" href="#">
-            Checkout with PayPal
-          </a>
-        </div>
-          </div>
-        </div>
-   
-  
-  );
+  */
+  return <h3> Cart: Working on this</h3>;
 }
-
-export default Cart;

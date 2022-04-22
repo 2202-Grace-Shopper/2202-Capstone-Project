@@ -9,30 +9,30 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { LoginOrRegister } from "./components";
-
+import { AllProductViews, Cart } from "./components";
+/*
+//mV
+import { LoginOrRegister, AllProductViews } from "./components";
+*/
 function App() {
   const { isLoggedIn } = useAuth();
 
   return (
     <Router>
       {/* <Title /> */}
-
       {/* <Nav /> */}
 
       <Switch>
         {/* routes for if you're not logged in */}
         {!isLoggedIn && (
           <>
+            <Route path="/AllProductViews" component={AllProductViews} />
             {/* <Route path="/products" component={Products} /> */}
 
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
-
-            {/* <Route path="/cart" component={Cart} /> */}
-
-            <Route path="/login" component={LoginOrRegister} />
-
-            <Route path="/register" component={LoginOrRegister} />
+            <Route path="/Cart" component={Cart} />
+            {/*Route path="/login" component={LoginOrRegister} />*/}
+            {/*<Route path="/register" component={LoginOrRegister} />*/}
           </>
         )}
 
