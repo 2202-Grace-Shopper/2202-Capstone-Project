@@ -8,7 +8,7 @@ function checkIsAdmin(user) {
 
   useEffect(() => {
       try {
-        const response = await fetch(`http://localhost:4000/api/users/me`, {
+        const response = await fetch(`http://localhost:4000/api/users`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
