@@ -25,6 +25,8 @@ export default function LoginOrRegister() {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    console.log("Form is getting this in component:", form);
+
     //ensure that people are entering in valid emails
     if (checkEmail(form.email)) {
       try {

@@ -10,18 +10,17 @@ const authorizeUser = require("./utils");
 //admins will not be created in this route currently
 usersRouter.post("/register", async (req, res, next) => {
   try {
-    let { username, password, isAdmin } = req.body;
+    let { email, password, isAdmin } = req.body;
+
     if (isAdmin === undefined) {
       isAdmin = false;
     }
-    // console.log("from usersRouter.post:", username, password, isAdmin); //success
 
-    const user = await createUser({ username, password, isAdmin });
+    // console.log("from usersRouter.post:", email, password, isAdmin);
 
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      JWT_SECRET
-    );
+    const user = await createUser({ email, password, isAdmin });
+
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
 
     // console.log("You've been registered!:", { user, token, isAdmin });
 
@@ -59,7 +58,7 @@ usersRouter.post("/login", async (req, res, next) => {
 
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
 
-    console.log("You're logged in!", { user, token });
+    // console.log("You're logged in!", { user, token });
 
     res.send({ user, token });
   } catch (error) {
