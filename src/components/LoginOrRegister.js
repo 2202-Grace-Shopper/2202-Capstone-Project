@@ -39,6 +39,16 @@ export default function LoginOrRegister() {
 
         const { user, token } = await response.json();
 
+
+      if (user) {
+        localStorage.ft_token = token;
+        updateAuthStatus();
+        console.log(
+          `Success! Welcome ${user.email} with bearer token ${token}.`
+        );
+        history.push("./profile");
+      } else {
+
         if (user) {
           localStorage.ft_token = token;
           updateAuthStatus();

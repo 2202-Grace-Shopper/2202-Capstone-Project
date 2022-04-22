@@ -8,6 +8,16 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
+HEAD;
+import { LoginOrRegister, Title, Nav, Footer } from "./components";
+import { LoginOrRegister, Title, Nav, Profile } from "./components";
+
+import { LoginOrRegister, AllProductViews, Cart } from "./components";
+/*
+//mV
+import { LoginOrRegister, AllProductViews } from "./components";
+*/
+
 import { LoginOrRegister, Title, Nav, Footer } from "./components";
 import { LoginOrRegister, Title, Nav, Profile } from "./components";
 
@@ -16,6 +26,8 @@ function App() {
 
   return (
     <Router>
+      {/* <Title /> */}
+      {/* <Nav /> */}
       <Title />
 
       <Nav />
@@ -27,7 +39,11 @@ function App() {
             <Route path="/AllProductViews" component={AllProductViews} />
             {/* <Route path="/products" component={Products} /> */}
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
+
+            <Route path="/Cart" component={Cart} />
+
             {/* <Route path="/cart" component={Cart} /> */}
+
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
           </>
