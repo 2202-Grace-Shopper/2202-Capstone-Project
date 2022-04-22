@@ -8,13 +8,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-<<<<<<< HEAD
-HEAD;
-import { LoginOrRegister, Title, Nav, Footer } from "./components";
-import { LoginOrRegister, Title, Nav, Profile } from "./components";
-
-import { LoginOrRegister, AllProductViews, Cart } from "./components";
-=======
 import {
   LoginOrRegister,
   Title,
@@ -24,18 +17,7 @@ import {
   AllProductViews,
   Cart,
 } from "./components";
->>>>>>> c8924d0b4a3f357cee32f1e4c09bc30b1d045705
-/*
-//mV
-import { LoginOrRegister, AllProductViews } from "./components";
-*/
 
-<<<<<<< HEAD
-import { LoginOrRegister, Title, Nav, Footer } from "./components";
-import { LoginOrRegister, Title, Nav, Profile } from "./components";
-
-=======
->>>>>>> c8924d0b4a3f357cee32f1e4c09bc30b1d045705
 function App() {
   const { isLoggedIn } = useAuth();
 
@@ -86,7 +68,7 @@ function App() {
         {/* catches errors */}
         <Redirect to="/" />
       </Switch>
-      <Footer />
+      {/*<Footer />*/}
     </Router>
   );
 }

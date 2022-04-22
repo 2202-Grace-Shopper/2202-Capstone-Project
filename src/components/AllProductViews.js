@@ -22,6 +22,28 @@ export default function AllProductViews() {
   console.log("searchTerm", searchTerm);
 */
 
+  //addToCart feature
+  //this will help us fetch the backend to list all the product
+  //and store variable
+  async function addToCart(id, quantity) {
+    try {
+      const response = await fetch(`http://localhost:4000/api/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId: id, quantity: quantity }),
+        headers: {},
+      });
+      let data = await response.json();
+      alert("Item Added to Cart ");
+      console.log(data);
+    } catch (error) {
+      alert("Something Went Wrong");
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     //create as async fetch function
     async function fetchProducts() {
@@ -100,11 +122,13 @@ export default function AllProductViews() {
           const { id, name, price, description } = product;
 
           return (
-            <div className="editProductLink" key={id}>
+            <div className="productCard" key={id}>
               <h3>{name}</h3>
               <p>{price}</p>
               <p>{description}</p>
-              <button onClick={handleSubmit}>Add to Cart</button>
+              <button onClick={(e) => addToCart(product.id, 1)}>
+                Add to Cart
+              </button>
             </div>
           );
         })}
