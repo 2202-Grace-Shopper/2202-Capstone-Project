@@ -38,9 +38,9 @@ export default function SingleProduct() {
         }) => {
           return (
             <section key={id}>
-              <img>{photoLinkHref}</img>
               <h2>{title}</h2>
               <span>{price}</span>
+              <img>{photoLinkHref}</img>
               <aside>{inStockQuantity}</aside>
               <h5>{category}</h5>
               <p>{description}</p>
