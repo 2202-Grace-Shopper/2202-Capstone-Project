@@ -73,12 +73,12 @@ async function getUserByUsername(username) {
       `
       SELECT *
       FROM users
-      WHERE username=$1;
+      WHERE email=$1;
     `,
       [username]
     );
 
-    // console.log("from getUserByUsername:", user);
+    console.log("from getUserByUsername:", user);
 
     return user;
   } catch (error) {
@@ -88,12 +88,12 @@ async function getUserByUsername(username) {
 
 //for logging in
 async function getUser(username, password) {
-  // console.log({username, password }, "combo");
+  // console.log({ username, password }, "combo");
   const savedUser = await getUserByUsername(username);
-  // console.log({ savedUser });
+  console.log({ savedUser });
   const hashedPassword = savedUser.password;
   const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-  // console.log("From getUser:", passwordsMatch);
+  console.log("From getUser:", passwordsMatch);
 
   if (passwordsMatch) {
     try {

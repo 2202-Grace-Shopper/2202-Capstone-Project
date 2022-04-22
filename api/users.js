@@ -61,7 +61,7 @@ usersRouter.post("/login", async (req, res, next) => {
 
     console.log("You're logged in!", { user, token });
 
-    res.send({ user, token, isAdmin });
+    res.send({ user, token });
   } catch (error) {
     next(error);
   }
