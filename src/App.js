@@ -1,5 +1,4 @@
 //TO RESTART BACKEND SERVER: "sudo service postgresql restart"
-//Note from Lauren: I created this file because I used it in this manner for my Fitness Tracker and my Strangers' Things projects. However, I don't know how it compares to the src/components/App.js file that came with this forked code. Currently both this file and that file are doing the "export default App" thing, which is probably not gonna work.
 
 import React from "react";
 import {
@@ -9,18 +8,29 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
+
 import { LoginOrRegister, AllProductViews, Cart } from "./components";
 /*
 //mV
 import { LoginOrRegister, AllProductViews } from "./components";
 */
+
+import { LoginOrRegister, Title, Nav, Footer } from "./components";
+import { LoginOrRegister, Title, Nav, Profile } from "./components";
+
+
 function App() {
   const { isLoggedIn } = useAuth();
 
   return (
     <Router>
+
       {/* <Title /> */}
       {/* <Nav /> */}
+      <Title />
+
+      <Nav />
+
 
       <Switch>
         {/* routes for if you're not logged in */}
@@ -28,9 +38,12 @@ function App() {
           <>
             <Route path="/AllProductViews" component={AllProductViews} />
             {/* <Route path="/products" component={Products} /> */}
-
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
+
             <Route path="/Cart" component={Cart} />
+
+            {/* <Route path="/cart" component={Cart} /> */}
+
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
           </>
@@ -40,18 +53,17 @@ function App() {
         {isLoggedIn && (
           <>
             {/* <Route path="/products" component={Products} /> */}
-
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
-
             {/* <Route path="/cart" component={Cart} /> */}
+            <Route path="/profile" component={Profile} />
+          </>
+        )}
 
-            {/* <Route path="/myprofile" component={MyProfile} /> */}
-
-            {/* admin-only routes */}
+        {/* admin-only routes ---> add isAdmin when "useAdmin" or whatever custom-hook is built! */}
+        {isLoggedIn && (
+          <>
             {/* <Route path="/editproduct" component={EditProduct} /> */}
-
             {/* <Route path="/createproduct" component={CreateProduct} /> */}
-
             {/* <Route path="/allusers" component={AllUsers} /> */}
           </>
         )}
@@ -59,6 +71,7 @@ function App() {
         {/* catches errors */}
         <Redirect to="/" />
       </Switch>
+      <Footer />
     </Router>
   );
 }
