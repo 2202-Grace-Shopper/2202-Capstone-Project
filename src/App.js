@@ -17,18 +17,12 @@ import {
   AllProductViews,
   Cart,
 } from "./components";
-/*
-//mV
-import { LoginOrRegister, AllProductViews } from "./components";
-*/
 
 function App() {
   const { isLoggedIn } = useAuth();
 
   return (
     <Router>
-      {/* <Title /> */}
-      {/* <Nav /> */}
       <Title />
 
       <Nav />
@@ -38,13 +32,9 @@ function App() {
         {!isLoggedIn && (
           <>
             <Route path="/AllProductViews" component={AllProductViews} />
-            {/* <Route path="/products" component={Products} /> */}
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
 
             <Route path="/Cart" component={Cart} />
-
-            {/* <Route path="/cart" component={Cart} /> */}
-
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
           </>
@@ -53,9 +43,9 @@ function App() {
         {/* routes for if you are logged in */}
         {isLoggedIn && (
           <>
-            {/* <Route path="/products" component={Products} /> */}
+            <Route path="/AllProductViews" component={AllProductViews} />
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
-            {/* <Route path="/cart" component={Cart} /> */}
+            <Route path="/Cart" component={Cart} />
             <Route path="/profile" component={Profile} />
           </>
         )}
