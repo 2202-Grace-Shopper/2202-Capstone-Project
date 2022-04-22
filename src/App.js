@@ -8,8 +8,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { useAuth } from "./custom-hooks";
-import { LoginOrRegister, Title, Nav, Footer } from "./components";
-import { LoginOrRegister, Title, Nav, Profile } from "./components";
+import { LoginOrRegister, Title, Nav, Footer, Profile } from "./components";
 
 function App() {
   const { isLoggedIn } = useAuth();
