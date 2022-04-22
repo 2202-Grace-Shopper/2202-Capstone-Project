@@ -1,7 +1,7 @@
 const client = require("../client");
 const bcrypt = require("bcrypt"); //for hashing
 
-//admin table has been deleted
+//admin table has been deleted; this all happens based on the users column "isAdmin" being true
 
 async function createAdmin({ email, password }) {
   const SALT_COUNT = 10;
@@ -28,3 +28,5 @@ async function createAdmin({ email, password }) {
 }
 
 module.exports = { client, createAdmin };
+
+//admin for this project: plantboss@mail.com with password admin123

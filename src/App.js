@@ -16,6 +16,7 @@ import {
   Profile,
   AllProductViews,
   Cart,
+  AdminProfile,
 } from "./components";
 
 function App() {
@@ -47,12 +48,9 @@ function App() {
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
             <Route path="/Cart" component={Cart} />
             <Route path="/profile" component={Profile} />
-          </>
-        )}
 
-        {/* admin-only routes ---> add isAdmin when "useAdmin" or whatever custom-hook is built! */}
-        {isLoggedIn && (
-          <>
+            {/* admin-only routes - will be made unusable to other users */}
+            <Route path="/adminprofile" component={AdminProfile} />
             {/* <Route path="/editproduct" component={EditProduct} /> */}
             {/* <Route path="/createproduct" component={CreateProduct} /> */}
             {/* <Route path="/allusers" component={AllUsers} /> */}
