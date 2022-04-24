@@ -4,7 +4,6 @@ import { useHistory, useParams } from "react-router-dom";
 export default function SingleProduct() {
   const [product, setProduct] = useState([]);
   let { productId } = useParams();
-  console.log({ productId });
 
   useEffect(() => {
     const getProduct = async () => {
@@ -28,8 +27,6 @@ export default function SingleProduct() {
 
     getProduct();
   }, []);
-
-  console.log(product);
 
   return (
     <section>
