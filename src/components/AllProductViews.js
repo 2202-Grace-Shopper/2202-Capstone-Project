@@ -113,7 +113,7 @@ export default function AllProductViews() {
   //return
 
   return (
-    <section>
+    <section className="allPlantsBlock">
       {products &&
         products.map((product) => {
           const { id, name, price, description, photoLinkHref } = product;

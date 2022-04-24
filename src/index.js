@@ -5,6 +5,10 @@ import App from "./App";
 // place them in the src/style directory, and import them like this: [[ import './style/index.css' ]];
 import "./style/LoginOrRegister.css";
 import "./style/index.css";
+import "./style/TitleNavFooter.css";
+// import "./style/Cart.css";
+import "./style/AllPlants.css";
+// import "./style/OnePlant.css";
 import { AuthProvider } from "./context";
 
 ReactDOM.render(
