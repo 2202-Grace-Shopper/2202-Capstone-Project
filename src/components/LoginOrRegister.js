@@ -91,37 +91,59 @@ export default function LoginOrRegister() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="userInfoInputs">
-      <div className="emailUsernameInput">
-        <label style={{ marginRight: 5 + "px" }}>
-          {loginOrRegister === "register" && "Choose "} Email Username:
-        </label>
+    <div className="loginPageContainer">
+      <aside className="flowerPower">
+        <img
+          src=".../assets/PlantBackground.jpg"
+          alt="Grape-O-Licious Flower Photo"
+          className="grapeoliciousPhoto"
+        ></img>
+        <p>
+          <i>Torenia Catalina</i>, or "Grape-O-Licious"
+        </p>
+      </aside>
+      <form onSubmit={handleSubmit} className="userInfoInputs">
+        <div className="loginBucket">
+          <div className="loginLabels">
+            <label style={{ marginRight: 5 + "px" }}>
+              {loginOrRegister === "register" && "Choose "} Email Username
+            </label>
+            <label
+              style={
+                ({ marginRight: 5 + "px" }, { borderTop: "black solid 1px" })
+              }
+            >
+              {loginOrRegister === "register" && "Choose "} Password
+            </label>
+          </div>
+          <div className="loginInputs">
+            <input
+              type="text"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              className="emailUsernameInput"
+            />
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              onChange={handleChange}
+              id="passwordTypingZone"
+              className="passwordInput"
+            />
+          </div>
+          <aside className="showPasswordAside">
+            <input type="checkbox" onClick={clickShowPassword} />
+            Show Password
+          </aside>
+        </div>
         <input
-          type="text"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
+          type="submit"
+          value={loginOrRegister === "register" ? "Register" : "Login"}
+          className="loginRegButton"
         />
-      </div>
-      <div className="passwordInput">
-        <label style={{ marginRight: 5 + "px" }}>
-          {loginOrRegister === "register" && "Choose "} Password:
-        </label>
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          id="passwordTypingZone"
-        />
-        <input type="checkbox" onClick={clickShowPassword} />
-        Show Password
-      </div>
-      <input
-        type="submit"
-        value={loginOrRegister === "register" ? "Register" : "Login"}
-        className="loginRegButton"
-      />
-    </form>
+      </form>
+    </div>
   );
 }

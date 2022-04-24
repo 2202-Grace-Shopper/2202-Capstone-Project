@@ -1,7 +1,7 @@
 /* import fonts here */
-
 * {
   box-sizing: border-box;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 :root {
@@ -20,4 +20,5 @@ body {
   padding: 0;
   height: 100vh;
   width: 100vw;
+  background: \linear-gradient(white, rgb(110, 157, 110));
 }
