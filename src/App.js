@@ -15,6 +15,7 @@ import {
   Footer,
   Profile,
   AllProductViews,
+  SingleProductView,
   // Cart,
   AdminProfile,
 } from "./components";
@@ -32,8 +33,8 @@ function App() {
         {/* routes for if you're not logged in */}
         {!isLoggedIn && (
           <>
-            <Route path="/products" component={AllProductViews} />
-            {/* <Route path="/products" component={Products} /> */}
+            <Route exact path="/products" component={AllProductViews} />
+            <Route path="/products/:productId" component={SingleProductView} />
 
             {/* <Route path="/productdetail" component={ProductDetail} /> */}
 
@@ -46,8 +47,8 @@ function App() {
         {/* routes for if you are logged in */}
         {isLoggedIn && (
           <>
-            <Route path="/products" component={AllProductViews} />
-            {/* <Route path="/productdetail" component={ProductDetail} /> */}
+            <Route exact path="/products" component={AllProductViews} />
+            <Route path="/products/:productId" component={SingleProductView} />
             {/* <Route path="/cart" component={Cart} /> */}
             <Route path="/profile" component={Profile} />
 
