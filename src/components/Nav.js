@@ -21,7 +21,7 @@ export default function Nav() {
   const navLinks = isLoggedIn ? loggedInLinks : loggedOutLinks;
 
   return (
-    <nav>
+    <nav className="navigationBar">
       {navLinks.map(({ id, to, name }) => (
         <NavLink key={id} to={to} className="navLink">
           {name}

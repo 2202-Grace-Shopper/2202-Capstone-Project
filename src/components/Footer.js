@@ -5,8 +5,8 @@ function Copyright() {
   return (
     <div>
       {"Copyright © "}
-      <Link color="inherit" to="/home">
-        Plant-O-Licous
+      <Link color="inherit" href="https://mui.com/" className="copyrightLink">
+        <u>Plant-O-Licous</u>
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -15,9 +15,9 @@ function Copyright() {
 }
 export default function Footer() {
   return (
-    <>
-      <div>This is our footer placeholder</div>
+    <aside className="footerText">
+      {/* <div>This is our footer placeholder</div> */}
       <Copyright />
-    </>
+    </aside>
   );
 }
