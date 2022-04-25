@@ -1,0 +1,10 @@
+.allPlantsBlock {
+  /* border: red solid 3px; */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+img {
+  height: 80%;
+  width: 400px;
+}

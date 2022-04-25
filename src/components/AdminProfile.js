@@ -26,7 +26,7 @@ export default function AdminProfile() {
               <div className="eachUserInList" key={id}>
                 <h3>User #{id}</h3>
                 <p>Email: {email}</p>
-                <p>Password: {show ? password : "********"}</p>
+                <p>Password: {show ? password : "*******"}</p>
                 <input type="checkbox" onClick={clickShowPassword} />
                 Show Password
               </div>
