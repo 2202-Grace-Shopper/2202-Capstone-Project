@@ -18,6 +18,7 @@ import {
   SingleProductView,
   // Cart,
   AdminProfile,
+  Home,
 } from "./components";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             {/* <Route path="/cart" component={Cart} /> */}
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
+            <Route path="/home" component={Home} />
           </>
         )}
 
@@ -57,6 +59,7 @@ function App() {
             {/* <Route path="/editproduct" component={EditProduct} /> */}
             {/* <Route path="/createproduct" component={CreateProduct} /> */}
             {/* <Route path="/allusers" component={AllUsers} /> */}
+            <Route path="/home" component={Home} />
           </>
         )}
 
