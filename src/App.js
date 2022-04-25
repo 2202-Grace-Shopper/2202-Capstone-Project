@@ -22,7 +22,7 @@ import {
 } from "./components";
 
 function App() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isAdminAC } = useAuth();
 
   return (
     <Router>
@@ -53,13 +53,16 @@ function App() {
             <Route path="/products/:productId" component={SingleProductView} />
             {/* <Route path="/cart" component={Cart} /> */}
             <Route path="/profile" component={Profile} />
+            <Route path="/home" component={Home} />
 
             {/* admin-only routes - will be made unusable to other users */}
-            <Route path="/adminprofile" component={AdminProfile} />
-            {/* <Route path="/editproduct" component={EditProduct} /> */}
-            {/* <Route path="/createproduct" component={CreateProduct} /> */}
-            {/* <Route path="/allusers" component={AllUsers} /> */}
-            <Route path="/home" component={Home} />
+            {isAdminAC && (
+              <>
+                <Route path="/adminprofile" component={AdminProfile} />
+                {/* <Route path="/editproduct" component={EditProduct} /> */}
+                {/* <Route path="/addnewproduct" component={AddNewProduct} /> */}
+              </>
+            )}
           </>
         )}
 

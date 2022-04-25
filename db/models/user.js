@@ -69,7 +69,8 @@ async function getAllUsers() {
 
 //used by function getUser(email)
 async function getUserByUsername(email) {
-  // console.log("email shows up as", email, "in getUserByUsername0");
+  // console.log("email shows up as", email, "in getUserByUsername");
+  // { email: 'plantboss@mail.com' }
 
   try {
     const {
@@ -83,7 +84,7 @@ async function getUserByUsername(email) {
       [email]
     );
 
-    console.log("from getUserByUsername:", user);
+    // console.log("from getUserByUsername:", user);
 
     return user;
   } catch (error) {
