@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 export default function SingleProduct() {
   const [product, setProduct] = useState([]);
+  let { productId } = useParams();
+
   useEffect(() => {
     const getProduct = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/products/:productId",
+          `http://localhost:4000/api/products/${productId}`,
           {
             method: "GET",
             headers: {
@@ -15,6 +18,7 @@ export default function SingleProduct() {
           }
         );
         const product = await response.json();
+
         setProduct(product);
       } catch (err) {
         console.error(err);
@@ -25,29 +29,30 @@ export default function SingleProduct() {
   }, []);
 
   return (
-    <div>
-      {product.map(
-        ({
-          id,
-          title,
-          price,
-          description,
-          category,
-          inStockQuantity,
-          photoLinkHref,
-        }) => {
-          return (
-            <section key={id}>
-              <h2>{title}</h2>
-              <span>{price}</span>
-              <img class="productPicture" src={photoLinkHref} alt="" />
-              <aside>{inStockQuantity}</aside>
-              <h5>{category}</h5>
-              <p>{description}</p>
-            </section>
-          );
-        }
-      )}
-    </div>
+    <section>
+      {product &&
+        product.map(
+          ({
+            id,
+            title,
+            price,
+            description,
+            category,
+            inStockQuantity,
+            photoLinkHref,
+          }) => {
+            return (
+              <section key={id}>
+                <h2>{title}</h2>
+                <span>{price}</span>
+                <img class="productPicture" src={photoLinkHref} alt="" />
+                <aside>{inStockQuantity}</aside>
+                <h5>{category}</h5>
+                <p>{description}</p>
+              </section>
+            );
+          }
+        )}
+    </section>
   );
 }
