@@ -1,5 +1,8 @@
 const client = require("../client");
-const { getOrderProductsByOrder, destroyOrderProduct } = require("./cart");
+const {
+  getOrderProductsByOrder,
+  destroyOrderProduct,
+} = require("./products_in_order");
 
 module.exports = {
   getAllOrders,

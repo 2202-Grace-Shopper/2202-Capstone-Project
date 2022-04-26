@@ -86,7 +86,7 @@ export default function AuthProvider({ children }) {
     isAdminAC,
   };
 
-  console.log("proivderValue:", providerValue);
+  // console.log("proivderValue:", providerValue);
 
   return (
     <AuthContext.Provider value={providerValue}>
