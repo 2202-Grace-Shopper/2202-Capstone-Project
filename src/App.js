@@ -1,6 +1,6 @@
 //TO RESTART BACKEND SERVER: "sudo service postgresql restart"
 
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -22,7 +22,30 @@ import {
 } from "./components";
 
 function App() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isAdminAC } = useAuth();
+  // const { products } = data; //this is supposed to be a list of our products I think
+  // const { cartItems, setCartItems } = useState([]);
+
+  // async function addItemToCart(product) {
+  //   const selectedProduct = cartItems.find((item) => {
+  //     //"return item so long as item ID equals product ID"
+  //     return item.id === product.id;
+  //   });
+
+  //   if (selectedProduct) {
+  //     setCartItems(
+  //       cartItems.map((item) => {
+  //         return item.id === product.id
+  //           ? { ...selectedProduct, qty: selectedProduct.qty + 1 } //qty comes from product object's stuff
+  //           : item;
+  //       })
+  //     );
+  //   } else {
+  //     setCartItems([...cartItems, { ...product, qty: 1 }]);
+  //   }
+  // }
+  //Next Elle passed cartItems and addItemToCart into "Basket"/cart as props, then passed addItemToCart and products into "Main" as props
+  //Elle's "Main" was a file inside of components folder; passed product info into products component; added that info to "add to cart" button on each product to create onClick functionality
 
   return (
     <Router>
@@ -53,13 +76,16 @@ function App() {
             <Route path="/products/:productId" component={SingleProductView} />
             {/* <Route path="/cart" component={Cart} /> */}
             <Route path="/profile" component={Profile} />
+            <Route path="/home" component={Home} />
 
             {/* admin-only routes - will be made unusable to other users */}
-            <Route path="/adminprofile" component={AdminProfile} />
-            {/* <Route path="/editproduct" component={EditProduct} /> */}
-            {/* <Route path="/createproduct" component={CreateProduct} /> */}
-            {/* <Route path="/allusers" component={AllUsers} /> */}
-            <Route path="/home" component={Home} />
+            {isAdminAC && (
+              <>
+                <Route path="/adminprofile" component={AdminProfile} />
+                {/* <Route path="/editproduct" component={EditProduct} /> */}
+                {/* <Route path="/addnewproduct" component={AddNewProduct} /> */}
+              </>
+            )}
           </>
         )}
 

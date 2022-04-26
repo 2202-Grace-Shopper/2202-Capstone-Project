@@ -25,7 +25,7 @@ export default function LoginOrRegister() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    console.log("Form is getting this in component:", form);
+    // console.log("Form is getting this in component:", form);
 
     //ensure that people are entering in valid emails
     if (checkEmail(form.email)) {
@@ -47,23 +47,23 @@ export default function LoginOrRegister() {
 
           //redirect based on if user is an admin or not
           if (user.isAdmin === true) {
-            console.log(
-              `Success! Welcome admin ${user.email} with bearer token ${token}.`
-            );
+            // console.log(
+            //   `Success! Welcome admin ${user.email} with bearer token ${token}.`
+            // );
             history.push("./adminprofile");
           } else if (user.isAdmin === false) {
-            console.log(
-              `Success! Welcome ${user.email} with bearer token ${token}.`
-            );
+            // console.log(
+            //   `Success! Welcome ${user.email} with bearer token ${token}.`
+            // );
             history.push("./profile");
           }
         } else {
           if (user) {
             localStorage.ft_token = token;
             updateAuthStatus();
-            console.log(
-              `Success! Welcome ${user.email} with bearer token ${token}.`
-            );
+            // console.log(
+            //   `Success! Welcome ${user.email} with bearer token ${token}.`
+            // );
             history.push("/profile");
           } else {
             throw new Error(`error with user action, ${loginOrRegister}`);
