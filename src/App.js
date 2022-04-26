@@ -16,15 +16,16 @@ import {
   Profile,
   AllProductViews,
   SingleProductView,
-  // Cart,
+  Cart,
   AdminProfile,
   Home,
 } from "./components";
 
 function App() {
   const { isLoggedIn, isAdminAC } = useAuth();
+  const [cartItems, setCartItems] = useState([]);
+
   // const { products } = data; //this is supposed to be a list of our products I think
-  // const { cartItems, setCartItems } = useState([]);
 
   // async function addItemToCart(product) {
   //   const selectedProduct = cartItems.find((item) => {
@@ -57,12 +58,32 @@ function App() {
         {/* routes for if you're not logged in */}
         {!isLoggedIn && (
           <>
-            <Route exact path="/products" component={AllProductViews} />
-            <Route path="/products/:productId" component={SingleProductView} />
-
-            {/* <Route path="/productdetail" component={ProductDetail} /> */}
-
-            {/* <Route path="/cart" component={Cart} /> */}
+            <Route
+              exact
+              path="/products"
+              render={() => (
+                <AllProductViews
+                  cartItems={cartItems}
+                  setCartItems={setCartItems}
+                />
+              )}
+            />
+            <Route
+              path="/products/:productId"
+              render={() => (
+                <SingleProductView
+                  cartItems={cartItems}
+                  setCartItems={setCartItems}
+                />
+              )}
+            />
+            /
+            <Route
+              path="/cart"
+              render={() => (
+                <Cart cartItems={cartItems} setCartItems={setCartItems} />
+              )}
+            />
             <Route path="/login" component={LoginOrRegister} />
             <Route path="/register" component={LoginOrRegister} />
             <Route path="/home" component={Home} />
@@ -72,10 +93,32 @@ function App() {
         {/* routes for if you are logged in */}
         {isLoggedIn && (
           <>
-            <Route exact path="/products" component={AllProductViews} />
-            <Route path="/products/:productId" component={SingleProductView} />
-            {/* <Route path="/cart" component={Cart} /> */}
-            <Route path="/profile" component={Profile} />
+            <Route
+              exact
+              path="/products"
+              render={() => (
+                <AllProductViews
+                  cartItems={cartItems}
+                  setCartItems={setCartItems}
+                />
+              )}
+            />
+            <Route
+              path="/products/:productId"
+              render={() => (
+                <SingleProductView
+                  cartItems={cartItems}
+                  setCartItems={setCartItems}
+                />
+              )}
+            />
+            <Route
+              path="/cart"
+              render={() => (
+                <Cart cartItems={cartItems} setCartItems={setCartItems} />
+              )}
+            />
+            {/* <Route path="/profile" component={Profile} /> */}
             <Route path="/home" component={Home} />
 
             {/* admin-only routes - will be made unusable to other users */}

@@ -3,63 +3,18 @@ import { useState, useEffect } from "react";
 //import { useAuth } from "../custom-hooks";
 //import { response } from "express";
 //import { process_params } from "express/lib/router";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
-//the code below is a template!!!
-/**
- * 1. figure out the component for the cart
- * 2. figure out how to connect it to the allproductviews and singproductview
- *
- * Figure out the controller:
- * 1. get all cart items
- * 2. add product items to cart
- * 3. empty cart
- */
 export default function Cart(props) {
-  const [carts, setCarts] = useState([]);
-  const [payload, setPayloader] = useState([]);
-  const [hasError, setError] = useState([]);
-  const history = useHistory();
+  const { cartItems, setCartItems } = props;
 
-  //fetchCart
-  async function fetchCart(props) {
-    const response = await fetchCart(
-      `http://localhost:4000/api/cart`,
-      response
-        .json()
-        .then((response) => {
-          console.log(response.data.items);
-          setCarts(response.data.items);
-          setPayloader(response.data);
-        })
-        .catch((error) => {
-          setError(error);
-        })
-    );
-  }
-
-  //emptycart
-  async function emptyCart() {
-    try {
-      const response = await fetch(`http://localhost:4000/api/cart`, {
-        method: "DELETE",
-      });
-      await response.json();
-      fetchCart();
-      props.history.push("/");
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  //we want the return to map out the CART DB to show what products have been added
+  //set them up to a list & have a (-) button so they may delete or lower qty of item
   return (
-    <div style={{ margin: "10rem" }}>
-      <h1 style={{ backgroundColor: "#B0E0E6" }}>My Cart</h1>
-      <hr></hr>
-      <div className="mycarttable"></div>
-      <div style={{ fontSize: "40x" }}>Your Cart is Currently Empty!</div>)
+    <div>
+      <h1>Welcome to your cart!</h1>
+      <ul>AREA FOR CART LIST :D</ul>
+      <h3>Total Price: $0</h3>
     </div>
   );
 }

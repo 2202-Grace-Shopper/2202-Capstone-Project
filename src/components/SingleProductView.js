@@ -1,9 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function SingleProduct() {
+export default function SingleProduct(props) {
   const [product, setProduct] = useState([]);
+  const { cartItems, setCartItems } = props;
   let { productId } = useParams();
+
+  const addItemToCart = (product) => {
+    const targetProduct = cartItems.find((item) => {
+      return item.id === product.id;
+    });
+
+    console.log({ targetProduct });
+
+    if (targetProduct) {
+      setCartItems(
+        cartItems.map((item) => {
+          return item.id === product.id
+            ? { ...targetProduct, qty: targetProduct.qty + 1 }
+            : item;
+        })
+      );
+    } else {
+      setCartItems([...cartItems, { product, qty: 1 }]);
+    }
+
+    console.log({ cartItems });
+  };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -49,6 +72,9 @@ export default function SingleProduct() {
                 <aside>{inStockQuantity}</aside>
                 <h5>{category}</h5>
                 <p>{description}</p>
+                <button onClick={() => addItemToCart(product)}>
+                  Add to Cart
+                </button>
               </section>
             );
           }
