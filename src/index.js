@@ -6,9 +6,7 @@ import App from "./App";
 import "./style/LoginOrRegister.css";
 import "./style/index.css";
 import "./style/TitleNavFooter.css";
-// import "./style/Cart.css";
 import "./style/AllPlants.css";
-// import "./style/OnePlant.css";
 import { AuthProvider } from "./context";
 
 ReactDOM.render(

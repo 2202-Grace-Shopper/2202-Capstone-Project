@@ -27,6 +27,39 @@ async function createAdmin({ email, password }) {
   }
 }
 
-module.exports = { client, createAdmin };
+async function getAllAdmins() {
+  try {
+    const { rows: admins } = await client.query(`
+      SELECT *
+      FROM users
+      WHERE "isAdmin" = true
+    `);
+
+    return admins;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getMatchingAdmin(email) {
+  try {
+    const {
+      rows: [admin],
+    } = await client.query(
+      `
+      SELECT *
+      FROM users
+      WHERE "isAdmin" = true AND email = $1
+    `,
+      [email]
+    );
+
+    return admin;
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = { client, createAdmin, getAllAdmins, getMatchingAdmin };
 
 //admin for this project: plantboss@mail.com with password admin123

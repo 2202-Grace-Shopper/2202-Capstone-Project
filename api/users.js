@@ -5,6 +5,8 @@ const { createUser, getAllUsers, getUserById, getUser } = User;
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const authorizeUser = require("./utils");
+const { getAllAdmins, getMatchingAdmin } = require("../db/models/admin");
+const { getUserByUsername } = require("../db/models/user");
 
 // POST /users/register
 //admins will not be created in this route currently
@@ -120,6 +122,35 @@ usersRouter.get("/", async (req, res, next) => {
   }
 });
 
+//POST /users/admins get matching admin
+usersRouter.post("/admins", async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const admin = await getMatchingAdmin(email);
+
+    res.send(admin);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//POST /user/username get user by username
+usersRouter.get("/:username", async (req, res, next) => {
+  // const { email } = req.body;
+  // console.log("from usersRouter.get", req.params.username); //plantboss@mail.com
+
+  try {
+    const user = await getUserByUsername(req.params.username);
+
+    // console.log("user:", user);
+
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = usersRouter;
 
 //curl requests for testing
@@ -134,3 +165,6 @@ module.exports = usersRouter;
 
 //get specific user's information
 // curl http://localhost:4000/api/users/me -X GET -H 'Content-Type:application/json, Authorization:Bearer ${token}'
+
+//check if plantboss@mail.com is an admin
+// curl http://localhost:4000/api/users/admins -X GET -H 'Content-Type:application/json' -d '{"email":"plantboss@mail.com"}'
