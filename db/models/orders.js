@@ -1,8 +1,5 @@
 const client = require("../client");
-const {
-  getOrderProductsByOrder,
-  destroyOrderProduct,
-} = require("./order_products");
+const { getOrderProductsByOrder, destroyOrderProduct } = require("./cart");
 
 module.exports = {
   getAllOrders,
@@ -13,21 +10,22 @@ module.exports = {
 };
 
 async function createOrder({
-  userId,
+  email,
   orderStatus,
   totalPurchasePrice,
   totalQuantity,
   orderDate,
 }) {
+  console.log(totalPurchasePrice);
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-        INSERT INTO orders("userId", "orderStatus", "totalPurchasePrice", "totalQuantity", "orderDate" )
+        INSERT INTO orders(email, "orderStatus", "totalPurchasePrice", "totalQuantity", "orderDate" )
         VALUES ($1, $2, $3, $4, $5)
         RETURNING *;`,
-      [userId, orderStatus, totalPurchasePrice, totalQuantity, orderDate]
+      [email, orderStatus, totalPurchasePrice, totalQuantity, orderDate]
     );
     return order;
   } catch (err) {

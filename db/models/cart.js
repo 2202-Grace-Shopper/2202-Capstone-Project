@@ -1,36 +1,33 @@
 const client = require("../client");
 
 module.exports = {
-  updateOrderProduct,
-  destroyOrderProduct,
-  getOrderProductById,
-  getOrderProductsByOrder,
-  addProductToOrder,
+  updateCartProduct,
+  destroyCartProduct,
+  getCartProductById,
+  getCartProductsByOrder,
+  addProductToCart,
 };
 
-async function addProductToOrder({
-  productId,
-  orderId,
-  eachPrice,
-  eachQuantity,
-}) {
+async function addProductToCart({ productId, eachPrice, eachQuantity }) {
+  console.log("reached addProduct function");
   try {
     const {
       rows: [orderProduct],
     } = await client.query(
       `
-        INSERT INTO order_products("productId", "orderId", "eachPrice", "eachQuantity")
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO order_products("productId", "eachPrice", "eachQuantity")
+        VALUES ($1, $2, $3)
         RETURNING *;`,
-      [productId, orderId, eachPrice, eachQuantity]
+      [productId, eachPrice, eachQuantity]
     );
+    console.log("OrderProduct", orderProduct);
     return orderProduct;
   } catch (err) {
     console.error(err);
   }
 }
 
-async function getOrderProductById(id) {
+async function getCartProductById(id) {
   try {
     const {
       rows: [orderProduct],
@@ -48,7 +45,7 @@ WHERE id = $1;`,
   }
 }
 
-async function getOrderProductsByOrder({ id }) {
+async function getCartProductsByOrder({ id }) {
   try {
     const { rows: orderProducts } = await client.query(
       `
@@ -63,7 +60,7 @@ async function getOrderProductsByOrder({ id }) {
   }
 }
 
-async function updateOrderProduct({ id, productId, eachPrice, eachQuantity }) {
+async function updateCartProduct({ id, productId, eachPrice, eachQuantity }) {
   try {
     const fields = { productId, eachPrice, eachQuantity };
     for (const key in fields) {
@@ -89,7 +86,7 @@ async function updateOrderProduct({ id, productId, eachPrice, eachQuantity }) {
   }
 }
 
-async function destroyOrderProduct(id) {
+async function destroyCartProduct(id) {
   try {
     const {
       rows: [orderProduct],

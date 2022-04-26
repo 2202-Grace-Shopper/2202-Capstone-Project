@@ -1,6 +1,5 @@
-const { promise } = require("bcrypt/promises");
 const { client } = require("./");
-const { Products, Orders, Order_Products, User } = require("./models");
+const { Products, Orders, Cart_Items, User } = require("./models");
 
 async function buildTables() {
   try {
@@ -10,6 +9,7 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+      DROP TABLE IF EXISTS cart;
       DROP TABLE IF EXISTS order_products;
       DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS products;
@@ -38,16 +38,15 @@ async function buildTables() {
       );
       CREATE TABLE orders (
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id),
+        email VARCHAR(255) REFERENCES users(email),
         "orderStatus" VARCHAR(255) DEFAULT 'pending',
         "totalPurchasePrice" DECIMAL(10,2) NOT NULL,
         "totalQuantity" VARCHAR(255) NOT NULL,
         "orderDate" VARCHAR(255) NOT NULL
       );
-      CREATE TABLE order_products (
+      CREATE TABLE cart (
         id SERIAL PRIMARY KEY,
         "productId" INTEGER REFERENCES products(id),
-        "orderId" INTEGER REFERENCES orders(id),
         "eachPrice" DECIMAL(10,2) NOT NULL,
         "eachQuantity" INTEGER NOT NULL
       );
@@ -167,49 +166,48 @@ async function populateInitialData() {
     console.log({ orders });
 
     console.log("Finsihed creating orders!");
-    console.log("Attempting to add products to orders...");
+    // console.log("Attempting to add products to orders...");
 
-    const [albertOrder, sandraOrder] = await Orders.getOrdersWithoutProducts();
+    // const [albertOrder, sandraOrder] = await Orders.getOrdersWithoutProducts();
 
-    const [plant1, plant2, plant3, plant4, plant5, plant6] =
-      await Products.getAllProducts();
+    // const [plant1, plant2, plant3, plant4, plant5, plant6] =
+    //   await Products.getAllProducts();
 
-    const orderProductsToCreate = [
-      {
-        productId: plant6.id,
-        orderId: albertOrder.id,
-        eachPrice: plant6.price,
-        eachQuantity: 4,
-      },
-      {
-        productId: plant2.id,
-        orderId: sandraOrder.id,
-        eachPrice: plant2.price,
-        eachQuantity: 1,
-      },
-      {
-        productId: plant3.id,
-        orderId: sandraOrder.id,
-        eachPrice: plant3.price,
-        eachQuantity: 1,
-      },
-      {
-        productId: plant5.id,
-        orderId: sandraOrder.id,
-        eachPrice: plant5.price,
-        eachQuantity: 1,
-      },
-    ];
+    // const cartItemsToCreate = [
+    //   {
+    //     productId: plant6.id,
+    //     eachPrice: plant6.price,
+    //     eachQuantity: 4,
+    //   },
+    //   {
+    //     productId: plant2.id,
 
-    const orderProducts = await Promise.all(
-      orderProductsToCreate.map(Order_Products.addProductToOrder)
-    );
+    //     eachPrice: plant2.price,
+    //     eachQuantity: 1,
+    //   },
+    //   {
+    //     productId: plant3.id,
 
-    console.log("Order_products created", orderProducts);
+    //     eachPrice: plant3.price,
+    //     eachQuantity: 1,
+    //   },
+    //   {
+    //     productId: plant5.id,
 
-    const allOrders = await Orders.getAllOrders();
+    //     eachPrice: plant5.price,
+    //     eachQuantity: 1,
+    //   },
+    // ];
 
-    console.log(allOrders);
+    // const cartProducts = await Promise.all(
+    //   cartItemsToCreate.map(Cart_Items.addProductToOrder)
+    // );
+
+    // console.log("Cart Items created", cartProducts);
+
+    // const allOrders = await Orders.getAllOrders();
+
+    // console.log(allOrders);
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
     // const user1 = await User.createUser({ ...user info goes here... })
