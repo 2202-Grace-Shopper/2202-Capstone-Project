@@ -116,13 +116,13 @@ export default function AllProductViews() {
     <section className="allPlantsBlock">
       {products &&
         products.map((product) => {
-          const { id, name, price, description, photoLinkHref } = product;
+          const { id, title, price, description, photoLinkHref } = product;
 
           return (
             <div className="editProductLink" key={id}>
               <img src={photoLinkHref} alt="The plant"></img>
 
-              <h3>{name}</h3>
+              <h3>{title}</h3>
               <p>{price}</p>
               <p>{description}</p>
               <button onClick={(e) => addToCart(product.id, 1)}>

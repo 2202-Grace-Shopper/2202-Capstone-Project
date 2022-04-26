@@ -1,6 +1,13 @@
-.logoImage {
+.logoDiv {
   display: flex;
+  justify-content: center;
+  width: 100vw;
   /* make pic be center and top of page */
+}
+
+.logoImage {
+  width: 100vw;
+  height: 200px;
 }
 
 .navigationBar {
