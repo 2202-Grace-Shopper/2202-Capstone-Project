@@ -1,5 +1,5 @@
 const { client } = require("./");
-const { Products, Orders, Cart_Items, User } = require("./models");
+const { Products, Orders, ProductsInOrder, User } = require("./models");
 
 async function buildTables() {
   try {
@@ -9,11 +9,9 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
-      DROP TABLE IF EXISTS cart;
-      DROP TABLE IF EXISTS order_products;
+      DROP TABLE IF EXISTS products_in_order;
       DROP TABLE IF EXISTS orders;
       DROP TABLE IF EXISTS products;
-      DROP TABLE IF EXISTS admins;
       DROP TABLE IF EXISTS users;
     `);
 
@@ -39,13 +37,14 @@ async function buildTables() {
       CREATE TABLE orders (
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) REFERENCES users(email),
-        "orderStatus" VARCHAR(255) DEFAULT 'pending',
-        "totalPurchasePrice" DECIMAL(10,2) NOT NULL,
-        "totalQuantity" VARCHAR(255) NOT NULL,
-        "orderDate" VARCHAR(255) NOT NULL
+        "orderStatus" VARCHAR(255) DEFAULT 'cart',
+        "totalPurchasePrice" DECIMAL(10,2) DEFAULT '0.00',
+        "totalQuantity" VARCHAR(255) DEFAULT '0',
+        "orderDate" VARCHAR(255) DEFAULT 'no order placed yet'
       );
-      CREATE TABLE cart (
+      CREATE TABLE products_in_order (
         id SERIAL PRIMARY KEY,
+        "orderId" INTEGER REFERENCES orders(id),
         "productId" INTEGER REFERENCES products(id),
         "eachPrice" DECIMAL(10,2) NOT NULL,
         "eachQuantity" INTEGER NOT NULL
@@ -165,7 +164,7 @@ async function populateInitialData() {
 
     console.log({ orders });
 
-    console.log("Finsihed creating orders!");
+    console.log("Finished creating orders!");
     // console.log("Attempting to add products to orders...");
 
     // const [albertOrder, sandraOrder] = await Orders.getOrdersWithoutProducts();

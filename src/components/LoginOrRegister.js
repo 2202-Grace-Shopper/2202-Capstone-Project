@@ -47,14 +47,14 @@ export default function LoginOrRegister() {
 
           //redirect based on if user is an admin or not
           if (user.isAdmin === true) {
-            // console.log(
-            //   `Success! Welcome admin ${user.email} with bearer token ${token}.`
-            // );
+            console.log(
+              `Success! Welcome admin ${user.email} with bearer token ${token}.`
+            );
             history.push("./adminprofile");
           } else if (user.isAdmin === false) {
-            // console.log(
-            //   `Success! Welcome ${user.email} with bearer token ${token}.`
-            // );
+            console.log(
+              `Success! Welcome ${user.email} with bearer token ${token}.`
+            );
             history.push("./profile");
           }
         } else {
