@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../custom-hooks";
+import jwt_decode from "jwt-decode";
 
 //for search bar
 //import { useLocation, useHistory } from "react-router-dom";
@@ -11,6 +12,10 @@ export default function AllProductViews() {
     name: "",
     description: "",
   });
+  if (token) {
+    const userEmail = jwt_decode(token).email;
+    console.log(userEmail);
+  }
   /*
   //search box???
   const { search } = useLocation();
@@ -25,16 +30,21 @@ export default function AllProductViews() {
   //addToCart feature
   //this will help us fetch the backend to list all the product
   //and store variable
-  async function addToCart(id, quantity) {
+  async function addToCart(product, quantity) {
     try {
-      const response = await fetch(`http://localhost:4000/api/cart`, {
+      const response = await fetch(`http://localhost:4000/api/orderProduct`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ productId: id, quantity: quantity }),
+        body: JSON.stringify({
+          productId: product.id,
+          eachQuantity: quantity,
+          eachPrice: product.price,
+        }),
       });
       let data = await response.json();
+      console.log(data);
       alert("Item Added to Cart ");
       console.log(data);
     } catch (error) {
@@ -125,7 +135,7 @@ export default function AllProductViews() {
               <h3>{title}</h3>
               <p>{price}</p>
               <p>{description}</p>
-              <button onClick={(e) => addToCart(product.id, 1)}>
+              <button onClick={async (e) => await addToCart(product, 1)}>
                 Add to Cart
               </button>
             </div>
