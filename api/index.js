@@ -22,7 +22,7 @@ apiRouter.use("/products", productsRouter);
 const ordersRouter = require("./orders");
 apiRouter.use("/orders", ordersRouter);
 
-const orderProductsRouter = require("./order_products");
-apiRouter.use("/order_products", orderProductsRouter);
+const productsInOrderRouter = require("./products_in_order");
+apiRouter.use("/products_in_order", productsInOrderRouter);
 
 module.exports = apiRouter;
