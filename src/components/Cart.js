@@ -13,7 +13,16 @@ export default function Cart(props) {
   return (
     <div>
       <h1>Welcome to your cart!</h1>
-      <ul>AREA FOR CART LIST :D</ul>
+      {cartItems &&
+        cartItems.map(({ product, qty }) => {
+          return (
+            <ul>
+              <li>
+                {product.title} x {qty}
+              </li>
+            </ul>
+          );
+        })}
       <h3>Total Price: $0</h3>
     </div>
   );
