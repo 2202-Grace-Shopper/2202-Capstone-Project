@@ -27,12 +27,13 @@ ordersRouter.get("/", authorizeUser, async (req, res, next) => {
   }
 });
 
-ordersRouter.post("/", authorizeUser, async (req, res, next) => {
+ordersRouter.post("/", async (req, res, next) => {
   try {
-    const { orderStatus, totalPurchasePrice, totalQuantity, orderDate } =
+    console.log(req.body);
+    const { email, orderStatus, totalPurchasePrice, totalQuantity, orderDate } =
       req.body;
     const order = await createOrder({
-      userId: req.user.id,
+      email,
       orderStatus,
       totalPurchasePrice,
       totalQuantity,
