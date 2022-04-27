@@ -7,6 +7,32 @@ import { useState, useEffect } from "react";
 
 export default function Cart(props) {
   const { cartItems, setCartItems } = props;
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  //orders table will need a function to get orders with status is IN CART & connected w/ specific user
+  //every time a user logs in, we want to grab the order(IN CART) that is associated with the user
+  //we can keep the orderID on state on the APP
+  //so now we have orderID that can be attached to the cart
+  //on submit, we can post/patch the cart items to orders & products_in_order
+  //on submit will also need to create a new fresh order(IN CART) for the user
+
+  useEffect(() => {
+    async function fetchOrder() {
+      try {
+        const resonse = await fetch(
+          `http://localhost:4000/api/orders
+        `,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } catch (err) {
+        throw err;
+      }
+    }
+  });
 
   const addItemToCart = (product) => {
     const targetProduct = cartItems.find((item) => {
@@ -26,33 +52,76 @@ export default function Cart(props) {
     }
   };
 
-  //doesnt work as planned but sorta? it will lower the qty # & will disappear when you hit -1 but the itemIndex & everything dont make sense
   const deleteItemFromCart = (product) => {
     const targetProduct = cartItems.find((item) => {
       return item.product.id === product.id;
     });
 
-    const itemIndex = cartItems.findIndex((item) => {
-      return;
-    });
-    console.log({ itemIndex });
-
-    if (targetProduct.qty === 0) {
-      cartItems.splice(itemIndex, 1);
+    if (targetProduct) {
+      targetProduct.qty -= 1;
       setCartItems([...cartItems]);
-    } else if (targetProduct) {
-      setCartItems(
-        cartItems.map((item) => {
-          return item.product.id === product.id
-            ? { ...targetProduct, qty: targetProduct.qty - 1 }
-            : item;
-        })
-      );
+
+      if (targetProduct.qty === 0) {
+        setCartItems(cartItems.filter((item) => item.qty !== 0));
+      }
     }
   };
 
-  //we want the return to map out the CART DB to show what products have been added
-  //set them up to a list & have a (-) button so they may delete or lower qty of item
+  useEffect(() => {
+    let itemPriceTotal = 0;
+
+    cartItems.map((item) => {
+      return (itemPriceTotal += item.product.price * item.qty);
+    });
+
+    setTotalPrice(itemPriceTotal);
+  }, [cartItems]);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    try {
+      //This is to POST into products in order
+      const response = await fetch(
+        `http://localhost:4000/api/products_in_order
+        `,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(),
+        }
+      );
+
+      //This is to PATCH the current order(IN CART) that is attached to user & will set the status to be PENDING
+      const response2 = await fetch(
+        `http://localhost:4000/api/orders
+        `,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      //This will POST a new EMPTY order & attach to current user
+      const response3 = await fetch(
+        `http://localhost:4000/api/orders
+        `,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
+
   return (
     <div>
       <h1>Welcome to your cart!</h1>
@@ -80,7 +149,9 @@ export default function Cart(props) {
           })}
       </div>
 
-      <h3>Total Price: $0</h3>
+      <h3>Total Price: ${totalPrice}</h3>
+
+      <button onSubmit={(e) => handleSubmit(e)}>Purchase</button>
     </div>
   );
 }
