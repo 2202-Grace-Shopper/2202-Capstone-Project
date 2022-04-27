@@ -9,3 +9,5 @@ export { default as AdminProfile } from "./AdminProfile";
 export { default as Footer } from "./Footer";
 export { default as Home } from "./Home";
 export { default as Cart } from "./Cart";
+export { default as AddNewProduct } from "./AddNewProduct";
+export { default as EditProduct } from "./EditProduct";

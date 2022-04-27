@@ -19,6 +19,8 @@ import {
   Cart,
   AdminProfile,
   Home,
+  AddNewProduct,
+  EditProduct,
 } from "./components";
 
 function App() {
@@ -125,8 +127,8 @@ function App() {
             {isAdminAC && (
               <>
                 <Route path="/adminprofile" component={AdminProfile} />
-                {/* <Route path="/editproduct" component={EditProduct} /> */}
-                {/* <Route path="/addnewproduct" component={AddNewProduct} /> */}
+                <Route path="/editproduct" component={EditProduct} />
+                <Route path="/addnewproduct" component={AddNewProduct} />
               </>
             )}
           </>
