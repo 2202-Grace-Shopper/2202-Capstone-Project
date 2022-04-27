@@ -1,13 +1,24 @@
 .logoDiv {
   display: flex;
   justify-content: center;
-  width: 100vw;
-  /* make pic be center and top of page */
+  position: relative;
 }
 
 .logoImage {
-  width: 100vw;
-  height: 200px;
+  width: 100%;
+  height: 150px;
+}
+
+.logoText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  background-color: rgb(255, 255, 85);
+  box-shadow: black 5px 5px 5px;
 }
 
 .navigationBar {
@@ -63,6 +74,16 @@
 .footerText {
   text-align: center;
   margin: 50px;
+  padding: 5px;
+  background-image: linear-gradient(rgb(92, 137, 92, 0), rgb(86, 128, 86));
+  /* isn't going all the way across the bottom of the page for some reason. this is true for all pages, and setting width to 100% doesn't fix it. */
+  font-style: italic;
+
+  /* sticks footer to bottom of page, but cannot adjust for a page that's shorter than your browser window */
+  display: flex;
+  justify-content: center;
+  flex: 1 0 auto;
+  flex-shrink: 0;
 }
 
 .copyrightLink {
