@@ -1,10 +1,78 @@
 .allPlantsBlock {
-  /* border: red solid 3px; */
   display: flex;
   flex-wrap: wrap;
 }
 
-img {
-  height: 50%;
-  width: 400px;
+.eachPlantBlock {
+  background-color: rgb(144, 183, 152);
+  box-shadow: black 3px 3px 5px;
+  width: 500px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.eachPlantBlock:hover {
+  background-color: rgb(167, 199, 173);
+  cursor: pointer;
+}
+
+/* affects all images in list */
+.plantPicForSale {
+  height: 300px;
+  width: 75%;
+  border: rgb(255, 95, 159) 7px solid;
+  box-shadow: rgb(0, 75, 0) 5px 5px 5px;
+  margin-bottom: 10px;
+}
+
+/* affects all p tags */
+p {
+  margin: 0px;
+  margin-top: 5px;
+}
+
+.eachPlantTitle {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  background-color: white;
+  padding: 4px;
+  box-shadow: black 2px 2px 5px;
+  font-size: 22px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.buttonAddToCartFromAllProducts {
+  margin: 10px;
+  font-size: 18px;
+  color: rgb(204, 0, 81);
+}
+
+.buttonAddToCartFromAllProducts:hover {
+  cursor: pointer;
+  color: rgb(255, 95, 159);
+}
+
+#toTopButton {
+  display: none; /*default*/
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: rgb(255, 95, 159);
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+#toTopButton:hover {
+  cursor: pointer;
+  background-color: rgb(242, 133, 177);
 }

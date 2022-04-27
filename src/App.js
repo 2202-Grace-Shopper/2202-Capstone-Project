@@ -78,7 +78,7 @@ function App() {
             <Route path="/profile" component={Profile} />
             <Route path="/home" component={Home} />
 
-            {/* admin-only routes - will be made unusable to other users */}
+            {/* admin-only routes - if you're not an admin, trying to go to route "/adminprofile" will lead to disappointment */}
             {isAdminAC && (
               <>
                 <Route path="/adminprofile" component={AdminProfile} />
@@ -90,8 +90,9 @@ function App() {
         )}
 
         {/* catches errors */}
-        <Redirect to="/" />
+        <Redirect to="/home" />
       </Switch>
+
       <Footer />
     </Router>
   );
