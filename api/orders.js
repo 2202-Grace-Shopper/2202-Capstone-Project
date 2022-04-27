@@ -6,6 +6,7 @@ const {
   getOrderByUser,
   createOrder,
   destroyOrder,
+  getUserOrderInCart,
 } = require("../db/models/orders");
 const authorizeUser = require("./utils");
 
@@ -18,10 +19,19 @@ ordersRouter.get("/", authorizeUser, async (req, res, next) => {
   }
 });
 
-ordersRouter.get("/", authorizeUser, async (req, res, next) => {
+ordersRouter.get("/:userId", authorizeUser, async (req, res, next) => {
   try {
     const orders = await getOrderByUser({ id: req.params.userId });
     res.send(orders);
+  } catch (err) {
+    next(err);
+  }
+});
+
+ordersRouter.get("/:userId/cart", authorizeUser, async (req, res, next) => {
+  try {
+    const order = await getUserOrderInCart({ id: req.params.userId });
+    res.send(order);
   } catch (err) {
     next(err);
   }
