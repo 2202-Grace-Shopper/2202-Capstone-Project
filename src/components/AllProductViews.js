@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
 import jwt_decode from "jwt-decode";
 
@@ -8,7 +9,7 @@ import jwt_decode from "jwt-decode";
 export default function AllProductViews(props) {
   const [products, setProducts] = useState([]);
   const { cartItems, setCartItems } = props;
-  const { isLoggedIn, token, isAdmin } = useAuth();
+  const { isLoggedIn, token, isAdminAC } = useAuth();
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -36,6 +37,12 @@ export default function AllProductViews(props) {
     const getToken = localStorage.getItem("ft_token");
     const userEmail = jwt_decode(getToken).email;
 
+  //This will run after everything else has run, guaranteeing that the console.log actually catches what happens to cartItems
+  useEffect(() => {
+    console.log("This is cart state", cartItems);
+  }, [cartItems]);
+
+  const addItemToCart = async (product) => {
     const targetProduct = await cartItems.find((item) => {
       return item.product.id === product.id;
     });
@@ -81,37 +88,37 @@ export default function AllProductViews(props) {
   //this will be use for the add cart
   //handleChange
 
-  function handleChange(e) {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  }
+  // function handleChange(e) {
+  //   setForm({
+  //     ...form,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // }
   //this will be use for add cart
   //handleSubmit
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      const response = await fetch(`http://localhost:4000/api/products`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(form),
-      });
-      const newProduct = await response.json();
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch(`http://localhost:4000/api/products`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify(form),
+  //     });
+  //     const newProduct = await response.json();
 
-      setProducts([...products, newProduct]);
-      setForm({
-        name: "",
-        description: "",
-      });
-    } catch (error) {
-      throw error;
-    }
-  }
+  //     setProducts([...products, newProduct]);
+  //     setForm({
+  //       name: "",
+  //       description: "",
+  //     });
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   const toTopButton = document.getElementById("toTopButton");
   window.onscroll = function () {
@@ -136,8 +143,10 @@ export default function AllProductViews(props) {
 
   return (
     <>
-      {isAdmin && (
-        <div>Hello admin! You can do special things now.</div>
+      {isAdminAC && (
+        <Link to="/addnewproduct" className="linkToAddingProduct">
+          Add New Product
+        </Link>
         // <aside>
         //   <form className="newProductForm" onSubmit={handleSubmit}>
         //     <h3>Create New product</h3>
@@ -178,21 +187,29 @@ export default function AllProductViews(props) {
               // <div className="editProductLink" key={id} <= Lauren changed the class name to better reflect what it is, but I'm leaving this note here in case something breaks down the line based on the name of this component>
               // Lauren was thinking that you can get to a product's info page by clicking anywhere on the "eachPlantBlock component" except for the add to cart button. With testing this may prove possible, or we'll just put a dedicated button.
               <div className="eachPlantBlock" key={id}>
-                <img
-                  src={photoLinkHref}
-                  alt="The plant"
-                  className="plantPicForSale"
-                ></img>
+                <Link to={"/products/" + id}>
+                  <img
+                    src={photoLinkHref}
+                    alt="The plant"
+                    className="plantPicForSale"
+                  ></img>
 
-                <h3 className="eachPlantTitle">{title}</h3>
-                <p>${price}</p>
-                <p>{description}</p>
+                  <h3 className="eachPlantTitle">{title}</h3>
+                  <p>${price}</p>
+                  <p>{description}</p>
+                </Link>
                 <button
                   onClick={() => addItemToCart(product)}
                   className="buttonAddToCartFromAllProducts"
                 >
                   Add to Cart
                 </button>
+
+                {isAdminAC && (
+                  <Link to="/editproduct" className="linkToEditProduct">
+                    Edit Product
+                  </Link>
+                )}
                 {/* if you're the admin, you should be able to edit/delete a product using a button on the "single product info" page, not here. */}
               </div>
             );
