@@ -60,6 +60,27 @@ export default function Home() {
 
       <aside className="featuredProductsBlurb">
         <h3>Here are some of our featured products...</h3>
+        {products &&
+          products.map((product) => {
+            const { id, title, price, photoLinkHref } = product;
+
+            while (product.id < 4) {
+              return (
+                <div className="eachPlantBlock" key={id}>
+                  <img
+                    src={photoLinkHref}
+                    alt="The plant"
+                    className="plantPicForSale"
+                  ></img>
+
+                  <h3 className="eachPlantTitle">{title}</h3>
+                  <p>${price}</p>
+
+                  {/* if you're the admin, you should be able to edit/delete a product using a button on the "single product info" page, not here. */}
+                </div>
+              );
+            }
+          })}
       </aside>
     </section>
   );
