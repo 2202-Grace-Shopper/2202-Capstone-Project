@@ -5,7 +5,7 @@ function Copyright() {
   return (
     <div>
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/" className="copyrightLink">
+      <Link color="inherit" to="/home" className="copyrightLink">
         <u>Plant-O-Licous</u>
       </Link>{" "}
       {new Date().getFullYear()}

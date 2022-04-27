@@ -60,7 +60,7 @@ async function getAllOrders() {
              )
          ) AS items
         FROM orders
-            JOIN order_products AS op
+            JOIN products_in_order AS op
                 ON orders.id = op."orderId"
         GROUP BY orders.id;`);
 
@@ -83,7 +83,7 @@ async function getOrderByUser({ id }) {
             )
         ) AS items
         FROM orders
-            JOIN order_products AS op
+            JOIN products_in_order AS op
                 ON orders.id = op."orderId"
         WHERE "userId" = $1
         GROUP BY orders.id;`,
