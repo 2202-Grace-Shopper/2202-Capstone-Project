@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../custom-hooks";
 import { useHistory } from "react-router-dom";
+import plantPic1 from "../assets/PlantForLogRegPage.JPG";
 
 export default function LoginOrRegister() {
   const history = useHistory();
@@ -94,11 +95,11 @@ export default function LoginOrRegister() {
     <div className="loginPageContainer">
       <aside className="flowerPower">
         <img
-          src=".../assets/PlantBackground.jpg"
+          src={plantPic1}
           alt="Grape-O-Licious Flower Photo"
           className="grapeoliciousPhoto"
         ></img>
-        <p>
+        <p className="grapeoliciousText">
           <i>Torenia Catalina</i>, or "Grape-O-Licious"
         </p>
       </aside>

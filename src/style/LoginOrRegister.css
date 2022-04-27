@@ -8,17 +8,33 @@
 .flowerPower {
   margin-right: 10px;
   text-align: right;
+  position: relative;
+}
+
+.grapeoliciousPhoto {
+  height: 100%;
+  width: 300px;
+  border: rgb(255, 95, 159) 7px solid;
+  box-shadow: rgb(0, 75, 0) 5px 5px 5px;
+}
+
+.grapeoliciousText {
+  position: absolute;
+  bottom: 30px;
+  left: -30px;
+  background-color: white;
+  padding: 4px;
+  box-shadow: black 2px 2px 5px;
+  font-size: 17px;
 }
 
 .userInfoInputs {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* border: solid red 2px; */
 }
 
 .loginBucket {
-  /* border: solid blue 2px; */
   display: flex;
 }
 

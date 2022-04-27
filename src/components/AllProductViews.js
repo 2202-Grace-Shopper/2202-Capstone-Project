@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 
 export default function AllProductViews() {
   const [products, setProducts] = useState([]);
-  const { isLoggedIn, token } = useAuth();
+  const { isLoggedIn, token, isAdmin } = useAuth();
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -114,65 +114,94 @@ export default function AllProductViews() {
     }
   }
 
-  /*****
-   * 1. redo the return to keep it simple
-   * 2. will work on css after
-   * 3. having issues with product not showing up even after the curl!!
-   * 4.  I need to get update data??
-   */
-  //return
+  const toTopButton = document.getElementById("toTopButton");
+  window.onscroll = function () {
+    scrollFunction();
+  };
+
+  async function scrollFunction() {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      toTopButton.style.display = "block";
+    } else {
+      toTopButton.style.display = "none";
+    }
+  }
+
+  async function toTopFunction() {
+    document.body.scrollTop = 0; //for Safari
+    document.documentElement.scrollTop = 0; //for Chrome, Firefox, IE, Opera
+  }
 
   return (
-    <section className="allPlantsBlock">
-      {products &&
-        products.map((product) => {
-          const { id, title, price, description, photoLinkHref } = product;
-
-          return (
-            <div className="editProductLink" key={id}>
-              <img src={photoLinkHref} alt="The plant"></img>
-
-              <h3>{title}</h3>
-              <p>{price}</p>
-              <p>{description}</p>
-              <button onClick={async (e) => await addToCart(product, 1)}>
-                Add to Cart
-              </button>
-            </div>
-          );
-        })}
-      {isLoggedIn && (
-        <aside>
-          <form className="newProductForm" onSubmit={handleSubmit}>
-            <h3>Create New product</h3>
-            <div className="post-card">
-              <label>Name:</label>
-              <input
-                className="input"
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="productDescription">
-              <label>Description:</label>
-              <input
-                className="input"
-                type="text"
-                name="description"
-                value={form.description}
-                onChange={handleChange}
-              />
-            </div>
-            <input
-              className="submitBtn"
-              type="submit"
-              value="Submit New Product"
-            />
-          </form>
-        </aside>
+    <>
+      {isAdmin && (
+        <div>Hello admin! You can do special things now.</div>
+        // <aside>
+        //   <form className="newProductForm" onSubmit={handleSubmit}>
+        //     <h3>Create New product</h3>
+        //     <div className="post-card">
+        //       <label>Name:</label>
+        //       <input
+        //         className="input"
+        //         type="text"
+        //         name="name"
+        //         value={form.name}
+        //         onChange={handleChange}
+        //       />
+        //     </div>
+        //     <div className="productDescription">
+        //       <label>Description:</label>
+        //       <input
+        //         className="input"
+        //         type="text"
+        //         name="description"
+        //         value={form.description}
+        //         onChange={handleChange}
+        //       />
+        //     </div>
+        //     <input
+        //       className="submitBtn"
+        //       type="submit"
+        //       value="Submit New Product"
+        //     />
+        //   </form>
+        // </aside>
       )}
-    </section>
+      <section className="allPlantsBlock">
+        {products &&
+          products.map((product) => {
+            const { id, title, price, description, photoLinkHref } = product;
+
+            return (
+              // <div className="editProductLink" key={id} <= Lauren changed the class name to better reflect what it is, but I'm leaving this note here in case something breaks down the line based on the name of this component>
+              // Lauren was thinking that you can get to a product's info page by clicking anywhere on the "eachPlantBlock component" except for the add to cart button. With testing this may prove possible, or we'll just put a dedicated button.
+              <div className="eachPlantBlock" key={id}>
+                <img
+                  src={photoLinkHref}
+                  alt="The plant"
+                  className="plantPicForSale"
+                ></img>
+
+                <h3 className="eachPlantTitle">{title}</h3>
+                <p>${price}</p>
+                <p>{description}</p>
+                <button
+                  onClick={async (e) => await addToCart(product, 1)}
+                  className="buttonAddToCartFromAllProducts"
+                >
+                  Add to Cart
+                </button>
+                {/* if you're the admin, you should be able to edit/delete a product using a button on the "single product info" page, not here. */}
+              </div>
+            );
+          })}
+      </section>
+      <button onClick={toTopFunction} id="toTopButton" title="Go to Top">
+        Top
+      </button>
+    </>
   );
 }

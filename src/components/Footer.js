@@ -13,10 +13,10 @@ function Copyright() {
     </div>
   );
 }
+
 export default function Footer() {
   return (
     <aside className="footerText">
-      {/* <div>This is our footer placeholder</div> */}
       <Copyright />
     </aside>
   );
