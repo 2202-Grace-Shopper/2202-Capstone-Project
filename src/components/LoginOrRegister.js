@@ -96,7 +96,7 @@ export default function LoginOrRegister() {
       <aside className="flowerPower">
         <img
           src={plantPic1}
-          alt="Grape-O-Licious Flower Photo"
+          alt="Grape-O-Licious Flower"
           className="grapeoliciousPhoto"
         ></img>
         <p className="grapeoliciousText">
