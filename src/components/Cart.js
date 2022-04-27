@@ -106,7 +106,7 @@ export default function Cart(props) {
         }
       );
 
-      //This will POST a new EMPTY order & attach to current user
+      //This will POST a new EMPTY order(IN CART) & attach to current user
       const response3 = await fetch(
         `http://localhost:4000/api/orders
         `,
