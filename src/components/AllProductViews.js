@@ -35,20 +35,22 @@ export default function AllProductViews(props) {
   }, [cartItems]);
 
   const addItemToCart = async (product) => {
+    const getToken = localStorage.getItem("ft_token");
+    const userEmail = jwt_decode(getToken).email;
+
     const targetProduct = await cartItems.find((item) => {
       return item.product.id === product.id;
     });
 
     if (targetProduct) {
-      setCartItems(
-        cartItems.map((item) => {
-          return item.product.id === product.id
-            ? { ...targetProduct, qty: targetProduct.qty + 1 }
-            : item;
-        })
-      );
+      const mapStuff = cartItems.map((item) => {
+        return item.product.id === product.id
+          ? { ...targetProduct, qty: targetProduct.qty + 1 }
+          : item;
+      });
+      setCartItems(mapStuff);
     } else {
-      setCartItems([...cartItems, { product, qty: 1 }]);
+      setCartItems([...cartItems, { product, qty: 1, userEmail }]);
     }
   };
 

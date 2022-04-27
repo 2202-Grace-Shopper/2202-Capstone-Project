@@ -8,6 +8,12 @@ const loggedInLinks = [
   { id: 3, to: "/cart", name: "Cart" },
   { id: 4, to: "/profile", name: "Profile" },
 ];
+const adminLoggedInLinks = [
+  { id: 1, to: "/home", name: "Home" },
+  { id: 2, to: "/products", name: "Plants" },
+  { id: 3, to: "/cart", name: "Cart" },
+  { id: 5, to: "/adminprofile", name: "Admin Profile" },
+];
 const loggedOutLinks = [
   { id: 1, to: "/home", name: "Home" },
   { id: 2, to: "/products", name: "Plants" },
@@ -17,8 +23,11 @@ const loggedOutLinks = [
 ];
 
 export default function Nav() {
-  const { isLoggedIn, logout } = useAuth();
-  const navLinks = isLoggedIn ? loggedInLinks : loggedOutLinks;
+  const { isLoggedIn, logout, isAdminAC } = useAuth();
+  let navLinks = isLoggedIn ? loggedInLinks : loggedOutLinks;
+  if (isAdminAC) {
+    navLinks = adminLoggedInLinks;
+  }
 
   return (
     <nav className="navigationBar">

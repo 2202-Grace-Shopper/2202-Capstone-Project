@@ -1,13 +1,20 @@
 import React from "react";
 import { useState, useEffect } from "react";
-//import { useAuth } from "../custom-hooks";
+import { useAuth } from "../custom-hooks";
+import jwt_decode from "jwt-decode";
 //import { response } from "express";
 //import { process_params } from "express/lib/router";
-// import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 
 export default function Cart(props) {
   const { cartItems, setCartItems } = props;
   const [totalPrice, setTotalPrice] = useState(0);
+  // const { token } = useAuth();
+  // const userEmail = jwt_decode(token).email;
+
+  useEffect(() => {
+    console.log("This is cart state", cartItems);
+  }, [cartItems]);
 
   //orders table will need a function to get orders with status is IN CART & connected w/ specific user
   //every time a user logs in, we want to grab the order(IN CART) that is associated with the user
@@ -16,24 +23,27 @@ export default function Cart(props) {
   //on submit, we can post/patch the cart items to orders & products_in_order
   //on submit will also need to create a new fresh order(IN CART) for the user
 
-  useEffect(() => {
-    async function fetchOrder() {
-      try {
-        const resonse = await fetch(
-          `http://localhost:4000/api/orders
-        `,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } catch (err) {
-        throw err;
-      }
-    }
-  });
+  // useEffect(() => {
+  //   async function fetchOrder() {
+  //     try {
+  //       const resonse = await fetch(
+  //         `http://localhost:4000/api/orders
+  //       `,
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+  //     } catch (err) {
+  //       throw err;
+  //     }
+  //   }
+  // });
 
+  //hey if this product doesn't have userEmail that matches, don't render it
+
+  //increases quantity in cart
   const addItemToCart = (product) => {
     const targetProduct = cartItems.find((item) => {
       return item.product.id === product.id;
@@ -50,8 +60,11 @@ export default function Cart(props) {
     } else {
       setCartItems([...cartItems, { product, qty: 1 }]);
     }
+
+    console.log("Another!", cartItems);
   };
 
+  //decreases quantity in cart
   const deleteItemFromCart = (product) => {
     const targetProduct = cartItems.find((item) => {
       return item.product.id === product.id;
@@ -65,8 +78,11 @@ export default function Cart(props) {
         setCartItems(cartItems.filter((item) => item.qty !== 0));
       }
     }
+
+    console.log("Removed one", cartItems);
   };
 
+  //makes a new price total
   useEffect(() => {
     let itemPriceTotal = 0;
 
@@ -77,6 +93,8 @@ export default function Cart(props) {
     setTotalPrice(itemPriceTotal);
   }, [cartItems]);
 
+  //puts everything in the cart state into the products_in_order table attached to the specific order ID
+  //then, the order ID needs to be incremented by 1 for that user only
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -124,7 +142,8 @@ export default function Cart(props) {
 
   return (
     <div>
-      <h1>Welcome to your cart!</h1>
+      {/* <h1>{userEmail}'s Cart</h1> */}
+      <h1>My Cart</h1>
       <div>{!cartItems.length && <div>No plants in cart yet!</div>}</div>
       <div>
         {cartItems &&
@@ -136,11 +155,11 @@ export default function Cart(props) {
                     {product.title} x {qty}
                   </h3>
                   <h4>${product.price}</h4>
-                  <img
+                  {/* <img
                     className="productPicture"
                     src={product.photoLinkHref}
                     alt={product.title}
-                  />
+                  /> */}
                   <button onClick={() => addItemToCart(product)}>+</button>
                   <button onClick={() => deleteItemFromCart(product)}>-</button>
                 </li>
@@ -151,7 +170,7 @@ export default function Cart(props) {
 
       <h3>Total Price: ${totalPrice}</h3>
 
-      <button onSubmit={(e) => handleSubmit(e)}>Purchase</button>
+      <button onSubmit={(e) => handleSubmit(e)}>Complete Purchase</button>
     </div>
   );
 }
