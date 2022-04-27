@@ -66,18 +66,20 @@ export default function Home() {
 
             while (product.id < 4) {
               return (
-                <div className="eachPlantBlock" key={id}>
-                  <img
-                    src={photoLinkHref}
-                    alt="The plant"
-                    className="plantPicForSale"
-                  ></img>
+                <Link to={"/products/" + id} key={id}>
+                  <div className="eachPlantBlock">
+                    <img
+                      src={photoLinkHref}
+                      alt="The plant"
+                      className="plantPicForSale"
+                    ></img>
 
-                  <h3 className="eachPlantTitle">{title}</h3>
-                  <p>${price}</p>
+                    <h3 className="eachPlantTitle">{title}</h3>
+                    <p>${price}</p>
 
-                  {/* if you're the admin, you should be able to edit/delete a product using a button on the "single product info" page, not here. */}
-                </div>
+                    {/* if you're the admin, you should be able to edit/delete a product using a button on the "single product info" page, not here. */}
+                  </div>
+                </Link>
               );
             }
           })}
