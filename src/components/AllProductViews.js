@@ -25,15 +25,14 @@ export default function AllProductViews(props) {
 */
 
   const addItemToCart = (product) => {
-    console.log({ product });
     const targetProduct = cartItems.find((item) => {
-      return item.id === product.id;
+      return item.product.id === product.id;
     });
-    console.log({ targetProduct });
+
     if (targetProduct) {
       setCartItems(
         cartItems.map((item) => {
-          return item.id === product.id
+          return item.product.id === product.id
             ? { ...targetProduct, qty: targetProduct.qty + 1 }
             : item;
         })
@@ -41,8 +40,6 @@ export default function AllProductViews(props) {
     } else {
       setCartItems([...cartItems, { product, qty: 1 }]);
     }
-
-    console.log({ cartItems });
   };
 
   useEffect(() => {
@@ -76,10 +73,9 @@ export default function AllProductViews(props) {
       {products &&
         products.map((product) => {
           const { id, title, price, description, photoLinkHref } = product;
-
           return (
             <div className="editProductLink" key={id}>
-              <img src={photoLinkHref} alt="The plant"></img>
+              <img src={photoLinkHref} alt={product.title}></img>
 
               <h3>{title}</h3>
               <p>{price}</p>

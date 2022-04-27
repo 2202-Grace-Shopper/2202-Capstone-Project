@@ -8,15 +8,13 @@ export default function SingleProduct(props) {
 
   const addItemToCart = (product) => {
     const targetProduct = cartItems.find((item) => {
-      return item.id === product.id;
+      return item.product.id === product.id;
     });
-
-    console.log({ targetProduct });
 
     if (targetProduct) {
       setCartItems(
         cartItems.map((item) => {
-          return item.id === product.id
+          return item.product.id === product.id
             ? { ...targetProduct, qty: targetProduct.qty + 1 }
             : item;
         })
@@ -24,8 +22,6 @@ export default function SingleProduct(props) {
     } else {
       setCartItems([...cartItems, { product, qty: 1 }]);
     }
-
-    console.log({ cartItems });
   };
 
   useEffect(() => {
@@ -68,7 +64,11 @@ export default function SingleProduct(props) {
               <section key={id}>
                 <h2>{title}</h2>
                 <span>{price}</span>
-                <img class="productPicture" src={photoLinkHref} alt="" />
+                <img
+                  class="productPicture"
+                  src={photoLinkHref}
+                  alt={product.title}
+                />
                 <aside>{inStockQuantity}</aside>
                 <h5>{category}</h5>
                 <p>{description}</p>
