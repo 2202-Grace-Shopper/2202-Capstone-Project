@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function SingleProduct(props) {
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState();
   const { cartItems, setCartItems } = props;
   let { productId } = useParams();
 
-  const addItemToCart = (product) => {
-    const targetProduct = cartItems.find((item) => {
+  const addItemToCart = async ([product]) => {
+    const targetProduct = await cartItems.find((item) => {
       return item.product.id === product.id;
     });
 
