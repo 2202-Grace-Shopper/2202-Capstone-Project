@@ -27,22 +27,28 @@ export default function AllProductViews(props) {
   const searchTerm = searchParams.get("searchTerm") || "";
   console.log("searchTerm", searchTerm);
 */
+  //This will run after everything else has run, guarenteeing that the console.log actually catches what happens to cartItems
+  useEffect(() => {
+    console.log("This is cart state", cartItems);
+  }, [cartItems]);
 
-  const addItemToCart = (product) => {
-    const targetProduct = cartItems.find((item) => {
+  const addItemToCart = async (product) => {
+    const getToken = localStorage.getItem("ft_token");
+    const userEmail = jwt_decode(getToken).email;
+
+    const targetProduct = await cartItems.find((item) => {
       return item.product.id === product.id;
     });
 
     if (targetProduct) {
-      setCartItems(
-        cartItems.map((item) => {
-          return item.product.id === product.id
-            ? { ...targetProduct, qty: targetProduct.qty + 1 }
-            : item;
-        })
-      );
+      const mapStuff = cartItems.map((item) => {
+        return item.product.id === product.id
+          ? { ...targetProduct, qty: targetProduct.qty + 1 }
+          : item;
+      });
+      setCartItems(mapStuff);
     } else {
-      setCartItems([...cartItems, { product, qty: 1 }]);
+      setCartItems([...cartItems, { product, qty: 1, userEmail }]);
     }
   };
 

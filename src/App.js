@@ -22,8 +22,10 @@ import {
 } from "./components";
 
 function App() {
-  const { isLoggedIn, isAdminAC } = useAuth();
+  const { isLoggedIn, isAdminAC, token } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+  //decode token to get email
+  //if you're currently logged - have a token that can be translated into an email - bring in the cartItems that match that user
 
   // const { products } = data; //this is supposed to be a list of our products I think
 
