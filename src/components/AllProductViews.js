@@ -28,7 +28,8 @@ export default function AllProductViews(props) {
   const searchTerm = searchParams.get("searchTerm") || "";
   console.log("searchTerm", searchTerm);
 */
-  //This will run after everything else has run, guarenteeing that the console.log actually catches what happens to cartItems
+
+  //This will run after everything else has run, guaranteeing that the console.log actually catches what happens to cartItems
   useEffect(() => {
     console.log("This is cart state", cartItems);
   }, [cartItems]);
@@ -37,12 +38,6 @@ export default function AllProductViews(props) {
     const getToken = localStorage.getItem("ft_token");
     const userEmail = jwt_decode(getToken).email;
 
-  //This will run after everything else has run, guaranteeing that the console.log actually catches what happens to cartItems
-  useEffect(() => {
-    console.log("This is cart state", cartItems);
-  }, [cartItems]);
-
-  const addItemToCart = async (product) => {
     const targetProduct = await cartItems.find((item) => {
       return item.product.id === product.id;
     });
