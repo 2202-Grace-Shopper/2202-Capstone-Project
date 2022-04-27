@@ -22,7 +22,6 @@ export default function AuthProvider({ children }) {
   };
   ////////////////////////////////////////////////////////////
   useEffect(() => {
-    console.log("ran useEffect w/ token");
     if (token) {
       // console.log(jwt_decode(token));
       const userEmail = jwt_decode(token).email; //plantboss@mail.com
