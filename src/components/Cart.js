@@ -42,6 +42,7 @@ export default function Cart(props) {
   // });
 
   //hey if this product doesn't have userEmail that matches, don't render it
+  //if cartItems.userEmail === current token's decoded email, render that specific product in this cart component / add it to a different, local array called "currentUserCartItems" and map based on that. if there is no current token, render nothing - that would use local storage and/or session storage and Elle said we won't have to worry about that for Tier 1. check that this indeeds create "custom" carts per user.
 
   //increases quantity in cart
   const addItemToCart = (product) => {
