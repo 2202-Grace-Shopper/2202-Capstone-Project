@@ -10,6 +10,7 @@ module.exports = {
   getOrderByUser,
   destroyOrder,
   getOrdersWithoutProducts,
+  getUserOrderInCart,
 };
 
 async function createOrder({
@@ -70,6 +71,31 @@ async function getAllOrders() {
   }
 }
 
+async function getUserOrderInCart({ id }) {
+  try {
+    const { rows: orders } = await client.query(
+      `
+      SELECT orders.*,
+        JSON_AGG(
+            JSON_BUILD_OBJECT(
+                'productId', product.id,
+                'price', op."eachPrice",
+                'quantity', op."eachQuantity"
+            )
+        ) AS items
+        FROM orders
+            JOIN products_in_order AS op
+                ON orders.id = op."orderId"
+        WHERE "userId" = $1 AND "orderStatus" = 'cart
+        GROUP BY orders.id;`,
+      [id]
+    );
+
+    return orders;
+  } catch (err) {
+    console.error(err);
+  }
+}
 async function getOrderByUser({ id }) {
   try {
     const { rows: orders } = await client.query(
