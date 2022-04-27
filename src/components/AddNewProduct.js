@@ -1,4 +1,3 @@
-import { handle } from "express/lib/application";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
@@ -27,22 +26,23 @@ export default function ProductForm() {
       const response = await fetch("http://localhost:4000/products", {
         method: "POST",
         headers: {
-          "Content-Type": "appication/json",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(form),
       });
 
       const data = await response.json();
-
       console.log({ data });
+
       history.push(`/products`);
     } catch (err) {
+      console.log("Error happened here!");
       console.error(err);
     }
   };
 
-  return <div>hello, i'm adding a new product</div>;
+  // return <div>hello, i'm adding a new product</div>;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -70,15 +70,6 @@ export default function ProductForm() {
           style={{ borderRadius: "5px" }}
           name="description"
           value={form.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Active: </label>
-        <input
-          type="checkbox"
-          name="isActive"
-          value={form.isActive}
           onChange={handleChange}
         />
       </div>

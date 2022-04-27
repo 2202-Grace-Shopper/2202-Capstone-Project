@@ -1,34 +1,28 @@
 import React from "react";
 import { useUsersList } from "../custom-hooks";
+import { useAuth } from "../custom-hooks";
+import jwt_decode from "jwt-decode";
 
 //The profile will show the admin every user on the site. Create/Edit/Delete Post functionality will happen on each product's card.
 
 export default function AdminProfile() {
   const { users } = useUsersList();
-  let show = false;
-
-  async function clickShowPassword() {
-    show = show !== true;
-    console.log(show);
-  }
+  // const { token } = useAuth();
+  // const userEmail = jwt_decode(token).email;
 
   return (
     <section>
       <div>Welcome to your profile, admin!</div>
-      {/* <div>Welcome to your profile, admin {user.email}</div>; */}
 
       <section className="listOfAllUsers">
         {users &&
           users.map((user) => {
-            const { id, email, password } = user;
+            const { id, email } = user;
 
             return (
               <div className="eachUserInList" key={id}>
                 <h3>User #{id}</h3>
                 <p>Email: {email}</p>
-                <p>Password: {show ? password : "*******"}</p>
-                <input type="checkbox" onClick={clickShowPassword} />
-                Show Password
               </div>
             );
           })}

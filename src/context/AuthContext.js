@@ -8,7 +8,6 @@ export default function AuthProvider({ children }) {
   const [shouldUpdate, setShouldUpdate] = useState(false);
   const [isAdminAC, setIsAdminAC] = useState(false);
 
-  ////////////////////////////////////////////////////////////
   useEffect(() => {
     setToken(localStorage.ft_token || "");
   }, [shouldUpdate]);
@@ -17,10 +16,11 @@ export default function AuthProvider({ children }) {
 
   const logout = () => {
     setIsAdminAC(false);
+    //you can delete the cart info stored in local storage here
     delete localStorage.ft_token;
     updateAuthStatus();
   };
-  ////////////////////////////////////////////////////////////
+
   useEffect(() => {
     if (token) {
       // console.log(jwt_decode(token));
