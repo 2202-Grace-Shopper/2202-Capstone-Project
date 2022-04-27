@@ -5,8 +5,9 @@ import jwt_decode from "jwt-decode";
 //for search bar
 //import { useLocation, useHistory } from "react-router-dom";
 
-export default function AllProductViews() {
+export default function AllProductViews(props) {
   const [products, setProducts] = useState([]);
+  const { cartItems, setCartItems } = props;
   const { isLoggedIn, token, isAdmin } = useAuth();
   const [form, setForm] = useState({
     name: "",
@@ -14,7 +15,7 @@ export default function AllProductViews() {
   });
   if (token) {
     const userEmail = jwt_decode(token).email;
-    console.log(userEmail);
+    // console.log(userEmail);
   }
   /*
   //search box???
@@ -27,31 +28,23 @@ export default function AllProductViews() {
   console.log("searchTerm", searchTerm);
 */
 
-  //addToCart feature
-  //this will help us fetch the backend to list all the product
-  //and store variable
-  async function addToCart(product, quantity) {
-    try {
-      const response = await fetch(`http://localhost:4000/api/orderProduct`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          productId: product.id,
-          eachQuantity: quantity,
-          eachPrice: product.price,
-        }),
-      });
-      let data = await response.json();
-      console.log(data);
-      alert("Item Added to Cart ");
-      console.log(data);
-    } catch (error) {
-      alert("Something Went Wrong");
-      console.error(error);
+  const addItemToCart = (product) => {
+    const targetProduct = cartItems.find((item) => {
+      return item.product.id === product.id;
+    });
+
+    if (targetProduct) {
+      setCartItems(
+        cartItems.map((item) => {
+          return item.product.id === product.id
+            ? { ...targetProduct, qty: targetProduct.qty + 1 }
+            : item;
+        })
+      );
+    } else {
+      setCartItems([...cartItems, { product, qty: 1 }]);
     }
-  }
+  };
 
   useEffect(() => {
     //create as async fetch function
@@ -189,7 +182,7 @@ export default function AllProductViews() {
                 <p>${price}</p>
                 <p>{description}</p>
                 <button
-                  onClick={async (e) => await addToCart(product, 1)}
+                  onClick={() => addItemToCart(product)}
                   className="buttonAddToCartFromAllProducts"
                 >
                   Add to Cart
