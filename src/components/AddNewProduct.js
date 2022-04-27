@@ -21,9 +21,9 @@ export default function ProductForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(form);
     try {
-      const response = await fetch("http://localhost:4000/products", {
+      const response = await fetch("http://localhost:4000/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -24,7 +24,7 @@ export default function EditProduct() {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/products/${product_id}`,
+        `http://localhost:4000/api/products/${product_id}`,
         {
           method: "PATCH",
           headers: {
