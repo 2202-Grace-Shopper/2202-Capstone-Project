@@ -16,67 +16,69 @@ export default function AuthProvider({ children }) {
   const updateAuthStatus = () => setShouldUpdate(!shouldUpdate);
 
   const logout = () => {
-    delete localStorage.ft_token;
     setIsAdminAC(false);
+    delete localStorage.ft_token;
     updateAuthStatus();
   };
   ////////////////////////////////////////////////////////////
+  useEffect(() => {
+    console.log("ran useEffect w/ token");
+    if (token) {
+      // console.log(jwt_decode(token));
+      const userEmail = jwt_decode(token).email; //plantboss@mail.com
+      // console.log(userEmail);
 
-  if (token) {
-    // console.log(jwt_decode(token));
-    const userEmail = jwt_decode(token).email; //plantboss@mail.com
-    // console.log(userEmail);
+      // async function fetchMatchingAdmin(email) {
+      //   try {
+      //     const response = await fetch(`http://localhost:4000/api/users/admins`, {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //       body: JSON.stringify(email),
+      //     });
 
-    // async function fetchMatchingAdmin(email) {
-    //   try {
-    //     const response = await fetch(`http://localhost:4000/api/users/admins`, {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //       body: JSON.stringify(email),
-    //     });
+      //     const { isAdmin } = await response.json();
 
-    //     const { isAdmin } = await response.json();
+      //     return isAdmin;
+      //   } catch (error) {
+      //     throw error;
+      //   }
+      // }
 
-    //     return isAdmin;
-    //   } catch (error) {
-    //     throw error;
-    //   }
-    // }
+      async function fetchUserByUsername(email) {
+        try {
+          const response = await fetch(
+            `http://localhost:4000/api/users/${email}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              // body: JSON.stringify(email),
+            }
+          );
 
-    async function fetchUserByUsername(email) {
-      try {
-        const response = await fetch(
-          `http://localhost:4000/api/users/${email}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            // body: JSON.stringify(email),
+          const user = await response.json();
+
+          // console.log("from AuthContext:", user);
+
+          // const { isAdmin } = user;
+          // console.log("what isAdmin should be:", isAdmin);
+          if (user.isAdmin === true) {
+            setIsAdminAC(true);
           }
-        );
-
-        const user = await response.json();
-
-        // console.log("from AuthContext:", user);
-
-        // const { isAdmin } = user;
-        // console.log("what isAdmin should be:", isAdmin);
-        if (user.isAdmin === true) {
-          setIsAdminAC(true);
+          return user;
+        } catch (error) {
+          throw error;
         }
-        return user;
-      } catch (error) {
-        throw error;
       }
-    }
 
-    fetchUserByUsername(userEmail);
-  }
+      fetchUserByUsername(userEmail);
+    }
+  }, [token]);
 
   const providerValue = {
     token,
@@ -86,7 +88,7 @@ export default function AuthProvider({ children }) {
     isAdminAC,
   };
 
-  // console.log("proivderValue:", providerValue);
+  console.log("proivderValue:", providerValue);
 
   return (
     <AuthContext.Provider value={providerValue}>
