@@ -12,6 +12,7 @@ export default function EditProduct() {
   const price = searchObject.get("price");
   const description = searchObject.get("description");
   const photoLinkHref = searchObject.get("photoLinkHref");
+  const inStockQuantity = searchObject.get("inStockQuantity");
   const id = searchObject.get("id");
 
   const [form, setForm] = useState({
@@ -19,6 +20,7 @@ export default function EditProduct() {
     price: price,
     description: description,
     photoLinkHref: photoLinkHref,
+    inStockQuantity: inStockQuantity,
   });
 
   const handleChange = (e) => {
