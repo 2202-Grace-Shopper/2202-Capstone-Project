@@ -65,6 +65,7 @@ productsRouter.patch("/:productId", authorizeUser, async (req, res, next) => {
       inStockQuantity,
       photoLinkHref,
     } = req.body;
+
     const product = await updateProduct({
       id: req.params.productId,
       title,

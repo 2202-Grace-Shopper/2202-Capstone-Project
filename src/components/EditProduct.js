@@ -13,7 +13,6 @@ export default function EditProduct() {
   const description = searchObject.get("description");
   const photoLinkHref = searchObject.get("photoLinkHref");
   const id = searchObject.get("id");
-  console.log({ id });
 
   const [form, setForm] = useState({
     title: title,
