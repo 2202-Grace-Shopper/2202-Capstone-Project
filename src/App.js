@@ -56,8 +56,7 @@ function App() {
     <Router>
       <Title />
 
-      <Nav cartItems={cartItems} setCartItems={setCartItems} />
-      {/* <Nav /> */}
+      <Nav />
 
       <Switch>
         {/* routes for if you're not logged in */}

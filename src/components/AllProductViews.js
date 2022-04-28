@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
 import jwt_decode from "jwt-decode";
+import { useHistory } from "react-router-dom";
+import cartIcon from "../assets/shoppingcarticon.jpg";
 
 //for search bar
 //import { useLocation, useHistory } from "react-router-dom";
@@ -10,11 +12,24 @@ export default function AllProductViews(props) {
   const [products, setProducts] = useState([]);
   const { cartItems, setCartItems } = props;
   const { isLoggedIn, token, isAdminAC } = useAuth();
+  const history = useHistory();
+  let cartItemsToRender = [];
+  let email;
 
   if (token) {
-    const userEmail = jwt_decode(token).email;
-    // console.log(userEmail);
+    email = jwt_decode(token).email;
+  } else {
+    email = "guest@mail.com";
   }
+
+  if (cartItems) {
+    for (let i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].userEmail === email) {
+        cartItemsToRender[i] = cartItems[i];
+      }
+    }
+  }
+
   /*
   //search box???
   const { search } = useLocation();
@@ -82,7 +97,18 @@ export default function AllProductViews(props) {
     fetchProducts();
   }, []);
 
+  async function goToCart() {
+    history.push("./cart");
+  }
+
+  async function toTopFunction() {
+    document.body.scrollTop = 0; //for Safari
+    document.documentElement.scrollTop = 0; //for Chrome, Firefox, IE, Opera
+  }
+
   const toTopButton = document.getElementById("toTopButton");
+  // const toCartButton = document.getElementById("cartIndicatorAndButton");
+  // const numberInCartIndicator = document.getElementById("numberInCart");
   window.onscroll = function () {
     scrollFunction();
   };
@@ -92,15 +118,14 @@ export default function AllProductViews(props) {
       document.body.scrollTop > 20 ||
       document.documentElement.scrollTop > 20
     ) {
+      // numberInCartIndicator.style.display = "block";
       toTopButton.style.display = "block";
+      // toCartButton.style.display = "block";
     } else {
+      // numberInCartIndicator.style.display = "none";
       toTopButton.style.display = "none";
+      // toCartButton.style.display = "none";
     }
-  }
-
-  async function toTopFunction() {
-    document.body.scrollTop = 0; //for Safari
-    document.documentElement.scrollTop = 0; //for Chrome, Firefox, IE, Opera
   }
 
   return (
@@ -156,6 +181,19 @@ export default function AllProductViews(props) {
             );
           })}
       </section>
+      <aside className="cartIconBucket">
+        <img
+          src={cartIcon}
+          alt="shoppingcarticon"
+          id="cartIndicatorAndButton"
+          title="Go To Cart"
+          onClick={goToCart}
+        ></img>
+        <p id="numberInCart">
+          {!cartItemsToRender.length ? "0" : cartItemsToRender.length}
+        </p>
+      </aside>
+
       <button onClick={toTopFunction} id="toTopButton" title="Go to Top">
         Top
       </button>
