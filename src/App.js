@@ -81,7 +81,6 @@ function App() {
                 />
               )}
             />
-            /
             <Route
               path="/cart"
               render={() => (
