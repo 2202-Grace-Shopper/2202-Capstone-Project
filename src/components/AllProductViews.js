@@ -10,10 +10,7 @@ export default function AllProductViews(props) {
   const [products, setProducts] = useState([]);
   const { cartItems, setCartItems } = props;
   const { isLoggedIn, token, isAdminAC } = useAuth();
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-  });
+
   if (token) {
     const userEmail = jwt_decode(token).email;
     // console.log(userEmail);
@@ -201,7 +198,10 @@ export default function AllProductViews(props) {
                 </button>
 
                 {isAdminAC && (
-                  <Link to="/editproduct" className="linkToEditProduct">
+                  <Link
+                    to={`/editproduct/?title=${title}&price=${price}&description=${description}&photoLinkHref=${photoLinkHref}&id=${id}`}
+                    className="linkToEditProduct"
+                  >
                     Edit Product
                   </Link>
                 )}
