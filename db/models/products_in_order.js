@@ -13,7 +13,7 @@ async function addCartToProductsInOrderTable({
   eachPrice,
   eachQuantity,
 }) {
-  console.log("reached addCartToProductsInOrderTable function");
+  console.log("reached addCartToProductsInOrderTable db function");
 
   try {
     const {
@@ -26,7 +26,7 @@ async function addCartToProductsInOrderTable({
       [orderId, productId, eachPrice, eachQuantity]
     );
 
-    console.log("cartProduct", cartProduct);
+    console.log("cartProduct from db", cartProduct);
 
     return cartProduct;
   } catch (err) {
