@@ -111,12 +111,16 @@ export default function SingleProduct(props) {
                   <>
                     <Link
                       to={`/editproduct/?title=${title}&price=${price}&description=${description}&photoLinkHref=${photoLinkHref}&inStockQuantity=${inStockQuantity}&id=${id}`}
-                      className="linkToEditProduct"
+                      className="buttonAddToCartFromAllProducts"
                     >
                       Edit Product
                     </Link>
-
-                    {/* <button onClick={handleDelete(id)}>Delete Product</button> */}
+                    <button
+                      className="buttonAddToCartFromAllProducts"
+                      onClick={() => handleDelete(id)}
+                    >
+                      Delete Product
+                    </button>
                   </>
                 )}
               </section>
