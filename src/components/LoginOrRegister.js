@@ -46,6 +46,18 @@ export default function LoginOrRegister() {
           localStorage.ft_token = token;
           updateAuthStatus();
 
+          if (loginOrRegister === "register") {
+            //create new "cart" (order with orderStatus of "cart")
+            const response2 = await fetch(`http://localhost:4000/api/orders`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+            });
+
+            const { newOrder } = await response2.json();
+
+            console.log(newOrder);
+          }
+
           //redirect based on if user is an admin or not
           if (user.isAdmin === true) {
             console.log(

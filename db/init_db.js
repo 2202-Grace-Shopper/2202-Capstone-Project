@@ -36,7 +36,7 @@ async function buildTables() {
       );
       CREATE TABLE orders (
         id SERIAL PRIMARY KEY,
-        email VARCHAR(255) REFERENCES users(email),
+        "userId" VARCHAR(255) REFERENCES users(id),
         "orderStatus" VARCHAR(255) DEFAULT 'cart',
         "totalPurchasePrice" DECIMAL(10,2) DEFAULT '0.00',
         "totalQuantity" VARCHAR(255) DEFAULT '0',
