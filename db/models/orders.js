@@ -13,29 +13,25 @@ module.exports = {
   getUserOrderInCart,
 };
 
-async function createOrder({
-  email,
-  orderStatus,
-  totalPurchasePrice,
-  totalQuantity,
-  orderDate,
-}) {
-  console.log(totalPurchasePrice);
+//will be used when a user is registered and when a user checks out and needs a new "order"
+async function createOrder({ id }) {
+  console.log("id:", id);
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-        INSERT INTO orders(email, "orderStatus", "totalPurchasePrice", "totalQuantity", "orderDate" )
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO orders(id)
+        VALUES ($1)
         RETURNING *;`,
-      [email, orderStatus, totalPurchasePrice, totalQuantity, orderDate]
+      [id]
     );
     return order;
   } catch (err) {
     console.error(err);
   }
 }
+
 async function getOrdersWithoutProducts() {
   try {
     const { rows: orders } = await client.query(`
@@ -52,33 +48,41 @@ async function getOrdersWithoutProducts() {
 async function getAllOrders() {
   try {
     const { rows: orders } = await client.query(`
-        SELECT orders.*,
-         JSON_AGG(
-            JSON_BUILD_OBJECT(                
-                'productId', op."productId",
-                 'price', op."eachPrice",
-                 'quantity', op."eachQuantity"
-             )
-         ) AS items
+        SELECT orders.*,products_in_order."productId"
         FROM orders
-            JOIN products_in_order AS op
-                ON orders.id = op."orderId"
-        GROUP BY orders.id;`);
+        JOIN products_in_order ON orders.id = products_in_order."orderId"`);
+
+    // console.log("orders gotten from db getAllOrders:", orders);
 
     return orders;
   } catch (err) {
     console.error(err);
   }
 }
+// SELECT orders.*,
+//          JSON_AGG(
+//             JSON_BUILD_OBJECT(
+//                 'productId', op."productId",
+//                  'price', op."eachPrice",
+//                  'quantity', op."eachQuantity"
+//              )
+//          ) AS items
+//         FROM orders
+//             JOIN products_in_order AS op
+//                 ON orders.id = op."orderId"
+//         GROUP BY orders.id;`);
 
-async function getUserOrderInCart({ id }) {
+async function getUserOrderInCart({ email }) {
+  console.log("inside db getUserOrderInCart");
   try {
-    const { rows: orders } = await client.query(
+    const {
+      rows: [order],
+    } = await client.query(
       `
       SELECT orders.*,
         JSON_AGG(
             JSON_BUILD_OBJECT(
-                'productId', product.id,
+                'productId', op."productId",
                 'price', op."eachPrice",
                 'quantity', op."eachQuantity"
             )
@@ -86,34 +90,38 @@ async function getUserOrderInCart({ id }) {
         FROM orders
             JOIN products_in_order AS op
                 ON orders.id = op."orderId"
-        WHERE "userId" = $1 AND "orderStatus" = 'cart
+        WHERE email = $1 AND "orderStatus" = 'cart'
         GROUP BY orders.id;`,
-      [id]
+      [email]
     );
 
-    return orders;
+    console.log("returned stuff:", order);
+
+    return order;
   } catch (err) {
     console.error(err);
   }
 }
-async function getOrderByUser({ id }) {
+
+//grabs the user's orders and any "products in order"'s they have as well
+async function getOrderByUser({ email }) {
   try {
     const { rows: orders } = await client.query(
       `
       SELECT orders.*,
         JSON_AGG(
             JSON_BUILD_OBJECT(
-                'productId', product.id,
+                'productId',op."productId",
                 'price', op."eachPrice",
                 'quantity', op."eachQuantity"
             )
         ) AS items
         FROM orders
-            JOIN products_in_order AS op
+            LEFT JOIN products_in_order AS op
                 ON orders.id = op."orderId"
-        WHERE "userId" = $1
+        WHERE email = $1
         GROUP BY orders.id;`,
-      [id]
+      [email]
     );
 
     return orders;

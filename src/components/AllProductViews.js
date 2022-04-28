@@ -33,7 +33,12 @@ export default function AllProductViews(props) {
 
   const addItemToCart = async (product) => {
     const getToken = localStorage.getItem("ft_token");
-    const userEmail = jwt_decode(getToken).email;
+    let userEmail;
+    if (getToken) {
+      userEmail = jwt_decode(getToken).email;
+    } else {
+      userEmail = "guest@mail.com";
+    }
 
     const targetProduct = await cartItems.find((item) => {
       return item.product.id === product.id;

@@ -98,14 +98,34 @@ export default function Cart(props) {
   //puts everything in the cart state into the products_in_order table attached to the specific order ID
   async function handleSubmit(e) {
     e.preventDefault();
+    // console.log("you clicked me!");
+
+    if (!cartItemsToRender.length) {
+      window.alert("You have nothing to purchase in your cart.");
+      return;
+    }
 
     // const {productId:id,eachPrice:price,eachQuantity:qty} = cartItemsToRender[[...]]
     //two options:
     //  1) for every product in cartItemsToRender, make a fetch call to post a new row into the products_in_order table; push out that product when you finish a successful fetch so that the cart can be empty by the end of this handleSubmit function
     //  2) somehow, put all products in cartItemsToRender into fetch at once...?
-    //either way, need to solve how to get OrderId. it could be created when a user is registered - maybe a new column in user table?? it needs to increase when "complete purchase" is selected and it needs to stay at the new value when the user logs back in later
+    //in addition, orderId needs to increase when "complete purchase" is selected and it needs to stay at the new value when the user logs back in later
 
     try {
+      //get orderId by passing in userId to api call
+      //might not work for guest accounts
+      const responseOrderId = await fetch(
+        `http://localhost:4000/api/orders/${email}/cart`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const orders = await responseOrderId.json();
+      console.log("return list of user's orders:", orders);
+
       //This is to POST into products_in_order table
       //uses db function "addCartToProductsInOrderTable(4 things)" and api call "productsInOrderRouter.post("/:orderId"...)"
       const response = await fetch(
@@ -144,7 +164,7 @@ export default function Cart(props) {
       //   }
       // );
 
-      const items = response.json();
+      const items = await response.json();
       console.log(items);
 
       //if you made it all the way through, show pop-up message congratulating the user (and yourself!)
@@ -158,37 +178,54 @@ export default function Cart(props) {
   }
 
   return (
-    <div>
+    <div className="entireCartBody">
       {email === "guest@mail.com" ? (
         <h1>Guest's Cart</h1>
       ) : (
         <h1>{email}'s Cart</h1>
       )}
-      <div>{!cartItemsToRender.length && <div>No plant buddies yet!</div>}</div>
-      <div>
+      <div className="cartMessageBlurb">
+        {!cartItemsToRender.length && <div>No plant buddies yet!</div>}
+      </div>
+      <div className="cartBucket">
         {cartItemsToRender &&
           cartItemsToRender.map(({ product, qty }) => {
             return (
-              <ul key={product.id}>
-                <li>
+              <ul key={product.id} className="cartItemsList">
+                <li className="eachCartItem">
                   <h3>
                     {product.title} x {qty}
                   </h3>
                   <h4>${product.price}</h4>
-                  {/* <img
-                    className="productPicture"
+                  <img
+                    className="eachProductPicture"
                     src={product.photoLinkHref}
                     alt={product.title}
-                  /> */}
-                  <button onClick={() => addItemToCart(product)}>+</button>
-                  <button onClick={() => deleteItemFromCart(product)}>-</button>
+                  />
+                  <button
+                    className="addSubtractItemsButton"
+                    onClick={() => addItemToCart(product)}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="addSubtractItemsButton"
+                    onClick={() => deleteItemFromCart(product)}
+                  >
+                    -
+                  </button>
                 </li>
               </ul>
             );
           })}
       </div>
       <h3>Total Price: ${totalPrice}</h3>
-      <button onSubmit={(e) => handleSubmit(e)}>Complete Purchase</button>
+      <button
+        className="completePurchaseButton"
+        onClick={(e) => handleSubmit(e)}
+      >
+        Complete Purchase
+      </button>
     </div>
   );
 }
