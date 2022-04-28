@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
+import { useAuth } from "../custom-hooks";
 
 export default function SingleProduct(props) {
   const [product, setProduct] = useState();
   const { cartItems, setCartItems } = props;
+  const history = useHistory();
   let { productId } = useParams();
+  const { token, isAdminAC } = useAuth();
 
   const addItemToCart = async ([product]) => {
     const targetProduct = await cartItems.find((item) => {
@@ -23,6 +26,25 @@ export default function SingleProduct(props) {
       setCartItems([...cartItems, { product, qty: 1 }]);
     }
   };
+
+  async function handleDelete(productId) {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/products/${productId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const data = await response.json();
+      console.log({ data });
+
+      history.push(`/products`);
+    } catch (err) {
+      throw err;
+    }
+  }
 
   useEffect(() => {
     const getProduct = async () => {
@@ -85,6 +107,18 @@ export default function SingleProduct(props) {
                 >
                   Add to Cart
                 </button>
+                {isAdminAC && (
+                  <>
+                    <Link
+                      to={`/editproduct/?title=${title}&price=${price}&description=${description}&photoLinkHref=${photoLinkHref}&inStockQuantity=${inStockQuantity}&id=${id}`}
+                      className="linkToEditProduct"
+                    >
+                      Edit Product
+                    </Link>
+
+                    {/* <button onClick={handleDelete(id)}>Delete Product</button> */}
+                  </>
+                )}
               </section>
             );
           }
