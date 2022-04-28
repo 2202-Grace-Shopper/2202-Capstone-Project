@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
+import jwt_decode from "jwt-decode";
 
 export default function SingleProduct(props) {
   const [product, setProduct] = useState();
@@ -10,20 +11,26 @@ export default function SingleProduct(props) {
   const { token, isAdminAC } = useAuth();
 
   const addItemToCart = async ([product]) => {
+    const getToken = localStorage.getItem("ft_token");
+    let userEmail;
+    if (getToken) {
+      userEmail = jwt_decode(getToken).email;
+    } else {
+      userEmail = "guest@mail.com";
+    }
     const targetProduct = await cartItems.find((item) => {
       return item.product.id === product.id;
     });
 
     if (targetProduct) {
-      setCartItems(
-        cartItems.map((item) => {
-          return item.product.id === product.id
-            ? { ...targetProduct, qty: targetProduct.qty + 1 }
-            : item;
-        })
-      );
+      const mapStuff = cartItems.map((item) => {
+        return item.product.id === product.id
+          ? { ...targetProduct, qty: targetProduct.qty + 1 }
+          : item;
+      });
+      setCartItems(mapStuff);
     } else {
-      setCartItems([...cartItems, { product, qty: 1 }]);
+      setCartItems([...cartItems, { product, qty: 1, userEmail }]);
     }
   };
 
