@@ -48,7 +48,14 @@ export default function SingleProduct(props) {
   }, []);
 
   return (
-    <section>
+    <section
+      className="allPlantsBlock"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       {product &&
         product.map(
           ({
@@ -61,18 +68,21 @@ export default function SingleProduct(props) {
             photoLinkHref,
           }) => {
             return (
-              <section key={id}>
+              <section className="eachPlantBlock" key={id}>
                 <h2>{title}</h2>
-                <span>{price}</span>
+                <span>Price: ${price}</span>
                 <img
-                  class="productPicture"
+                  className="plantPicForSale"
                   src={photoLinkHref}
                   alt={product.title}
                 />
-                <aside>{inStockQuantity}</aside>
+                <aside>In Stock Quantity: {inStockQuantity}</aside>
                 <h5>{category}</h5>
                 <p>{description}</p>
-                <button onClick={() => addItemToCart(product)}>
+                <button
+                  className="buttonAddToCartFromAllProducts"
+                  onClick={() => addItemToCart(product)}
+                >
                   Add to Cart
                 </button>
               </section>

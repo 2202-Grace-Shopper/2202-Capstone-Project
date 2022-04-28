@@ -12,7 +12,7 @@ export default function AdminProfile() {
 
   return (
     <section>
-      <div>Welcome to your profile, admin!</div>
+      <h2>Welcome to your profile, admin!</h2>
 
       <section className="listOfAllUsers">
         {users &&

@@ -47,7 +47,7 @@ export default function ProductForm() {
   return (
     <form className="anpForm" onSubmit={handleSubmit}>
       <div>
-        <label className="labels ">Plant title: </label>
+        <label className="labels ">Plant Title: </label>
         <input
           className="input bigInput"
           type="text"

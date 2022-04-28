@@ -121,7 +121,7 @@ function App() {
                 <Cart cartItems={cartItems} setCartItems={setCartItems} />
               )}
             />
-            {/* <Route path="/profile" component={Profile} /> */}
+            <Route path="/profile" component={Profile} />
             <Route path="/home" component={Home} />
 
             {/* admin-only routes - if you're not an admin, trying to go to route "/adminprofile" will lead to disappointment */}
