@@ -17,11 +17,10 @@ productsInOrderRouter.post("/:orderId", async (req, res, next) => {
     //grab all products from cart state array
     const orderId = req.params.orderId;
     const { productId, price, qty } = req.body;
-    // const qty = req.body;
     const eachPrice = price;
     const eachQuantity = qty;
     console.log(
-      "coming into productsInOrderRouter.post:",
+      "coming into api productsInOrderRouter.post:",
       orderId,
       productId,
       eachPrice,
@@ -35,7 +34,7 @@ productsInOrderRouter.post("/:orderId", async (req, res, next) => {
       eachQuantity,
     });
 
-    console.log("returned cartProduct:", cartProduct);
+    console.log("returned api cartProduct:", cartProduct);
 
     res.send(cartProduct);
   } catch (err) {

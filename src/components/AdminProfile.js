@@ -1,7 +1,7 @@
 import React from "react";
 import { useUsersList } from "../custom-hooks";
-import { useAuth } from "../custom-hooks";
-import jwt_decode from "jwt-decode";
+// import { useAuth } from "../custom-hooks";
+// import jwt_decode from "jwt-decode";
 
 //The profile will show the admin every user on the site. Create/Edit/Delete Post functionality will happen on each product's card.
 
