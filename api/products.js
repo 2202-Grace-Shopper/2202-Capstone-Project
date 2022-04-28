@@ -31,6 +31,7 @@ productsRouter.get("/:productId", async (req, res, next) => {
 
 productsRouter.post("/", authorizeUser, async (req, res, next) => {
   try {
+    console.log("This is the body:", req.body);
     const {
       title,
       price,

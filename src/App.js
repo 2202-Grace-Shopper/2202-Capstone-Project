@@ -26,6 +26,7 @@ import {
 function App() {
   const { isLoggedIn, isAdminAC, token } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+  // const [userId, setUserId] = useState();
   //decode token to get email
   //if you're currently logged - have a token that can be translated into an email - bring in the cartItems that match that user
 
@@ -87,8 +88,8 @@ function App() {
                 <Cart cartItems={cartItems} setCartItems={setCartItems} />
               )}
             />
-            <Route path="/login" component={LoginOrRegister} />
-            <Route path="/register" component={LoginOrRegister} />
+            <Route path="/login" render={() => <LoginOrRegister />} />
+            <Route path="/register" render={() => <LoginOrRegister />} />
             <Route path="/home" component={Home} />
           </>
         )}

@@ -1,6 +1,7 @@
 // This is the Web Server
 const express = require("express");
 const server = express();
+const bodyParser = require("body-parser");
 
 require("dotenv").config();
 
@@ -12,6 +13,8 @@ server.use(cors());
 // create logs for everything
 const morgan = require("morgan");
 server.use(morgan("dev"));
+
+server.use(bodyParser.json());
 
 // handle application/json requests
 server.use(express.json());
