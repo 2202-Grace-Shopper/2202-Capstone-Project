@@ -48,6 +48,7 @@ async function updateProduct({
   category,
   inStockQuantity,
   photoLinkHref,
+  id,
 }) {
   try {
     const {
@@ -55,12 +56,13 @@ async function updateProduct({
     } = await client.query(
       `
     UPDATE products
-    SET title=$1, price=$2, description=$3, category=$4,  inStockQuantity=$5, photoLinkHref=$6
+    SET title=$1, price=$2, description=$3, category=$4,  "inStockQuantity"=$5, "photoLinkHref"=$6
     WHERE id=$7
     RETURNING *;
     `,
       [title, price, description, category, inStockQuantity, photoLinkHref, id]
     );
+
     return product;
   } catch (err) {
     throw err;

@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
 
 export default function EditProduct() {
   const history = useHistory();
   const { token } = useAuth();
-  let { product_id } = useParams();
-  console.log({ product_id });
+  const { search } = useLocation();
 
-  const [form, setForm] = useState({});
+  const searchObject = new URLSearchParams(search);
+  const title = searchObject.get("title");
+  const price = searchObject.get("price");
+  const description = searchObject.get("description");
+  const photoLinkHref = searchObject.get("photoLinkHref");
+  const id = searchObject.get("id");
+
+  const [form, setForm] = useState({
+    title: title,
+    price: price,
+    description: description,
+    photoLinkHref: photoLinkHref,
+  });
 
   const handleChange = (e) => {
     if (e.target.type === "checkbox") {
@@ -23,17 +34,14 @@ export default function EditProduct() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `http://localhost:4000/api/products/${product_id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(form),
-        }
-      );
+      const response = await fetch(`http://localhost:4000/api/products/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
 
       const data = await response.json();
       console.log({ data });
@@ -74,15 +82,6 @@ export default function EditProduct() {
         />
       </div>
       <div>
-        <label>Active: </label>
-        <input
-          type="checkbox"
-          name="isActive"
-          value={form.isActive}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
         <label>Stock Quantity: </label>
         <input
           type="number"
@@ -100,7 +99,7 @@ export default function EditProduct() {
           onChange={handleChange}
         />
       </div>
-      <input type="submit" value="Add product" />
+      <input type="submit" value="Edit product" />
       <button name="clear" onClick={() => history.push(`/products`)}>
         Cancel
       </button>
