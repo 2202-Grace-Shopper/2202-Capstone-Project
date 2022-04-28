@@ -8,6 +8,7 @@ import "./style/index.css";
 import "./style/TitleNavFooter.css";
 import "./style/AllPlants.css";
 import "./style/Home.css";
+import "./style/AddNewProduct.css";
 import { AuthProvider } from "./context";
 
 ReactDOM.render(
