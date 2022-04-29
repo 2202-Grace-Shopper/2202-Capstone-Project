@@ -66,7 +66,11 @@ export default function Home() {
 
             while (product.id < 4) {
               return (
-                <Link to={"/products/" + id} key={id}>
+                <Link
+                  to={"/products/" + id}
+                  key={id}
+                  className="featuredPlants"
+                >
                   <div className="eachPlantBlock">
                     <img
                       src={photoLinkHref}
