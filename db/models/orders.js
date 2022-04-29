@@ -11,6 +11,9 @@ module.exports = {
   destroyOrder,
   getOrdersWithoutProducts,
   getUserOrderInCart,
+  createOrderInitDB,
+  getOrderByUserId,
+  patchOrder,
 };
 
 //will be used when a user is registered and when a user checks out and needs a new "order"
@@ -21,6 +24,30 @@ async function createOrder(
   totalQuantity,
   orderDate
 ) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+        INSERT INTO orders("userId", "orderStatus", "totalPurchasePrice", "totalQuantity", "orderDate")
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;`,
+      [userId, orderStatus, totalPurchasePrice, totalQuantity, orderDate]
+    );
+    console.log(order);
+    return order;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function createOrderInitDB({
+  userId,
+  orderStatus,
+  totalPurchasePrice,
+  totalQuantity,
+  orderDate,
+}) {
   try {
     const {
       rows: [order],
@@ -136,6 +163,25 @@ async function getOrderByUser({ email }) {
   }
 }
 
+//grabs the user's orders with no joining
+async function getOrderByUserId(id) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+      SELECT *
+        FROM orders
+        WHERE "userId" = $1 AND "orderStatus"='cart';`,
+      [id]
+    );
+
+    return order;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function destroyOrder(id) {
   try {
     const orderProducts = await getOrderProductsByOrder({ id });
@@ -157,5 +203,29 @@ async function destroyOrder(id) {
   } catch (err) {
     console.error(err);
     throw err;
+  }
+}
+
+async function patchOrder({
+  id,
+  totalPurchasePrice,
+  totalQuantity,
+  orderDate,
+}) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+    UPDATE orders
+    SET "orderStatus"='pending', "totalPurchasePrice"=$2, "totalQuantity"=$3, "orderDate"=$4
+    WHERE id=$1
+    `,
+      [id, totalPurchasePrice, totalQuantity, orderDate]
+    );
+
+    return order;
+  } catch (error) {
+    console.error(error);
   }
 }

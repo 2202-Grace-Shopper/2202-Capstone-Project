@@ -20,7 +20,7 @@ async function buildTables() {
     // build tables in correct order
     await client.query(`
       CREATE TABLE users (
-        PRIMARY KEY (id),
+        id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         "isAdmin" BOOLEAN DEFAULT false
@@ -36,7 +36,7 @@ async function buildTables() {
       );
       CREATE TABLE orders (
         id SERIAL PRIMARY KEY,
-        FOREIGN KEY ("userId") REFERENCES users(id),
+        "userId" INTEGER REFERENCES users(id),
         "orderStatus" VARCHAR(255) DEFAULT 'cart',
         "totalPurchasePrice" DECIMAL(10,2) DEFAULT '0.00',
         "totalQuantity" VARCHAR(255) DEFAULT '0',
@@ -178,7 +178,9 @@ async function populateInitialData() {
       },
     ];
 
-    const orders = await Promise.all(ordersToCreate.map(Orders.createOrder));
+    const orders = await Promise.all(
+      ordersToCreate.map(Orders.createOrderInitDB)
+    );
 
     console.log({ orders });
 
