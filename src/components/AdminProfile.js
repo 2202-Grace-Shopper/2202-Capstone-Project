@@ -11,22 +11,36 @@ export default function AdminProfile() {
   // const userEmail = jwt_decode(token).email;
 
   return (
-    <section>
-      <h2>Welcome to your profile, admin!</h2>
+    <section className="profileBlock">
+      <h1 className="eachComponent hello">Welcome to your profile, admin! </h1>
+      <div className="separateUsersAndOrders">
+        <section className="listOfAllUsers">
+          <label className="labels">User's List:</label>
+          {users &&
+            users.map((user) => {
+              const { id, email } = user;
 
-      <section className="listOfAllUsers">
-        {users &&
-          users.map((user) => {
-            const { id, email } = user;
-
-            return (
-              <div className="eachUserInList" key={id}>
-                <h3>User #{id}</h3>
-                <p>Email: {email}</p>
-              </div>
-            );
-          })}
-      </section>
+              return (
+                <div className="eachUserInList" key={id}>
+                  <h3 className="eachComponent">User #{id}</h3>
+                  <p>Email: {email}</p>
+                </div>
+              );
+            })}
+        </section>
+        <section className="previousOrders">
+          <label className="labels">Previous Orders:</label>
+          <ul className="eachComponent">
+            This is where your previous orders would go{" "}
+          </ul>
+          <li>but</li>
+          <li>it's</li>
+          <li>still</li>
+          <li>under</li>
+          <li>construction!</li>
+          <li>:3</li>
+        </section>
+      </div>
     </section>
   );
 }
