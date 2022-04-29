@@ -60,26 +60,29 @@ export default function Profile() {
         construction.
       </div>
       <div>Please come back another time to view your profile page :)</div>
-      {orders &&
-        orders.map((order) => {
-          const { id, orderDate, orderStatus, totalPurchasePrice } = order;
-          return (
-            <table>
-              <tr>
-                <th>Order Number</th>
-                <th>Order Date</th>
-                <th>Order Status</th>
-                <th>Total Purchase Price</th>
-              </tr>
-              <tr key={id}>
-                <td>{id}</td>
-                <td>{orderDate}</td>
-                <td>{orderStatus}</td>
-                <td>{totalPurchasePrice}</td>
-              </tr>
-            </table>
-          );
-        })}
+
+      <table>
+        <tr>
+          <th>Order Number</th>
+          <th>Order Date</th>
+          <th>Order Status</th>
+          <th>Total Purchase Price</th>
+        </tr>
+        {orders &&
+          orders.map((order) => {
+            const { id, orderDate, orderStatus, totalPurchasePrice } = order;
+            return (
+              <tbody key={id}>
+                <tr>
+                  <td>{id}</td>
+                  <td>{orderDate}</td>
+                  <td>{orderStatus}</td>
+                  <td>{totalPurchasePrice}</td>
+                </tr>
+              </tbody>
+            );
+          })}
+      </table>
     </section>
   );
 
