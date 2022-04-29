@@ -10,7 +10,7 @@ import cartIcon from "../assets/shoppingcarticon.jpg";
 
 export default function AllProductViews(props) {
   const [products, setProducts] = useState([]);
-  const { cartItems, setCartItems } = props;
+  const { cartItems, setCartItems, cartQuantity, setCartQuantity } = props;
   const { token, isAdminAC } = useAuth();
   const history = useHistory();
 
@@ -27,17 +27,19 @@ export default function AllProductViews(props) {
 
   // If there are items in the cart, then for every item in the cart, check if the item's email matches that of the current user. If there's a match, "render"/count that item in the array cartItemsToRender.
   // However, if that item's quantity is larger than 1, add that number to the counter; this counter will be added to the indicator itself last.
-  if (cartItems) {
+  useEffect(() => {
     for (let i = 0; i < cartItems.length; i++) {
       if (cartItems[i].userEmail === email) {
         cartItemsToRender[i] = cartItems[i];
       }
 
-      if (cartItems[i].qty > 1) {
-        counter += cartItems[i].qty - 1;
+      if (cartItemsToRender[i] && cartItemsToRender[i].qty > 1) {
+        counter += cartItemsToRender[i].qty - 1;
       }
+
+      setCartQuantity(counter + cartItemsToRender.length);
     }
-  }
+  }, [cartItems]);
 
   /*
   //search box???
@@ -119,23 +121,29 @@ export default function AllProductViews(props) {
     document.documentElement.scrollTop = 0; //for Chrome, Firefox, IE, Opera
   }
 
-  //scroll logic part 1
-  const toTopButton = document.getElementById("toTopButton");
-  window.onscroll = function () {
-    scrollFunction();
-  };
+  useEffect(() => {
+    //scroll logic part 1
+    const toTopButton = document.getElementById("toTopButton");
+    window.onscroll = function () {
+      scrollFunction();
+    };
 
-  //scroll logic part 2
-  async function scrollFunction() {
-    if (
-      toTopButton &&
-      (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)
-    ) {
-      toTopButton.style.display = "block";
-    } else {
-      toTopButton.style.display = "none";
+    //scroll logic part 2
+    async function scrollFunction() {
+      try {
+        if (
+          document.body.scrollTop > 20 ||
+          document.documentElement.scrollTop > 20
+        ) {
+          toTopButton.style.display = "block";
+        } else {
+          toTopButton.style.display = "none";
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
+  });
 
   // START OF ANIMATION JS
   const addToCartButton = document.getElementsByClassName(
@@ -224,9 +232,7 @@ export default function AllProductViews(props) {
           title="Go To Cart"
           onClick={goToCart}
         ></img>
-        <p id="numberInCart">
-          {!cartItemsToRender.length ? "0" : cartItemsToRender.length + counter}
-        </p>
+        <p id="numberInCart">{cartQuantity}</p>
       </aside>
 
       <button onClick={toTopFunction} id="toTopButton" title="Go to Top">

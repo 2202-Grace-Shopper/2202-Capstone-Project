@@ -14,9 +14,10 @@ import jwt_decode from "jwt-decode";
 //on submit will also need to create a new fresh order(IN CART) for the user
 
 export default function Cart(props) {
-  const { cartItems, setCartItems } = props;
+  const { cartItems, setCartItems, cartQuantity, setCartQuantity } = props;
   const [totalPrice, setTotalPrice] = useState(0);
   const { token } = useAuth();
+  const history = useHistory();
   let email;
   let cartItemsToRender = []; //indeterminate array length
 
@@ -88,34 +89,33 @@ export default function Cart(props) {
   useEffect(() => {
     let itemPriceTotal = 0;
 
-    cartItems.map((item) => {
+    cartItemsToRender.map((item) => {
       return (itemPriceTotal += item.product.price * item.qty);
     });
 
     setTotalPrice(itemPriceTotal);
-  }, [cartItems]);
+  }, [cartItemsToRender]);
 
   //puts everything in the cart state into the products_in_order table attached to the specific order ID
   async function handleSubmit(e) {
     e.preventDefault();
-    // console.log("you clicked me!");
 
     if (!cartItemsToRender.length) {
       window.alert("You have nothing to purchase in your cart.");
       return;
     }
 
+    const currentUserId = parseInt(localStorage.getItem("userId"));
+    console.log("current user's ID:", currentUserId);
+
     // const {productId:id,eachPrice:price,eachQuantity:qty} = cartItemsToRender[[...]]
-    //two options:
-    //  1) for every product in cartItemsToRender, make a fetch call to post a new row into the products_in_order table; push out that product when you finish a successful fetch so that the cart can be empty by the end of this handleSubmit function
-    //  2) somehow, put all products in cartItemsToRender into fetch at once...?
-    //in addition, orderId needs to increase when "complete purchase" is selected and it needs to stay at the new value when the user logs back in later
+    // for every product in cartItemsToRender, make a fetch call to post a new row into the products_in_order table; push out that product when you finish a successful fetch so that the cart can be empty by the end of this handleSubmit function
 
     try {
       //get orderId by passing in userId to api call
       //might not work for guest accounts
-      const responseOrderId = await fetch(
-        `http://localhost:4000/api/orders/${email}/cart`,
+      const response = await fetch(
+        `http://localhost:4000/api/orders/${currentUserId}`,
         {
           method: "GET",
           headers: {
@@ -123,55 +123,77 @@ export default function Cart(props) {
           },
         }
       );
-      const orders = await responseOrderId.json();
-      console.log("return list of user's orders:", orders);
+      const orders = await response.json();
+      console.log("returned order ID:", orders.id);
 
       //This is to POST into products_in_order table
       //uses db function "addCartToProductsInOrderTable(4 things)" and api call "productsInOrderRouter.post("/:orderId"...)"
-      const response = await fetch(
-        `http://localhost:4000/api/products_in_order/:orderId
+      for (let i = 0; i < cartItemsToRender.length; i++) {
+        // console.log(
+        //   "passing in:",
+        //   orders.id,
+        //   cartItemsToRender[i].product.id,
+        //   cartItemsToRender[i].product.price,
+        //   cartItemsToRender[i].qty
+        // );
+
+        await fetch(
+          `http://localhost:4000/api/products_in_order/${orders.id}
+        `,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              productId: cartItemsToRender[i].product.id,
+              price: cartItemsToRender[i].product.price,
+              qty: cartItemsToRender[i].qty,
+            }),
+          }
+        );
+      }
+
+      //This is to PATCH the current order(IN CART) that is attached to user & will set the status to be PENDING; ALSO patch/edit the current order to have total price and quantity at time of purchase
+      await fetch(
+        `http://localhost:4000/api/orders/${orders.id}
         `,
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          // body: JSON.stringify(orderId, productId, eachPrice, eachQuantity),
+          body: JSON.stringify({
+            totalPurchasePrice: totalPrice,
+            totalQuantity: cartQuantity,
+            orderDate: new Date(),
+          }),
         }
       );
 
-      //This is to PATCH the current order(IN CART) that is attached to user & will set the status to be PENDING
-      // const response2 = await fetch(
-      //   `http://localhost:4000/api/orders
-      //   `,
-      //   {
-      //     method: "PATCH",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
-
       //This will POST a new EMPTY order(IN CART) & attach to current user
-      // const response3 = await fetch(
-      //   `http://localhost:4000/api/orders
-      //   `,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // );
-
-      const items = await response.json();
-      console.log(items);
+      await fetch(`http://localhost:4000/api/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: currentUserId,
+          orderStatus: "cart",
+          totalPurchasePrice: 0,
+          totalQuantity: 0,
+          orderDate: new Date(),
+        }),
+      });
 
       //if you made it all the way through, show pop-up message congratulating the user (and yourself!)
       window.alert(
         "Your order has been placed! Thank you for choosing Plant-O-Licious for all your plant needs. :)"
       );
-      useHistory.push("/products");
+
+      //clear out cart
+      setCartItems([]);
+      setCartQuantity(0);
+
+      history.push("/products");
     } catch (err) {
       throw err;
     }
