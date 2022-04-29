@@ -35,21 +35,29 @@ export default function SingleProduct(props) {
   };
 
   async function handleDelete(productId) {
-    try {
-      const response = await fetch(
-        `http://localhost:4000/api/products/${productId}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+    let answer = false;
 
-      const data = await response.json();
-      console.log({ data });
+    answer = window.confirm(
+      "Are you sure you want to delete this happy plant? This action cannot be undone."
+    );
 
-      history.push(`/products`);
-    } catch (err) {
-      throw err;
+    if (answer) {
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/products/${productId}`,
+          {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const data = await response.json();
+        console.log({ data });
+
+        history.push(`/products`);
+      } catch (err) {
+        throw err;
+      }
     }
   }
 

@@ -66,7 +66,28 @@ p {
   margin: 10px;
   font-size: 18px;
   color: rgb(204, 0, 81);
+  border-radius: 5px;
+
+  /* START OF ANIMATION */
+  position: relative;
+  transition: 0.2s;
 }
+
+span.ripple {
+  background-color: rgb(255, 95, 159);
+  border-radius: 50%;
+  position: absolute;
+  transform: scale(0);
+  animation: ripple 0.35s linear forwards;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(0.45);
+    opacity: 0;
+  }
+}
+/* END OF ANIMATION */
 
 .buttonAddToCartFromAllProducts:hover {
   cursor: pointer;
