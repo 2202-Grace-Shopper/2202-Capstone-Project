@@ -10,6 +10,7 @@ import "./style/AllPlants.css";
 import "./style/Home.css";
 import "./style/AddNewProduct.css";
 import "./style/Cart.css";
+import "./style/Profile.css";
 import { AuthProvider } from "./context";
 
 ReactDOM.render(

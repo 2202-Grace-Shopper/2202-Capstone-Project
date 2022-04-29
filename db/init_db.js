@@ -66,7 +66,7 @@ async function populateInitialData() {
         title: "ECHEVERIA",
         price: 23.0,
         description:
-          "This succulent resembles a rose with its spiral of pointed leaves that come in various shades of green, pink and burgundy. It''s low-growing and can be planted in ground or in containers, but it also does well indoors in a sunny window.",
+          "This succulent resembles a rose with its spiral of pointed leaves that come in various shades of green, pink and burgundy. It's low-growing and can be planted in ground or in containers, but it also does well indoors in a sunny window.",
         isActive: true,
         inStockQuantity: 100,
         photoLinkHref:
@@ -76,7 +76,7 @@ async function populateInitialData() {
         title: "STRING OF PEARLS",
         price: 16.0,
         description:
-          "This darling plant has tiny round leaves that dangle on a long stem, resembling a beaded necklace. Find your brightest window and then leave it be; the stems can reach several feet long but break easily when moved. If a piece does fall off, push it into damp soil to create a new plant. This plant''s relative, string of bananas, is equally fetching and looks like — you guessed it— a string of tiny bananas!",
+          "This darling plant has tiny round leaves that dangle on a long stem, resembling a beaded necklace. Find your brightest window and then leave it be; the stems can reach several feet long but break easily when moved. If a piece does fall off, push it into damp soil to create a new plant. This plant's relative, string of bananas, is equally fetching and looks like — you guessed it— a string of tiny bananas!",
         isActive: true,
         inStockQuantity: 75,
         photoLinkHref:
@@ -86,7 +86,7 @@ async function populateInitialData() {
         title: "SNAKE PLANT",
         price: 24.0,
         description:
-          "Yes, this old favorite is a type of succulent, and it''s tough-as-nails. You''ll find upright forms with sword-like or cylindrical foliage, and dwarf varieties, which have a more clumping appearance. It''s one of the easiest succulents to grow and will live for decades with the right conditions. In some parts of the country, it can be grown outdoors (though it should be placed in a pot sunk in the ground, because it can become invasive in warm climates).",
+          "Yes, this old favorite is a type of succulent, and it's tough-as-nails. You'll find upright forms with sword-like or cylindrical foliage, and dwarf varieties, which have a more clumping appearance. It's one of the easiest succulents to grow and will live for decades with the right conditions. In some parts of the country, it can be grown outdoors (though it should be placed in a pot sunk in the ground, because it can become invasive in warm climates).",
         isActive: true,
         inStockQuantity: 55,
         photoLinkHref:
@@ -96,7 +96,7 @@ async function populateInitialData() {
         title: "TOMATOES",
         price: 16.0,
         description:
-          "Tomato plants are tender warm-season crops that love the sun and cannot bear frost. It''s important not to put plants in the ground too early. In most regions, the soil is not warm enough to plant tomatoes outdoors until late spring and early summer except in zone 10, where they are a fall and winter crop.",
+          "Tomato plants are tender warm-season crops that love the sun and cannot bear frost. It's important not to put plants in the ground too early. In most regions, the soil is not warm enough to plant tomatoes outdoors until late spring and early summer except in zone 10, where they are a fall and winter crop.",
         isActive: true,
         inStockQuantity: 100,
         photoLinkHref:
