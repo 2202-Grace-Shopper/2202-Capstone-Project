@@ -6,7 +6,7 @@ import { useAuth } from "../custom-hooks";
 
 export default function Profile() {
   const [profile, setProfile] = useState({});
-  // const [orders, setOrders] = useState({});
+  const [orders, setOrders] = useState([]);
   const { token } = useAuth();
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export default function Profile() {
         });
 
         const data = await response.json();
+        console.log(data);
 
         setProfile(data);
       } catch (err) {
@@ -28,23 +29,28 @@ export default function Profile() {
     fetchProfile();
   }, [token]);
 
-  // useEffect(() => {
-  //   async function fetchOrders() {
-  //     try {
-  //       const response = await fetch(`http://localhost:4000/api/orders`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        console.log(profile.id);
+        const response = await fetch(
+          `http://localhost:4000/api/orders/all/${profile.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-  //       const data = await response.json();
-  //       setOrders(data);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   }
-  //   fetchOrders();
-  // }, [token]);
+        const userOrders = await response.json();
+        console.log(userOrders);
+        setOrders(userOrders);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchOrders();
+  }, [profile]);
 
   return (
     <section>
@@ -54,6 +60,29 @@ export default function Profile() {
         construction.
       </div>
       <div>Please come back another time to view your profile page :)</div>
+
+      <table>
+        <tr>
+          <th>Order Number</th>
+          <th>Order Date</th>
+          <th>Order Status</th>
+          <th>Total Purchase Price</th>
+        </tr>
+        {orders &&
+          orders.map((order) => {
+            const { id, orderDate, orderStatus, totalPurchasePrice } = order;
+            return (
+              <tbody key={id}>
+                <tr>
+                  <td>{id}</td>
+                  <td>{orderDate}</td>
+                  <td>{orderStatus}</td>
+                  <td>{totalPurchasePrice}</td>
+                </tr>
+              </tbody>
+            );
+          })}
+      </table>
     </section>
   );
 
