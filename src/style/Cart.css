@@ -16,7 +16,21 @@
   background-color: rgb(144, 183, 152);
   box-shadow: black 3px 3px 5px;
   width: 400px;
-  height: 200px;
+  height: 210px;
+  justify-content: center;
+  padding: 5px;
+}
+
+.titleAndPrice {
+  display: flex;
+  flex-direction: column;
+  width: 175px;
+}
+
+.priceWithButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 /* move picture and +/- buttons into a different bucket alongside the .eachCartItem one; make them side-by-side and/or have +/- buttons be near quantity number; enlarge price to be as big as the title and quantity numbers */
@@ -29,8 +43,13 @@
 }
 
 .addSubtractItemsButton {
-  width: 50px;
-  height: 50px;
+  width: 25px;
+  height: 25px;
+}
+
+.totalPrice {
+  padding: 5px;
+  background-color: white;
 }
 
 .addSubtractItemsButton,
@@ -38,6 +57,13 @@
   font-size: 18px;
   color: rgb(204, 0, 81);
   font-weight: bold;
+  background-color: white;
+  border: none;
+  box-shadow: black 2px 2px 2px;
+}
+
+.completePurchaseButton {
+  padding: 5px;
 }
 
 .addSubtractItemsButton:hover,
