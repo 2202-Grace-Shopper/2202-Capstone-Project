@@ -26,6 +26,7 @@ import {
 function App() {
   const { isLoggedIn, isAdminAC, token } = useAuth();
   const [cartItems, setCartItems] = useState([]);
+
   // const [userId, setUserId] = useState();
   //decode token to get email
   //if you're currently logged - have a token that can be translated into an email - bring in the cartItems that match that user

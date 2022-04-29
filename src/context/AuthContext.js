@@ -7,7 +7,7 @@ export default function AuthProvider({ children }) {
   const [token, setToken] = useState("");
   const [shouldUpdate, setShouldUpdate] = useState(false);
   const [isAdminAC, setIsAdminAC] = useState(false);
-
+  let history;
   useEffect(() => {
     setToken(localStorage.ft_token || "");
   }, [shouldUpdate]);
@@ -15,10 +15,13 @@ export default function AuthProvider({ children }) {
   const updateAuthStatus = () => setShouldUpdate(!shouldUpdate);
 
   const logout = () => {
+    console.log(history);
     setIsAdminAC(false);
     localStorage.removeItem("userId");
+    window.location.href = "/home";
     //you can delete the cart info stored in local storage here
-    delete localStorage.ft_token;
+    localStorage.removeItem("ft_token");
+    // delete localStorage.ft_token;
     updateAuthStatus();
   };
 
