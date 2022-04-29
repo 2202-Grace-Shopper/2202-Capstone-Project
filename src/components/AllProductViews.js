@@ -11,10 +11,13 @@ import cartIcon from "../assets/shoppingcarticon.jpg";
 export default function AllProductViews(props) {
   const [products, setProducts] = useState([]);
   const { cartItems, setCartItems } = props;
-  const { isLoggedIn, token, isAdminAC } = useAuth();
+  const { token, isAdminAC } = useAuth();
   const history = useHistory();
+
+  // Used in "items in cart" indicator
   let cartItemsToRender = [];
   let email;
+  let counter = 0;
 
   if (token) {
     email = jwt_decode(token).email;
@@ -22,10 +25,16 @@ export default function AllProductViews(props) {
     email = "guest@mail.com";
   }
 
+  // If there are items in the cart, then for every item in the cart, check if the item's email matches that of the current user. If there's a match, "render"/count that item in the array cartItemsToRender.
+  // However, if that item's quantity is larger than 1, add that number to the counter; this counter will be added to the indicator itself last.
   if (cartItems) {
     for (let i = 0; i < cartItems.length; i++) {
       if (cartItems[i].userEmail === email) {
         cartItemsToRender[i] = cartItems[i];
+      }
+
+      if (cartItems[i].qty > 1) {
+        counter += cartItems[i].qty - 1;
       }
     }
   }
@@ -43,9 +52,10 @@ export default function AllProductViews(props) {
 
   //This will run after everything else has run, guaranteeing that the console.log actually catches what happens to cartItems
   useEffect(() => {
-    console.log("This is cart state", cartItems);
+    console.log("This is the current cart state", cartItems);
   }, [cartItems]);
 
+  // adds item to the cart when the "add to cart" button is clicked; makes sure the current user's email comes along for the ride
   const addItemToCart = async (product) => {
     const getToken = localStorage.getItem("ft_token");
     let userEmail;
@@ -71,6 +81,7 @@ export default function AllProductViews(props) {
     }
   };
 
+  // fetches all products for product list; runs last
   useEffect(() => {
     //create as async fetch function
     async function fetchProducts() {
@@ -97,36 +108,60 @@ export default function AllProductViews(props) {
     fetchProducts();
   }, []);
 
+  //takes user to cart when they click the cart icon
   async function goToCart() {
     history.push("./cart");
   }
 
+  //takes user to the top of the page when clicked
   async function toTopFunction() {
     document.body.scrollTop = 0; //for Safari
     document.documentElement.scrollTop = 0; //for Chrome, Firefox, IE, Opera
   }
 
+  //scroll logic part 1
   const toTopButton = document.getElementById("toTopButton");
-  // const toCartButton = document.getElementById("cartIndicatorAndButton");
-  // const numberInCartIndicator = document.getElementById("numberInCart");
   window.onscroll = function () {
     scrollFunction();
   };
 
+  //scroll logic part 2
   async function scrollFunction() {
     if (
-      document.body.scrollTop > 20 ||
-      document.documentElement.scrollTop > 20
+      toTopButton &&
+      (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)
     ) {
-      // numberInCartIndicator.style.display = "block";
       toTopButton.style.display = "block";
-      // toCartButton.style.display = "block";
     } else {
-      // numberInCartIndicator.style.display = "none";
       toTopButton.style.display = "none";
-      // toCartButton.style.display = "none";
     }
   }
+
+  // START OF ANIMATION JS
+  const addToCartButton = document.getElementsByClassName(
+    "buttonAddToCartFromAllProducts"
+  );
+
+  Array.prototype.forEach.call(addToCartButton, function (b) {
+    b.addEventListener("click", createRipple);
+  });
+
+  function createRipple(event) {
+    let ripple = document.createElement("span");
+    ripple.classList.add("ripple");
+
+    let max = Math.max(this.offsetWidth, this.offsetHeight);
+
+    ripple.style.width = ripple.style.height = max * 2 + "px";
+
+    let rect = this.getBoundingClientRect();
+
+    ripple.style.left = event.clientX - rect.left - max + "px";
+    ripple.style.top = event.clientY - rect.top - max + "px";
+
+    this.appendChild(ripple);
+  }
+  // END OF ANIMATION JS
 
   return (
     <>
@@ -190,7 +225,7 @@ export default function AllProductViews(props) {
           onClick={goToCart}
         ></img>
         <p id="numberInCart">
-          {!cartItemsToRender.length ? "0" : cartItemsToRender.length}
+          {!cartItemsToRender.length ? "0" : cartItemsToRender.length + counter}
         </p>
       </aside>
 
