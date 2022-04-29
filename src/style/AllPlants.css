@@ -51,6 +51,11 @@ p {
   margin-top: 5px;
 }
 
+.eachPlantInfo {
+  text-decoration: none;
+  color: black;
+}
+
 .eachPlantTitle {
   position: absolute;
   top: 5px;
