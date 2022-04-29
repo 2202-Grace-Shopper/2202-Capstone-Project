@@ -11,7 +11,6 @@ export default function LoginOrRegister(props) {
 
   const currentURL = window.location.href;
   const loginOrRegister = currentURL.slice(22);
-  // console.log(loginOrRegister);
 
   const [form, setForm] = useState({ email: "", password: "" });
 

@@ -27,12 +27,12 @@ productsInOrderRouter.post("/:orderId", async (req, res, next) => {
       eachQuantity
     );
 
-    const cartProduct = await addCartToProductsInOrderTable({
+    const cartProduct = await addCartToProductsInOrderTable(
       orderId,
       productId,
       eachPrice,
-      eachQuantity,
-    });
+      eachQuantity
+    );
 
     console.log("returned api cartProduct:", cartProduct);
 

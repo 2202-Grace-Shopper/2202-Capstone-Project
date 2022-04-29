@@ -7,12 +7,12 @@ module.exports = {
   destroyCartProduct,
 };
 
-async function addCartToProductsInOrderTable({
+async function addCartToProductsInOrderTable(
   orderId,
   productId,
   eachPrice,
-  eachQuantity,
-}) {
+  eachQuantity
+) {
   console.log("reached addCartToProductsInOrderTable db function");
 
   try {
