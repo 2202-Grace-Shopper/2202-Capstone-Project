@@ -47,11 +47,23 @@ ordersRouter.get("/:userEmail/cart", async (req, res, next) => {
 });
 
 ordersRouter.post("/", async (req, res, next) => {
+  console.log("THIS IS THE REQUEST", req.body);
   try {
-    // const { email } = req.body;
-    console.log("user.id from req:", req.user.id);
+    const {
+      userId,
+      orderStatus,
+      totalPurchasePrice,
+      totalQuantity,
+      orderDate,
+    } = req.body;
 
-    const order = await createOrder({ userId: req.user.id });
+    const order = await createOrder(
+      userId,
+      orderStatus,
+      totalPurchasePrice,
+      totalQuantity,
+      orderDate
+    );
 
     res.send(order);
   } catch (err) {

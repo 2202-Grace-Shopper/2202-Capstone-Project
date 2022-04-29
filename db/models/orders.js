@@ -14,18 +14,24 @@ module.exports = {
 };
 
 //will be used when a user is registered and when a user checks out and needs a new "order"
-async function createOrder({ id }) {
-  console.log("id:", id);
+async function createOrder(
+  userId,
+  orderStatus,
+  totalPurchasePrice,
+  totalQuantity,
+  orderDate
+) {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-        INSERT INTO orders(id)
-        VALUES ($1)
+        INSERT INTO orders("userId", "orderStatus", "totalPurchasePrice", "totalQuantity", "orderDate")
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;`,
-      [id]
+      [userId, orderStatus, totalPurchasePrice, totalQuantity, orderDate]
     );
+    console.log(order);
     return order;
   } catch (err) {
     console.error(err);

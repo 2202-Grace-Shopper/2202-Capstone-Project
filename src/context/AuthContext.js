@@ -16,6 +16,7 @@ export default function AuthProvider({ children }) {
 
   const logout = () => {
     setIsAdminAC(false);
+    localStorage.removeItem("userId");
     //you can delete the cart info stored in local storage here
     delete localStorage.ft_token;
     updateAuthStatus();

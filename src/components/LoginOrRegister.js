@@ -3,8 +3,9 @@ import { useAuth } from "../custom-hooks";
 import { useHistory } from "react-router-dom";
 import plantPic1 from "../assets/PlantForLogRegPage.JPG";
 
-export default function LoginOrRegister() {
+export default function LoginOrRegister(props) {
   const history = useHistory();
+  // const { userId, setUserId } = props;
 
   const { updateAuthStatus } = useAuth();
 
@@ -23,11 +24,19 @@ export default function LoginOrRegister() {
     setForm({ ...form, [event.target.name]: event.target.value });
   }
 
+  // useEffect(() => {
+  //   if (localStorage.getItem("userId")) {
+  //     setUserId(parseInt(localStorage.getItem("userId")));
+  //   } else {
+  //     setUserId(0);
+  //   }
+  // }, [userId]);
+
   async function handleSubmit(event) {
     event.preventDefault();
 
     // console.log("Form is getting this in component:", form);
-
+    console.log("THIS IS THE REGISTER FORM", form);
     //ensure that people are entering in valid emails
     if (checkEmail(form.email)) {
       try {
@@ -42,18 +51,30 @@ export default function LoginOrRegister() {
 
         const { user, token } = await response.json();
 
+        localStorage.setItem("userId", user.id);
+
+        // setUserId(parseInt(localStorage.getItem("userId")));
+        // localStorage.setItem("userId", user.id);
+
         if (user) {
           localStorage.ft_token = token;
           updateAuthStatus();
 
           if (loginOrRegister === "register") {
-            //create new "cart" (order with orderStatus of "cart")
+            // create new "cart" (order with orderStatus of "cart")
             const response2 = await fetch(`http://localhost:4000/api/orders`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userId: parseInt(localStorage.getItem("userId")),
+                orderStatus: "cart",
+                totalPurchasePrice: 0,
+                totalQuantity: 0,
+                orderDate: new Date(),
+              }),
             });
 
-            const { newOrder } = await response2.json();
+            const newOrder = await response2.json();
 
             console.log(newOrder);
           }
@@ -66,7 +87,7 @@ export default function LoginOrRegister() {
             history.push("./adminprofile");
           } else if (user.isAdmin === false) {
             console.log(
-              `Success! Welcome ${user.email} with bearer token ${token}.`
+              `Success! Welcome ${user.email} with bearer token ${token} and userId${user.id}.`
             );
             history.push("./profile");
           }
