@@ -215,33 +215,40 @@ export default function Cart(props) {
             return (
               <ul key={product.id} className="cartItemsList">
                 <li className="eachCartItem">
-                  <h3>
-                    {product.title} x {qty}
-                  </h3>
-                  <h4>${product.price}</h4>
+                  <div className="titleAndPrice">
+                    <h3>{product.title}</h3>
+                    <h3>Quantity: {qty}</h3>
+                    <div className="priceWithButtons">
+                      <button
+                        className="addSubtractItemsButton"
+                        onClick={() => deleteItemFromCart(product)}
+                        style={{ marginRight: "10px" }}
+                      >
+                        -
+                      </button>
+                      <h4 style={{ fontSize: "20px" }}>${product.price}</h4>
+
+                      <button
+                        className="addSubtractItemsButton"
+                        onClick={() => addItemToCart(product)}
+                        style={{ marginLeft: "10px" }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
                   <img
                     className="eachProductPicture"
                     src={product.photoLinkHref}
                     alt={product.title}
                   />
-                  <button
-                    className="addSubtractItemsButton"
-                    onClick={() => addItemToCart(product)}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="addSubtractItemsButton"
-                    onClick={() => deleteItemFromCart(product)}
-                  >
-                    -
-                  </button>
                 </li>
               </ul>
             );
           })}
       </div>
-      <h3>Total Price: ${totalPrice}</h3>
+      <h3 className="totalPrice">Total Price: ${totalPrice}</h3>
       <button
         className="completePurchaseButton"
         onClick={(e) => handleSubmit(e)}
