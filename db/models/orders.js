@@ -14,6 +14,7 @@ module.exports = {
   createOrderInitDB,
   getOrderByUserId,
   patchOrder,
+  getAllOrdersByUserId,
 };
 
 //will be used when a user is registered and when a user checks out and needs a new "order"
@@ -155,6 +156,32 @@ async function getOrderByUser({ email }) {
         WHERE email = $1
         GROUP BY orders.id;`,
       [email]
+    );
+
+    return orders;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function getAllOrdersByUserId(id) {
+  try {
+    const { rows: orders } = await client.query(
+      `
+      SELECT orders.*,
+        JSON_AGG(
+            JSON_BUILD_OBJECT(
+                'productId',op."productId",
+                'price', op."eachPrice",
+                'quantity', op."eachQuantity"
+            )
+        ) AS items
+        FROM orders
+            LEFT JOIN products_in_order AS op
+                ON orders.id = op."orderId"
+        WHERE "userId" = $1
+        GROUP BY orders.id;`,
+      [id]
     );
 
     return orders;
