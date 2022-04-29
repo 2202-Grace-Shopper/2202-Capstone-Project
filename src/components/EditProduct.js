@@ -12,6 +12,7 @@ export default function EditProduct() {
   const price = searchObject.get("price");
   const description = searchObject.get("description");
   const photoLinkHref = searchObject.get("photoLinkHref");
+  const inStockQuantity = searchObject.get("inStockQuantity");
   const id = searchObject.get("id");
 
   const [form, setForm] = useState({
@@ -19,6 +20,7 @@ export default function EditProduct() {
     price: price,
     description: description,
     photoLinkHref: photoLinkHref,
+    inStockQuantity: inStockQuantity,
   });
 
   const handleChange = (e) => {
@@ -53,10 +55,11 @@ export default function EditProduct() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="anpForm" onSubmit={handleSubmit}>
       <div>
-        <label>Plant title: </label>
+        <label className="labels ">Plant Title: </label>
         <input
+          className="input bigInput"
           type="text"
           name="title"
           value={form.title}
@@ -64,43 +67,53 @@ export default function EditProduct() {
         />
       </div>
       <div>
-        <label>Price: </label>
+        <label className="labels ">Photo Link: </label>
         <input
-          type="number"
-          name="price"
-          value={form.price}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Description: </label>
-        <textarea
-          style={{ borderRadius: "5px" }}
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Stock Quantity: </label>
-        <input
-          type="number"
-          name="inStockQuantity"
-          value={form.inStockQuantity}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Photo Link: </label>
-        <input
+          className="input bigInput"
           type="url"
           name="photoLinkHref"
           value={form.photoLinkHref}
           onChange={handleChange}
         />
       </div>
-      <input type="submit" value="Edit product" />
-      <button name="clear" onClick={() => history.push(`/products`)}>
+      <div className="row">
+        <div className="small">
+          <label className="labels ">Price: </label>
+          <input
+            className="input"
+            type="number"
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="small">
+          <label className="labels ">Stock Quantity: </label>
+          <input
+            className="input"
+            type="number"
+            name="inStockQuantity"
+            value={form.inStockQuantity}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="labels">Description: </label>
+        <textarea
+          className="textBox"
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+        />
+      </div>
+      <input className="buttons" type="submit" value="Finish Edit" />
+      <button
+        className="buttons"
+        name="clear"
+        onClick={() => history.push(`/products`)}
+      >
         Cancel
       </button>
     </form>

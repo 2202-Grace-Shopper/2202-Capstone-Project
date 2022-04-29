@@ -22,8 +22,9 @@ const loggedOutLinks = [
   { id: 5, to: "/register", name: "Register" },
 ];
 
-export default function Nav() {
+export default function Nav(props) {
   const { isLoggedIn, logout, isAdminAC } = useAuth();
+
   let navLinks = isLoggedIn ? loggedInLinks : loggedOutLinks;
   if (isAdminAC) {
     navLinks = adminLoggedInLinks;
