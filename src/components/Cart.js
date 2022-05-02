@@ -202,9 +202,9 @@ export default function Cart(props) {
   return (
     <div className="entireCartBody">
       {email === "guest@mail.com" ? (
-        <h1>Guest's Cart</h1>
+        <h1 className="hello">Guest's Cart</h1>
       ) : (
-        <h1>{email}'s Cart</h1>
+        <h1 className="hello">{email}'s Cart</h1>
       )}
       <div className="cartMessageBlurb">
         {!cartItemsToRender.length && <div>No plant buddies yet!</div>}

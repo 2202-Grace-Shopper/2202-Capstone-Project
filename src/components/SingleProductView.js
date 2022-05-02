@@ -113,7 +113,7 @@ export default function SingleProduct(props) {
                   src={photoLinkHref}
                   alt={product.title}
                 />
-                <aside>In Stock Quantity: {inStockQuantity}</aside>
+                {/* <aside>In Stock Quantity: {inStockQuantity}</aside> */}
                 <h5>{category}</h5>
                 <p>{description}</p>
                 <button

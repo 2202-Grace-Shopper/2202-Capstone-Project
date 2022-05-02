@@ -73,7 +73,7 @@
 
 .footerText {
   text-align: center;
-  margin: 50px;
+  /* margin: 50px; */
   padding: 5px;
   background-image: linear-gradient(rgb(92, 137, 92, 0), rgb(86, 128, 86));
   /* isn't going all the way across the bottom of the page for some reason. this is true for all pages, and setting width to 100% doesn't fix it. */
