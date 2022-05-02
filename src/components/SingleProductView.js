@@ -84,6 +84,32 @@ export default function SingleProduct(props) {
     getProduct();
   }, [productId]);
 
+  // START OF ANIMATION JS
+  const addToCartButton = document.getElementsByClassName(
+    "buttonAddToCartFromAllProducts"
+  );
+
+  Array.prototype.forEach.call(addToCartButton, function (b) {
+    b.addEventListener("click", createRipple);
+  });
+
+  function createRipple(event) {
+    let ripple = document.createElement("span");
+    ripple.classList.add("ripple");
+
+    let max = Math.max(this.offsetWidth, this.offsetHeight);
+
+    ripple.style.width = ripple.style.height = max * 2 + "px";
+
+    let rect = this.getBoundingClientRect();
+
+    ripple.style.left = event.clientX - rect.left - max + "px";
+    ripple.style.top = event.clientY - rect.top - max + "px";
+
+    this.appendChild(ripple);
+  }
+  // END OF ANIMATION JS
+
   return (
     <section
       className="allPlantsBlock"
@@ -116,7 +142,7 @@ export default function SingleProduct(props) {
                 <h5>{category}</h5>
                 <p>{description}</p>
                 <button
-                  className="buttonAddToCartFromAllProducts"
+                  className="buttonAddToCartFromAllProducts linkToAddingToCart"
                   onClick={() => addItemToCart(product)}
                 >
                   Add to Cart
@@ -125,12 +151,12 @@ export default function SingleProduct(props) {
                   <>
                     <Link
                       to={`/editproduct/?title=${title}&price=${price}&description=${description}&photoLinkHref=${photoLinkHref}&inStockQuantity=${inStockQuantity}&id=${id}`}
-                      className="buttonAddToCartFromAllProducts"
+                      className="buttonAddToCartFromAllProducts linkToEditingProduct"
                     >
                       Edit Product
                     </Link>
                     <button
-                      className="buttonAddToCartFromAllProducts"
+                      className="buttonAddToCartFromAllProducts linkToDeletingProduct"
                       onClick={() => handleDelete(id)}
                     >
                       Delete Product

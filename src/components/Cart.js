@@ -30,6 +30,7 @@ export default function Cart(props) {
 
   //groups up all items in cart based on who's logged in
   //reminder that the cart will reset/"refresh" whenever the site does! test this funcationality by logging in, adding something to the cart, logging out, and then checking cart; it should become empty.
+
   if (cartItems) {
     // console.log("made it into the if statement for cart check");
     for (let i = 0; i < cartItems.length; i++) {
