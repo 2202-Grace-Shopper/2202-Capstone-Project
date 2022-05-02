@@ -5,7 +5,7 @@
   padding: 5px;
   margin-left: 200px;
   font-weight: bold;
-  background-color: white;
+  background-color: rgb(198, 241, 216);
   border: black 2px solid;
   opacity: 90%;
 }
@@ -153,4 +153,37 @@ span.ripple {
   padding: 4px;
   box-shadow: black 2px 2px 5px;
   font-size: 18px;
+}
+
+.linkToAddingToCart {
+  font-size: 18px;
+  text-decoration: none;
+  color: black;
+  padding: 5px;
+  font-weight: bold;
+  background-color: white;
+  border: black 2px solid;
+  opacity: 90%;
+}
+
+.linkToDeletingProduct {
+  font-size: 18px;
+  text-decoration: none;
+  color: black;
+  padding: 5px;
+  font-weight: bold;
+  background-color: rgb(198, 241, 216);
+  border: black 2px solid;
+  opacity: 90%;
+}
+
+.linkToEditingProduct {
+  font-size: 18px;
+  text-decoration: none;
+  color: black;
+  padding: 5px;
+  font-weight: bold;
+  background-color: rgb(198, 241, 216);
+  border: black 2px solid;
+  opacity: 90%;
 }

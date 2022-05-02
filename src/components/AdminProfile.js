@@ -30,15 +30,10 @@ export default function AdminProfile() {
         </section>
         <section className="previousOrders">
           <label className="labels">Previous Orders:</label>
-          <ul className="eachComponent">
-            This is where your previous orders would go
-          </ul>
-          <li>but</li>
-          <li>it's</li>
-          <li>still</li>
-          <li>under</li>
-          <li>construction!</li>
-          <li>:3</li>
+          <div className="eachComponent spacing">
+            This is where your previous orders would go if you were a regular
+            user.
+          </div>
         </section>
       </div>
     </section>
