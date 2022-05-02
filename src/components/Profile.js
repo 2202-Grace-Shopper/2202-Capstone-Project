@@ -50,7 +50,7 @@ export default function Profile() {
       }
     }
     fetchOrders();
-  }, [profile]);
+  }, [profile, token]);
 
   return (
     <section className="profileBlock">

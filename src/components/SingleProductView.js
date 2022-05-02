@@ -82,7 +82,7 @@ export default function SingleProduct(props) {
     };
 
     getProduct();
-  }, []);
+  }, [productId]);
 
   // START OF ANIMATION JS
   const addToCartButton = document.getElementsByClassName(
