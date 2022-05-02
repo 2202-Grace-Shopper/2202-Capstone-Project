@@ -12,7 +12,9 @@ export default function ProductForm() {
     description: "",
     category: "",
     inStockQuantity: 0,
-    photoLinkHref: "",
+    photoLinkHref:
+      "" ||
+      "https://i.pinimg.com/564x/34/b8/68/34b868caf02110382837647852f03c92.jpg",
   });
 
   function handleChange(e) {
@@ -41,8 +43,6 @@ export default function ProductForm() {
       console.error(err);
     }
   };
-
-  // return <div>hello, i'm adding a new product</div>;
 
   return (
     <form className="anpForm" onSubmit={handleSubmit}>
