@@ -3,7 +3,7 @@ on:
   push:
     branches:
       # for merged pull requests
-      - 'main'
+      - 'master'
       # for hotfixes
       - 'deploy'
 jobs:
