@@ -205,7 +205,7 @@ export default function AllProductViews(props) {
                 </Link>
                 <button
                   onClick={() => addItemToCart(product)}
-                  className="buttonAddToCartFromAllProducts"
+                  className="buttonAddToCartFromAllProducts linkToAddingToCart"
                 >
                   Add to Cart
                 </button>
@@ -213,7 +213,7 @@ export default function AllProductViews(props) {
                 {isAdminAC && (
                   <Link
                     to={`/editproduct/?title=${title}&price=${price}&description=${description}&photoLinkHref=${photoLinkHref}&inStockQuantity=${inStockQuantity}&id=${id}`}
-                    className="linkToEditProduct"
+                    className="linkToEditingProduct"
                   >
                     Edit Product
                   </Link>
