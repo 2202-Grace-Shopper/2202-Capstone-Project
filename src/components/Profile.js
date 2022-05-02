@@ -53,36 +53,46 @@ export default function Profile() {
   }, [profile]);
 
   return (
-    <section>
-      <h2>Welcome to your profile, {profile.email}</h2>
-      <div>
-        Unfortunately, there isn't much here yet! This area is still under
-        construction.
-      </div>
-      <div>Please come back another time to view your profile page :)</div>
+    <section className="profileBlock">
+      <h1 className="eachComponent hello">
+        Welcome to your profile, {profile.email}
+      </h1>
+      <div className="separateUsersAndOrders">
+        <section className="listOfAllUsers">
+          <label className="labels">User Settings:</label>
+          <div className="spacing">
+            This area is still under construction. Please come back another time
+            to view your user settings :)
+          </div>
+        </section>
 
-      <table>
-        <tr>
-          <th>Order Number</th>
-          <th>Order Date</th>
-          <th>Order Status</th>
-          <th>Total Purchase Price</th>
-        </tr>
-        {orders &&
-          orders.map((order) => {
-            const { id, orderDate, orderStatus, totalPurchasePrice } = order;
-            return (
-              <tbody key={id}>
-                <tr>
-                  <td>{id}</td>
-                  <td>{orderDate}</td>
-                  <td>{orderStatus}</td>
-                  <td>{totalPurchasePrice}</td>
-                </tr>
-              </tbody>
-            );
-          })}
-      </table>
+        <section className="previousOrders">
+          <label className="labels">Previous Orders:</label>
+          <table className="spacing">
+            <tr>
+              <th className="eachComponent ">Order Number</th>
+              <th className="eachComponent">Order Date</th>
+              <th className="eachComponent">Order Status</th>
+              <th className="eachComponent">Total Purchase Price</th>
+            </tr>
+            {orders &&
+              orders.map((order) => {
+                const { id, orderDate, orderStatus, totalPurchasePrice } =
+                  order;
+                return (
+                  <tbody key={id}>
+                    <tr>
+                      <td>{id}</td>
+                      <td>{orderDate}</td>
+                      <td>{orderStatus}</td>
+                      <td>{totalPurchasePrice}</td>
+                    </tr>
+                  </tbody>
+                );
+              })}
+          </table>
+        </section>
+      </div>
     </section>
   );
 
