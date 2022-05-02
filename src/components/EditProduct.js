@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useAuth } from "../custom-hooks";
 
 export default function EditProduct() {

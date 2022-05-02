@@ -82,7 +82,7 @@ export default function SingleProduct(props) {
     };
 
     getProduct();
-  }, []);
+  }, [productId]);
 
   return (
     <section
