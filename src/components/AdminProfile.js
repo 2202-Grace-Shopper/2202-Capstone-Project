@@ -31,7 +31,7 @@ export default function AdminProfile() {
         <section className="previousOrders">
           <label className="labels">Previous Orders:</label>
           <ul className="eachComponent">
-            This is where your previous orders would go{" "}
+            This is where your previous orders would go
           </ul>
           <li>but</li>
           <li>it's</li>

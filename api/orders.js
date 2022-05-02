@@ -9,6 +9,7 @@ const {
   getUserOrderInCart,
   getOrderByUserId,
   patchOrder,
+  getAllOrdersByUserId,
 } = require("../db/models/orders");
 const authorizeUser = require("./utils");
 
@@ -22,16 +23,29 @@ ordersRouter.get("/", async (req, res, next) => {
 });
 // curl http://localhost:4000/api/orders/ -X GET
 
-//gets all orders based on email
-// ordersRouter.get("/:userEmail", async (req, res, next) => {
-//   try {
-//     const orders = await getOrderByUser({ email: req.params.userEmail });
-//     res.send(orders);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+// gets all orders based on email
+ordersRouter.get("/:userEmail", async (req, res, next) => {
+  try {
+    console.log("Made it in the orders API");
+
+    const orders = await getOrderByUser({ email: req.params });
+    res.send(orders);
+  } catch (err) {
+    next(err);
+  }
+});
 // curl http://localhost:4000/api/orders/albert@mail.com -X GET
+
+ordersRouter.get("/all/:userId", async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const orders = await getAllOrdersByUserId(userId);
+    res.send(orders);
+  } catch (err) {
+    next(err);
+  }
+});
 
 //gets the latest (empty) order based on user ID
 ordersRouter.get("/:userId", async (req, res, next) => {

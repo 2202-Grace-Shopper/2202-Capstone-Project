@@ -192,7 +192,7 @@ export default function AllProductViews(props) {
 
             return (
               <div className="eachPlantBlock" key={id}>
-                <Link to={"/products/" + id}>
+                <Link to={"/products/" + id} className="eachPlantInfo">
                   <img
                     src={photoLinkHref}
                     alt="The plant"
@@ -201,7 +201,6 @@ export default function AllProductViews(props) {
 
                   <h3 className="eachPlantTitle">{title}</h3>
                   <p>${price}</p>
-                  <p>Quantity: {inStockQuantity}</p>
                   <p>{description}</p>
                 </Link>
                 <button
