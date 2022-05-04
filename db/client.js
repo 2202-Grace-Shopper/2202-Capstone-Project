@@ -6,14 +6,7 @@ const DB_NAME = "CapstoneCommerceSite";
 
 const DB_URL = process.env.DATABASE_URL || `0.0.0.0:5432/${DB_NAME}`; /////////////
 
-let client = new Client({
-  host: "localhost",
-  port: 5432, /////////////
-  user: "postgres",
-  password: "postgres",
-  database: "postgres",
-  ssl: { rejectUnauthorized: false },
-});
+let client = new Client(DB_URL);
 
 // github actions client config
 // if (process.env.CI) {
