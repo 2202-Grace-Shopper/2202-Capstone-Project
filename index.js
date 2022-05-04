@@ -34,13 +34,13 @@ server.use((req, res, next) => {
 // bring in the DB connection
 const { client } = require("./db");
 
-// server.use(express.static(path.join(__dirname, "client", "build")));
-// // required to serve SPA on heroku production without routing problems; it will skip only 'api' calls
-// if (process.env.NODE_ENV === "production") {
-//   server.get(/^((?!(api)).)*$/, (req, res) => {
-//     res.sendFile(path.join(__dirname, "client/build", "index.html"));
-//   });
-// }
+server.use(express.static(path.join(__dirname, "client", "build")));
+// required to serve SPA on heroku production without routing problems; it will skip only 'api' calls
+if (process.env.NODE_ENV === "production") {
+  server.get(/^((?!(api)).)*$/, (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
 
 // connect to the server
 const PORT = process.env.PORT || 4000; /////////////
