@@ -89,7 +89,7 @@ export default function AllProductViews(props) {
     async function fetchProducts() {
       try {
         const response = await fetch(
-          `/products
+          `${process.env.DATABSE_URL}/products
         `,
           {
             headers: {
