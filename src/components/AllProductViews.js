@@ -89,7 +89,7 @@ export default function AllProductViews(props) {
     async function fetchProducts() {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/products
+          `/products
         `,
           {
             headers: {
