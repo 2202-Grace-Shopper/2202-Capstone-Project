@@ -40,7 +40,7 @@ export default function LoginOrRegister(props) {
     if (checkEmail(form.email)) {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/users/${loginOrRegister}`,
+          `https://plantolicious.herokuapp.com/api/users/${loginOrRegister}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -61,17 +61,20 @@ export default function LoginOrRegister(props) {
 
           if (loginOrRegister === "register") {
             // create new "cart" (order with orderStatus of "cart")
-            const response2 = await fetch(`http://localhost:4000/api/orders`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                userId: parseInt(localStorage.getItem("userId")),
-                orderStatus: "cart",
-                totalPurchasePrice: 0,
-                totalQuantity: 0,
-                orderDate: new Date(),
-              }),
-            });
+            const response2 = await fetch(
+              `https://plantolicious.herokuapp.com/api/orders`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  userId: parseInt(localStorage.getItem("userId")),
+                  orderStatus: "cart",
+                  totalPurchasePrice: 0,
+                  totalQuantity: 0,
+                  orderDate: new Date(),
+                }),
+              }
+            );
 
             const newOrder = await response2.json();
 

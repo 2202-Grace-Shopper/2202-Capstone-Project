@@ -9,7 +9,7 @@ export default function Home() {
     async function fetchProducts() {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/products
+          `https://plantolicious.herokuapp.com/api/products
         `,
           {
             headers: {

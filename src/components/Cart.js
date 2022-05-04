@@ -116,7 +116,7 @@ export default function Cart(props) {
       //get orderId by passing in userId to api call
       //might not work for guest accounts
       const response = await fetch(
-        `http://localhost:4000/api/orders/${currentUserId}`,
+        `https://plantolicious.herokuapp.com/api/orders/${currentUserId}`,
         {
           method: "GET",
           headers: {
@@ -139,7 +139,7 @@ export default function Cart(props) {
         // );
 
         await fetch(
-          `http://localhost:4000/api/products_in_order/${orders.id}
+          `https://plantolicious.herokuapp.com/api/products_in_order/${orders.id}
         `,
           {
             method: "POST",
@@ -157,7 +157,7 @@ export default function Cart(props) {
 
       //This is to PATCH the current order(IN CART) that is attached to user & will set the status to be PENDING; ALSO patch/edit the current order to have total price and quantity at time of purchase
       await fetch(
-        `http://localhost:4000/api/orders/${orders.id}
+        `https://plantolicious.herokuapp.com/api/orders/${orders.id}
         `,
         {
           method: "PATCH",
@@ -173,7 +173,7 @@ export default function Cart(props) {
       );
 
       //This will POST a new EMPTY order(IN CART) & attach to current user
-      await fetch(`http://localhost:4000/api/orders`, {
+      await fetch(`https://plantolicious.herokuapp.com/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -25,14 +25,17 @@ export default function ProductForm() {
     e.preventDefault();
     console.log(form);
     try {
-      const response = await fetch("http://localhost:4000/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(form),
-      });
+      const response = await fetch(
+        "https://plantolicious.herokuapp.com/api/products",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       const data = await response.json();
       console.log({ data });

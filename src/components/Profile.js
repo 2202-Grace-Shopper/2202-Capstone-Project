@@ -12,11 +12,14 @@ export default function Profile() {
   useEffect(() => {
     async function fetchProfile() {
       try {
-        const response = await fetch(`http://localhost:4000/api/users/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `https://plantolicious.herokuapp.com/api/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         const data = await response.json();
         console.log(data);
@@ -34,7 +37,7 @@ export default function Profile() {
       try {
         console.log(profile.id);
         const response = await fetch(
-          `http://localhost:4000/api/orders/all/${profile.id}`,
+          `https://plantolicious.herokuapp.com/api/orders/all/${profile.id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
