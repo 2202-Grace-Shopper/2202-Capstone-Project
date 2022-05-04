@@ -46,9 +46,9 @@ if (process.env.NODE_ENV === "production") {
 const PORT = process.env.PORT || 4000; /////////////
 
 // define a server handle to close open tcp connection after unit tests have run
-const handle = server.listen(PORT, "0.0.0.0", async () => {
+const handle = server.listen(process.env.PORT, "0.0.0.0", async () => {
   console.log(`Server is running on ${PORT}!`);
-
+  console.log(`listening on ${server.url}`);
   try {
     await client.connect();
     console.log("Database is open for business!");
