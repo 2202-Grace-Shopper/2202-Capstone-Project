@@ -4,8 +4,7 @@ const { Client } = require("pg");
 // change the DB_NAME string to whatever your group decides on
 const DB_NAME = "CapstoneCommerceSite";
 
-const DB_URL =
-  process.env.DATABASE_URL || `postgres://localhost:5432/${DB_NAME}`; /////////////
+const DB_URL = process.env.DATABASE_URL || `0.0.0.0:5432/${DB_NAME}`; /////////////
 
 let client;
 
@@ -17,6 +16,7 @@ if (process.env.CI) {
     user: "postgres",
     password: "postgres",
     database: "postgres",
+    ssl: { rejectUnauthorized: false },
   });
 } else {
   // local / heroku client config
