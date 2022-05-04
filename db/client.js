@@ -17,6 +17,7 @@ if (process.env.CI) {
     user: "postgres",
     password: "postgres",
     database: "postgres",
+    ssl: { rejectUnauthorized: false },
   });
 } else {
   // local / heroku client config
