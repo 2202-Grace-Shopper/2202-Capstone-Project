@@ -44,7 +44,7 @@ export default function SingleProduct(props) {
     if (answer) {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/products/${productId}`,
+          `https://plantolicious.herokuapp.com/api/products/${productId}`,
           {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` },
@@ -65,7 +65,7 @@ export default function SingleProduct(props) {
     const getProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/products/${productId}`,
+          `https://plantolicious.herokuapp.com/api/products/${productId}`,
           {
             method: "GET",
             headers: {
