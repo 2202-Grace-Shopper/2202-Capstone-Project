@@ -50,5 +50,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "development": {
+    "database": "CapstoneCommerceSite",
+    "username": "root",
+    "password": null,
+    "dialect": "mysql"
+  },
+  "production": {
+    "dialect": "mysql"
   }
 }
