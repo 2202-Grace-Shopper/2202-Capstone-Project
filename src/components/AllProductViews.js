@@ -89,7 +89,7 @@ export default function AllProductViews(props) {
     async function fetchProducts() {
       try {
         const response = await fetch(
-          `${process.env.DATABSE_URL}/products
+          `https://plantolicious.herokuapp.com/api/products
         `,
           {
             headers: {
