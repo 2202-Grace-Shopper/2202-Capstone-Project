@@ -5,7 +5,7 @@ const { DATABASE_URL, DB_HOST, DB_USER, DB_PASS, DB_DB } = process.env;
 // change the DB_NAME string to whatever your group decides on
 const DB_NAME = "CapstoneCommerceSite";
 
-const DB_URL = DATABASE_URL || `postgres://localhost:5432/${DB_NAME}`; /////////////
+//const DB_URL = DATABASE_URL || `postgres://localhost:5432/${DB_NAME}`; /////////////
 
 let client;
 
@@ -22,7 +22,7 @@ if (process.env.CI) {
   });
 } else {
   // local / heroku client config
-  client = new Client(DB_URL);
+  client = new Client(DATABASE_URL);
 }
 
 module.exports = client;
